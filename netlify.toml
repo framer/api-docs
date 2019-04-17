@@ -15,3 +15,12 @@
   from = "/*"
   to = "/api/404.html"
   status = 404
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "deny"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
