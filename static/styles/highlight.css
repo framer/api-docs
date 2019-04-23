@@ -225,5 +225,5 @@ div[class*="framer-"] h5 > code .token.token.punctuation {
 }
 
 .has-highlight-line .line:not(.highlight-line) {
-    opacity: 0.25;
+    opacity: 0.4;
 }
