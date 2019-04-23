@@ -13,6 +13,63 @@ export default Template
 
 ---
 
+## Frame
+
+<div>
+
+The `Frame` is a basic container for layout, styling, animation and events. It’s essentially a `div` element with extra options and smart defaults. Here, you see how easy it is to add visual properties, like `background` and `radius`.
+
+<Button
+  name="Open Example"
+  link="https://codesandbox.io/s/62km0298rk"
+/>
+
+</div>
+
+```jsx highlight(6-9)
+import * as React from "react"
+import { Frame } from "framer"
+
+export function MyComponent() {
+  return (
+    <Frame size={150} background={"#fff"} radius={20} />
+  )
+}
+```
+
+---
+
+## Stack
+
+<div>
+
+Stacks help you easily create flexible and automatically distributed layouts with Frames.
+It’s based on a `Frame`, which means it supports all Frame properties. In this example, we’re displaying a set of Frames. Notice how Stack handles the layout. It’s very easy to customize, too: try adding `direction={"horizontal"}` to change the direction, for example.
+
+<Button
+  name="Open Example"
+  link="https://codesandbox.io/s/o9y86o898q"
+/>
+
+</div>
+
+```jsx highlight(6-11)
+import * as React from "react"
+import { Frame, Stack } from "framer"
+
+export function MyComponent() {
+  return (
+    <Stack size={150} background={"transparent"} gap={10}>
+      <Frame size={40} background={"#fff"} radius={40} />
+      <Frame size={40} background={"#fff"} radius={40} />
+      <Frame size={40} background={"#fff"} radius={40} />
+    </Stack>
+  )
+}
+```
+
+---
+
 ## Animate
 
 <div>
