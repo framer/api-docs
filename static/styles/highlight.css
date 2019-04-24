@@ -226,7 +226,7 @@ div[class*="framer-"] h5 > code .token.token.punctuation {
 
 .has-highlight-line .line:not(.highlight-line) {
     opacity: 0.4;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s;
 }
 
 pre:hover .has-highlight-line .line:not(.highlight-line) {
