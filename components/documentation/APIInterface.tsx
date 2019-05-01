@@ -9,7 +9,7 @@ import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders the documentation for the InterfaceModel provided.
@@ -29,7 +29,7 @@ export const APIInterfaceElement: React.FunctionComponent<InterfaceModel & {skip
         <>
             <Grid className={"grid-section-h2 " + apiClassName("interface", props, rest)}>
                 <h2>
-                    <Permalink id={props.id} name={props.name} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.name} skipnav={props.skipnav} />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />

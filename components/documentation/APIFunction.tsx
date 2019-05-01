@@ -8,7 +8,7 @@ import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { APIParam, APIParams } from "./APIParams"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Displays API information about a particular function.
@@ -17,7 +17,7 @@ import { apiClassName } from "./helpers"
 export const APIFunctionElement: React.FunctionComponent<MethodModel> = props => {
     const signatures = [props].concat(props.overloads).map(method => (
         <h3 key={method.id}>
-            <Permalink id={method.id} name={props.name + "()"} skipnav />
+            <Permalink id={permalinkId(props)} name={props.name + "()"} skipnav />
             <code className="language-typescript">{method.signature}</code> <ReleaseBadge {...props} />
         </h3>
     ))

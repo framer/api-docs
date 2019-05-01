@@ -14,7 +14,7 @@ import { MissingModelWarning } from "./MissingModelWarning"
 import { NamespaceModel, Kind } from "../../api"
 import { Permalink } from "../layout/Permalink"
 import { ReleaseBadge } from "./ReleaseBadge"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders documentation for a TypeScript namespace. This is usually a
@@ -36,7 +36,7 @@ export const APINamespaceElement: React.FunctionComponent<NamespaceModel & {skip
         header = (
             <Grid className={"grid-section-h2 " + apiClassName("namespace", props, rest)}>
                 <h2>
-                    <Permalink id={props.id} name={props.name} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.name} skipnav={props.skipnav} />
                     {props.name || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />

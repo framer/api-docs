@@ -7,7 +7,7 @@ import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders the documentation for the enum provided including the individual
@@ -19,7 +19,7 @@ export const APIEnumElement: React.FunctionComponent<EnumModel & {skipnav?: bool
         <>
             <Grid className={"grid-section-h2 " + apiClassName("enum", props)}>
                 <h2>
-                    <Permalink id={props.id} name={props.fullname} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.fullname} skipnav={props.skipnav} />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />
@@ -37,7 +37,7 @@ export const APIEnumFieldElement: React.FunctionComponent<BaseModel> = props => 
     return (
         <Grid className="framer-enum-field framer-api">
             <h3>
-                <Permalink id={props.id} name={props.fullname} skipnav />
+                <Permalink id={permalinkId(props)} name={props.fullname} skipnav />
                 {props.fullname}
             </h3>
             <APIOverviewElement {...props} />

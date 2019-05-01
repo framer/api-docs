@@ -8,13 +8,13 @@ import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { Signature } from "./Signature"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 export const APIPropertyElement: React.FunctionComponent<PropertyModel> = props => {
     return (
         <Grid className={apiClassName("property", props, React.Children.toArray(props.children))}>
             <h3>
-                <Permalink id={props.id} name={props.name} skipnav />
+                <Permalink id={permalinkId(props)} name={props.name} skipnav />
                 <Signature signature={props.signature} />
                 <ReleaseBadge {...props} />
             </h3>

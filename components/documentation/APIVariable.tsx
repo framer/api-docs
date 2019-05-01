@@ -7,13 +7,13 @@ import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 export const APIVariableElement: React.FunctionComponent<PropertyModel> = props => {
     return (
         <Grid className={apiClassName("variable", props, React.Children.toArray(props.children))}>
             <h3>
-                <Permalink id={props.id} name={props.name} skipnav />
+                <Permalink id={permalinkId(props)} name={props.name} skipnav />
                 <code className="language-typescript">{props.signature || "Unknown Name"}</code>{" "}
                 <ReleaseBadge {...props} />
             </h3>

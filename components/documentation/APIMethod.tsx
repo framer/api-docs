@@ -9,7 +9,7 @@ import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { APIParam, APIParams } from "./APIParams"
 import { Signature } from "./Signature"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders the documentation for a single method.
@@ -18,7 +18,7 @@ import { apiClassName } from "./helpers"
 export const APIMethodElement: React.FunctionComponent<MethodModel> = props => {
     const signatures = [props].concat(props.overloads).map(method => (
         <h3 key={method.id}>
-            <Permalink id={props.id} name={props.name + "()"} skipnav />
+            <Permalink id={permalinkId(props)} name={props.name + "()"} skipnav />
             <Signature signature={method.signature} />
             <ReleaseBadge {...props} />
         </h3>

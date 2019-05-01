@@ -9,7 +9,7 @@ import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "../layout/Grid"
 import { Permalink } from "../layout/Permalink"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders the documentation for the class model provided.
@@ -29,7 +29,7 @@ export const APIClassElement: React.FunctionComponent<ClassModel & {skipnav?: bo
         <>
             <Grid className={"grid-section-h2 " + apiClassName("class", props, rest)}>
                 <h2>
-                    <Permalink id={props.id} name={props.name + "()"} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.name + "()"} skipnav={props.skipnav} />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />

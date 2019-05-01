@@ -8,7 +8,7 @@ import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "../layout/Grid"
 import { Permalink } from "../layout/Permalink"
-import { apiClassName } from "./helpers"
+import { apiClassName, permalinkId } from "./helpers"
 
 /**
  * Renders React specific documentation for the TypeScript class provided.
@@ -26,7 +26,7 @@ export const APIReactComponentElement: React.FunctionComponent<ClassModel> = pro
         <>
             <Grid className={"grid-section-h2 " + apiClassName("react-component", props, rest)}>
                 <h2>
-                    <Permalink id={props.id} name={props.name + "()"} />
+                    <Permalink id={permalinkId(props)} name={props.name + "()"} />
                     {props.name || "Unknown"} Component <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />
