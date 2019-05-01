@@ -1,7 +1,7 @@
 import * as React from "react"
 import styled, { keyframes } from "styled-components"
 import { desktop, widescreen, mobile } from "./Breakpoints"
-import { Permalink } from "./Menu"
+import { Permalink } from "./Permalink"
 
 const Background = styled.div<{ height?: number; internal?: boolean }>`
     display: flex;

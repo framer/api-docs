@@ -12,7 +12,7 @@ import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "../layout/Grid"
 import { MissingModelWarning } from "./MissingModelWarning"
 import { NamespaceModel, Kind } from "../../api"
-import { Permalink } from "../layout/Menu"
+import { Permalink } from "../layout/Permalink"
 import { ReleaseBadge } from "./ReleaseBadge"
 import { apiClassName } from "./helpers"
 

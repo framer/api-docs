@@ -1,6 +1,6 @@
 import * as React from "react"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
-import { PermalinkAnchor } from "../layout/Menu"
+import { PermalinkAnchor } from "../layout/Permalink"
 
 /** Allows the use of paths to .mdx pages (otherwise the parser gets confused) */
 export const Ref: React.FunctionComponent<{ name: string }> = ({ name, children }) => {

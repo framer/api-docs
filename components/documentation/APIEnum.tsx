@@ -6,7 +6,7 @@ import { MissingModelWarning } from "./MissingModelWarning"
 import { ReleaseBadge } from "./ReleaseBadge"
 import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
-import { Permalink } from "../layout/Menu"
+import { Permalink } from "../layout/Permalink"
 import { apiClassName } from "./helpers"
 
 /**
