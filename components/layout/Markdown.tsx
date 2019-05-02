@@ -225,7 +225,7 @@ export const MarkdownStyles = styled.div`
     a {
         color: inherit;
     }
-    a:not(.DocRefTag),
+    a,
     ol a {
         color: #05f;
         transition: opacity 0.2s ease;
