@@ -1,3 +1,5 @@
+// NOTE: Do not export any components wrapped in Dynamic here otherwise
+// it will pull in the entire App including API data into the client build.
 export * from "./Navigation"
 export * from "./Template"
 export * from "./documentation/APIClass"

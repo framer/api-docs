@@ -1,10 +1,10 @@
 import * as React from "react"
 import { Dynamic } from "monobase"
+import { AnimationControls, MotionValue } from "framer"
 import { useFramer } from "../contexts/FramerContext"
-import { animate, AnimationControls, MotionValue } from "framer"
 
 export const SliderDragging = Dynamic(function SliderDragging() {
-    const { Frame, useAnimation, useMotionValue, useTransform, hasFramer } = useFramer()
+    const { Frame, useAnimation, useMotionValue, hasFramer } = useFramer()
 
     // Layout
     const sliderWidth = 130
@@ -20,9 +20,9 @@ export const SliderDragging = Dynamic(function SliderDragging() {
     // CSS Override
     const noMarginAdded = { margin: 0 }
 
-    let animationKnob: AnimationControls
-    let animationFill: AnimationControls
-    let position: MotionValue
+    let animationKnob: AnimationControls | undefined
+    let animationFill: AnimationControls | undefined
+    let position: MotionValue | undefined
 
     // Animation
     if (hasFramer) {
@@ -85,8 +85,8 @@ export const SliderDragging = Dynamic(function SliderDragging() {
                     style={{ ...noMarginAdded, cursor: "pointer" }}
                     animate={animationKnob}
                     onDragStart={() => {
-                        animationKnob.stop()
-                        animationFill.stop()
+                        animationKnob!.stop()
+                        animationFill!.stop()
                     }}
                 />
             </Frame>
