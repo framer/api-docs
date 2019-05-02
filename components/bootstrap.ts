@@ -1,4 +1,11 @@
+import { Dynamic } from "monobase"
 import { highlight } from "./highlighter"
+
+// Monobase doesn't support compiling additional scripts for client-side use
+// other than the components.js file. So we export an empty Dynamic()
+// component so this bootstrap script is picked up by the build and run
+// on the client.
+export default Dynamic(() => null)
 
 if (typeof document !== "undefined") {
     document.addEventListener("DOMContentLoaded", () => {

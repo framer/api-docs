@@ -8,10 +8,6 @@ import { tablet, mobile } from "./layout/Breakpoints"
 import { Markdown } from "./layout/Markdown"
 import { GoogleTag } from "./GoogleTag"
 
-// Monobase doesn't really have support for loading an index file...
-// so we just import a bootstrap script in the template.
-import "./bootstrap"
-
 const Body = styled.body`
     font-family: Colfax, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
         Droid Sans, Helvetica Neue, sans-serif;
