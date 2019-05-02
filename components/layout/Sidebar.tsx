@@ -118,9 +118,20 @@ const VersionBadgeBackground = styled.div`
     }
 `
 
-const VersionBadge: React.FunctionComponent<{ version: string }> = props => {
-    // return <VersionBadgeBackground>v&#8202;&#8202;{props.version}</VersionBadgeBackground>
-    return <VersionBadgeBackground>Beta</VersionBadgeBackground>
+const VersionBadge: React.FunctionComponent<{ version: string }> = ({version}) => {
+    return <VersionBadgeBackground>v&#8202;&#8202;{version}</VersionBadgeBackground>
+}
+
+// Format the npm version string. 1.0.0-beta.10 -> 1.0.0 Beta 10
+function formatVersion(str: string): string {
+    function formatPrerelease(str: string): string {
+        if (str.length === 0) return str
+        const [name, ...rest] = str.split('.')
+        return (name[0].toUpperCase() + name.slice(1)) + ' ' + rest.join('.')
+    }
+
+    const [version, ...prerelease] = str.split('-')
+    return version + ' ' + formatPrerelease(prerelease.join('-'))
 }
 
 export const Sidebar: React.FunctionComponent = () => (
@@ -134,7 +145,7 @@ export const Sidebar: React.FunctionComponent = () => (
                 </Icon>
                 <span style={{ fontWeight: 600, paddingTop: "3px", letterSpacing: "-0.5px" }}>API</span>
             </a>
-            <VersionBadge version="1.0" />
+            <VersionBadge version={formatVersion(version)} />
 
             <DynamicMobileToggle />
         </Home>
