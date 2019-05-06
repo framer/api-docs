@@ -5,6 +5,8 @@ import { Dynamic } from "monobase"
 import { tablet } from "./Breakpoints"
 import { menuTextColor } from "../theme"
 
+import { version } from "framer/package.json"
+
 const Home = styled.div`
     display: flex;
     height: 60px;
