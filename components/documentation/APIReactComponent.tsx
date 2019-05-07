@@ -26,7 +26,7 @@ export const APIReactComponentElement: React.FunctionComponent<ClassModel> = pro
         <>
             <Grid className={"grid-section-h2 " + apiClassName("react-component", props, rest)}>
                 <h2>
-                    <Permalink id={permalinkId(props)} name={props.name + "()"} />
+                    <Permalink id={permalinkId(props)} name={props.name + "()"} modelId={props.id} />
                     {props.name || "Unknown"} Component <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />

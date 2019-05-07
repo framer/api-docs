@@ -29,7 +29,7 @@ export const APIClassElement: React.FunctionComponent<ClassModel & {skipnav?: bo
         <>
             <Grid className={"grid-section-h2 " + apiClassName("class", props, rest)}>
                 <h2>
-                    <Permalink id={permalinkId(props)} name={props.name + "()"} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.name + "()"} modelId={props.id} skipnav={props.skipnav} />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />

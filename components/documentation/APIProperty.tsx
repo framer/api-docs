@@ -14,7 +14,7 @@ export const APIPropertyElement: React.FunctionComponent<PropertyModel> = props 
     return (
         <Grid className={apiClassName("property", props, React.Children.toArray(props.children))}>
             <h3>
-                <Permalink id={permalinkId(props)} name={props.name} skipnav />
+                <Permalink id={permalinkId(props)} name={props.name} modelId={props.id} skipnav />
                 <Signature signature={props.signature} />
                 <ReleaseBadge {...props} />
             </h3>

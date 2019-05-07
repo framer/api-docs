@@ -19,7 +19,7 @@ export const APIEnumElement: React.FunctionComponent<EnumModel & {skipnav?: bool
         <>
             <Grid className={"grid-section-h2 " + apiClassName("enum", props)}>
                 <h2>
-                    <Permalink id={permalinkId(props)} name={props.fullname} skipnav={props.skipnav} />
+                    <Permalink id={permalinkId(props)} name={props.fullname} modelId={props.id} skipnav={props.skipnav} />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />
@@ -37,7 +37,7 @@ export const APIEnumFieldElement: React.FunctionComponent<BaseModel> = props => 
     return (
         <Grid className="framer-enum-field framer-api">
             <h3>
-                <Permalink id={permalinkId(props)} name={props.fullname} skipnav />
+                <Permalink id={permalinkId(props)} name={props.fullname} modelId={props.id} skipnav />
                 {props.fullname}
             </h3>
             <APIOverviewElement {...props} />

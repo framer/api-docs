@@ -13,7 +13,7 @@ export const APIVariableElement: React.FunctionComponent<PropertyModel> = props 
     return (
         <Grid className={apiClassName("variable", props, React.Children.toArray(props.children))}>
             <h3>
-                <Permalink id={permalinkId(props)} name={props.name} skipnav />
+                <Permalink id={permalinkId(props)} name={props.name} modelId={props.id} skipnav />
                 <code className="language-typescript">{props.signature || "Unknown Name"}</code>{" "}
                 <ReleaseBadge {...props} />
             </h3>

@@ -25,9 +25,9 @@ const pathById: { [id: string]: string } = {}
 console.log("Updating TSDoc @link references")
 
 parsed.forEach($ => {
-    $("[data-permalink-id]").each((_, el) => {
-        const { permalinkId, permalinkPath } = $(el).data()
-        pathById[permalinkId] = permalinkPath
+    $("[data-permalink-ref][data-permalink-path]").each((_, el) => {
+        const { permalinkRef, permalinkPath } = $(el).data()
+        pathById[permalinkRef] = permalinkPath
     })
 })
 
