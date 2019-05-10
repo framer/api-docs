@@ -198,57 +198,76 @@ controls.stop()
 
 ---
 
-### Cycle with Animate
+### Cycling between Variants
 
-Cycle can also be used with the `animate` property.
-Here we’re passing along objects with multiple properties, instead of single property.
-Then, instead of referencing a specific property on `animate`, we’re just referencing the object, and cycling between the states with `cycleAnimate`.
+The `useCycle` is often used to animate between a Frame's [variants](https://www.framer.com/api/frame/#variants), or visual states.
 
-```jsx highlight(2, 5-8, 10)
-import * as React from "react"
-import { Frame, useCycle } from "framer"
+In this example, we’ve created an object with three variants, set up a cycle containing each variant's name, and then pointed our Frame's `animate` prop to the cycle's `current` value.
 
-export function MyComponent() {
-  const [animate, cycle] = useCycle(
-    { rotate: 90, scale: 0.5 },
-    { rotate: 0, scale: 1 }
-  )
+Tapping on the Frame will trigger a cycle, causing the Frame to animate to the variant name provided by the cycle's new `current` value.
 
-  return <Frame animate={animate} onTap={() => cycle()} />
-}
-```
-
----
-
-### Cycle to a Specific State
-
-<div>
-
-The returned `cycleState` function, by default, cycles to the next item in the provided array.
-Optionally, it accepts an index that will cycle to a specific item in the array.
-In this example, we’ve used `variants` and passed along the names of each variant, instead of directly including the properties.
-
-Here, it will always cycle to the `off` state, because we’ve passed along the index of `0` to the `cycleVariant` function. If we were to remove it, it would cycle between `off` and `on` again.
-
-</div>
-
-```jsx highlight(2, 5-8, 10, 13-17)
+```jsx highlight(2, 5-9, 11-15, 19-21)
 import * as React from "react"
 import { Frame, useCycle } from "framer"
 
 export function MyComponent() {
   const variants = {
-    off: { opacity: 0.5 },
-    on: { opacity: 1.0 },
+    green: { background: "#1ea463" },
+    yellow: { background: "#fecd45" },
+    red: { background: "#de5347" },
   }
 
-  const [toggle, cycleVariant] = useCycle("off", "on")
+  const [current, cycle] = useCycle(
+    "green",
+    "yellow",
+    "red"
+  )
 
   return (
     <Frame
       variants={variants}
-      animate={toggle}
-      onClick={() => cycleVariant(0)}
+      animate={current}
+      onTap={() => cycle()}
+    />
+  )
+}
+```
+
+---
+
+### Cycling to a Specific Value
+
+<div>
+
+You can jump to a specific value in a cycle by calling `useCycle`'s returned function with the index of the desired value.
+
+As in the last example, tapping on the Frame will cycle between three values. However in this example, mousing out from the Frame will reset the cycle to its first value, `"green"`.
+
+</div>
+
+```jsx highlight(11-15, 22)
+import * as React from "react"
+import { Frame, useCycle } from "framer"
+
+export function MyComponent() {
+  const variants = {
+    green: { background: "#1ea463" },
+    yellow: { background: "#fecd45" },
+    red: { background: "#de5347" },
+  }
+
+  const [current, cycle] = useCycle(
+    "green",
+    "yellow",
+    "red"
+  )
+
+  return (
+    <Frame
+      variants={variants}
+      animate={current}
+      onTap={() => cycle()}
+      onMouseLeave={() => cycle(0)}
     />
   )
 }
