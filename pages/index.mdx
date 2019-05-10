@@ -41,7 +41,7 @@ Framer provides helpers for advanced physics-based animation, complex touch-base
 
 </div>
 
-```tsx
+```jsx
 // React component
 function Card({ title }) { ... }
 ```
@@ -52,7 +52,7 @@ function Card({ title }) { ... }
 
 </div>
 
-```tsx
+```jsx
 // JSX markup
 <Card title="Hello">World</Card>
 ```
@@ -63,7 +63,7 @@ function Card({ title }) { ... }
 
 </div>
 
-```tsx
+```jsx
 // TypeScript string property type
 type CardProps = { title: string }
 ```
@@ -76,7 +76,7 @@ type CardProps = { title: string }
 
 The Framer API was designed to work closely with [Framer X](https://framer.com), but is great as a standalone library. You can install it via [npm](https://www.npmjs.com/), via your Command Line.
 
-```tsx
+```jsx
 // Install Framer via command line
 npm install framer
 ```
@@ -85,7 +85,7 @@ npm install framer
 
 Once installed, you can import Framer into your files.
 
-```tsx
+```jsx
 // Import from Framer
 import { Frame, Scroll, useCycle } from "framer"
 ```
@@ -136,7 +136,7 @@ Let’s have a look at a simple animation that scales a `Frame` to half the size
 
 </div>
 
-```tsx
+```jsx
 // Animate scale to 50%
 export function MyComponent() {
   return <Frame animate={{ scale: 0.5 }} />
@@ -149,11 +149,11 @@ export function MyComponent() {
 
 A more extensive example would be to toggle the `scale` value on a tap, which uses the `useCycle` hook to cycle through a set of values.
 
-```tsx
+```jsx
 // Cycle scale on tap
 export function MyComponent() {
-  const [scale, cycle] = useCycle([3, 1])
-  return <Frame animate={{ scale: scale }} onTap={cycle} />
+  const [scale, cycle] = useCycle(3, 1)
+  return <Frame animate={{ scale: scale }} onTap={() => cycle()} />
 }
 ```
 
@@ -166,15 +166,15 @@ Here, we’re also rotating the `Frame` on every tap, next to scaling it.
 
 </div>
 
-```tsx
+```jsx
 // Cycle multiple properties on tap
 export function MyComponent() {
-  const [twist, cycle] = useCycle([
+  const [twist, cycle] = useCycle(
     { scale: 0.5, rotate: 0 },
     { scale: 1, rotate: 90 },
-  ])
+  )
 
-  return <Frame animate={twist} onTap={cycle} />
+  return <Frame animate={twist} onTap={() => cycle()} />
 }
 ```
 
@@ -191,7 +191,7 @@ To constrain dragging to a vertical or horizontal axis, you can include an optio
 
 </div>
 
-```tsx
+```jsx
 // Drag Frame in any direction
 export function MyComponent() {
   return <Frame drag />
@@ -210,7 +210,7 @@ For scrolling, you can wrap any content inside a `Scroll` component, which excee
 
 </div>
 
-```tsx
+```jsx
 // Scroll two Frames
 export function MyComponent() {
   return (
