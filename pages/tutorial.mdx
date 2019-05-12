@@ -424,7 +424,7 @@ export function Slider() {
 
 <div>
 
-To get the fill `Frame` and knob `Frame` to stay in sync they just need to share the `position` variable. Set your new `MotionValue` variable `position` as the `width` of the fill `Frame`. Also, add a `x` postion to your knob `Frame` and use `position` as the value too.
+To get the fill `Frame` and knob `Frame` to stay in sync they just need to share the `position` variable. Set your new `MotionValue` variable `position` as the `width` of the fill `Frame`. Also, add a `x` position to your knob `Frame` and use `position` as the value too.
 
 You’ll notice once you do this, the fill and knob are finally in sync during a drag interaction. A drag on the knob causes it’s `x` value to change, and since we gave the knob a `MotionValue` for the `x` property, the `position` variable gets updated whenever that change occurs. That means the `width` of the fill `Frame` will update because it uses `position` as well.
 
