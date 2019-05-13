@@ -129,7 +129,7 @@ export function MyComponent(props) {
 
 `controls.start` accepts a function, that can return a different set of animation settings for each animating component. Each of these components will provide the function anything passed to its `custom` prop.
 
-In this example, we’re passing along the `index` parameter to each component's `custom` prop.
+In this example, we’re passing along the `index` parameter to each component’s `custom` prop.
 
 In the function, we use this `index` value to create unique delays for each `Frame`, which will be `0.5` for the first component, and `1` for the second. This effectively creates a controlled staggered animation.
 
