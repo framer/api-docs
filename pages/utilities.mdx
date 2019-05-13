@@ -1,6 +1,7 @@
 <!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
 
 import {
+  Ref,
   Template,
   APIReactComponent,
   APIMergedInterface,
@@ -194,17 +195,21 @@ controls.stop()
 
 ## useCycle
 
-<APIFunction name="useCycle()" />
+<APIFunction name="useCycle()" overrides={{signature: "useCycle(c1, c2, ...): [currentState, cycleState]"}} />
 
 ---
 
 ### Cycling between Variants
 
-The `useCycle` is often used to animate between a Frame's [variants](https://www.framer.com/api/frame/#variants), or visual states.
+<div>
 
-In this example, we’ve created an object with three variants, set up a cycle containing each variant's name, and then pointed our Frame's `animate` prop to the cycle's `current` value.
+The `useCycle` is often used to animate between a Frame’s <Ref name="animationprops.variants">variants</Ref> or visual states.
 
-Tapping on the Frame will trigger a cycle, causing the Frame to animate to the variant name provided by the cycle's new `current` value.
+In this example, we’ve created an object with three variants, set up a cycle containing each variant's name, and then pointed our Frame’s <Ref name="animationprops.animate">animate</Ref> prop to the cycle's `current` value.
+
+Tapping on the Frame will trigger a cycle, causing the Frame to animate to the variant name provided by the cycle’s new `current` value.
+
+</div>
 
 ```jsx highlight(2, 5-9, 11-15, 19-21)
 import * as React from "react"
@@ -239,7 +244,7 @@ export function MyComponent() {
 
 <div>
 
-You can jump to a specific value in a cycle by calling `useCycle`'s returned function with the index of the desired value.
+You can jump to a specific value in a cycle by calling `useCycle`’s returned function with the index of the desired value.
 
 As in the last example, tapping on the Frame will cycle between three values. However in this example, mousing out from the Frame will reset the cycle to its first value, `"green"`.
 
