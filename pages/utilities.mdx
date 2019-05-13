@@ -127,9 +127,11 @@ export function MyComponent(props) {
 
 <div>
 
-A function can be passed to `start` to return a different set of animation settings for every animating component. Each component will provide the function with its properties.
+`controls.start` accepts a function, that can return a different set of animation settings for each animating component. Each of these components will provide the function anything passed to its `custom` prop.
 
-In this example, we’re passing along the `i` parameter, which we set on the components manually. It’s used to create unique delays for each `Frame`, which will be `0.5` for the first component, and `1` for the second. This effectively creates a controlled staggered animation.
+In this example, we’re passing along the `index` parameter to each component's `custom` prop.
+
+In the function, we use this `index` value to create unique delays for each `Frame`, which will be `0.5` for the first component, and `1` for the second. This effectively creates a controlled staggered animation.
 
 Finally, we’re adding some default visual properties like `opacity`, `size` and `background` that allow us to visualize the effect.
 
@@ -142,22 +144,22 @@ import { Frame, useAnimation } from "framer"
 export function MyComponent(props) {
   const controls = useAnimation()
 
-  controls.start(({ i }) => ({
+  controls.start(index => ({
     opacity: 1,
-    transition: { delay: i * 0.5 },
+    transition: { delay: index * 0.5 },
   }))
 
   return (
     <Frame background="#09F">
       <Frame
-        i={0}
+        custom={0}
         opacity={0}
         animate={controls}
         size={50}
         background={"rgba(255,255,255,0.5)"}
       />
       <Frame
-        i={1}
+        custom={1}
         opacity={0}
         animate={controls}
         size={50}
@@ -178,6 +180,8 @@ const variants = {
 }
 
 controls.start("visible")
+
+return <Frame variants={variants} animate={controls} />
 ```
 
 ---
