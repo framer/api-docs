@@ -1,5 +1,5 @@
 /**
- * Subset of types found in @microsoft/api-extractor
+ * Subset of types found in @microsoft/api-extractor-model
  */
 export enum Kind {
     Class = "Class",
