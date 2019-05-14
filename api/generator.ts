@@ -18,7 +18,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import * as assert from "assert"
-import { ApiModel, ReleaseTag as ApiReleaseTag } from "@microsoft/api-extractor"
+import { ApiModel, ReleaseTag as ApiReleaseTag } from "@microsoft/api-extractor-model"
 import { walk } from "./walker"
 import { RawAPIData, Kind, AnyRawModel } from "./types"
 

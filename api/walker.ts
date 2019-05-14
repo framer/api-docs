@@ -22,7 +22,7 @@ import {
     ApiDeclaredItem,
     ApiDocumentedItem,
     ReleaseTag as ApiReleaseTag,
-} from "@microsoft/api-extractor"
+} from "@microsoft/api-extractor-model"
 import {
     RawBaseModel,
     RawClassModel,
