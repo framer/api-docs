@@ -3,8 +3,9 @@
     "version": "1.0.0",
     "private": true,
     "devDependencies": {
-        "@microsoft/api-extractor": "7.0.13",
-        "@microsoft/tsdoc": "0.12.4",
+        "@microsoft/api-extractor": "^7.1.5",
+        "@microsoft/api-extractor-model": "^7.1.0",
+        "@microsoft/tsdoc": "^0.12.9",
         "@types/chalk": "^2.2.0",
         "@types/cheerio": "^0.22.11",
         "@types/classnames": "^2.2.7",
