@@ -1,12 +1,11 @@
 import * as json from "../__fixtures__/example.api.json"
-import { ApiPackage, ApiItem, ReleaseTag } from "@microsoft/api-extractor"
+import { ApiPackage, ApiItem, ReleaseTag } from "@microsoft/api-extractor-model"
 import { walk } from "../walker"
 
 describe("walk", () => {
     function createApiPackage() {
         return ApiItem.deserialize(json as any) as ApiPackage
     }
-
 
     it("should generate ids", () => {
         const ids: string[] = []
