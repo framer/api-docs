@@ -96,7 +96,7 @@ export function MyComponent() {
 
 ## Colors
 
-[Shared Colors](http://framer.com/docs/shared-colors) from your Canvas can also be imported and used in Code. In this example, we’re importing a Shared Color that we’ve named `Blue` in the Color Picker, and we’re using it to set the background of a `Frame`.
+[Shared Colors](http://framer.com/docs/shared-colors) from your Canvas can also be imported and used in Code. In this example, we’re importing a color that we’ve named `Primary` in the Color Picker, and we’re using it to set the background of a `Frame`.
 
 ```jsx
 import * as React from "react"
@@ -104,6 +104,6 @@ import { Frame } from "framer"
 import { colors } from "./canvas"
 
 export function MyComponent() {
-  return <Frame background={colors.Blue} size="100%" />
+  return <Frame background={colors.Primary} size="100%" />
 }
 ```
