@@ -66,8 +66,8 @@ export function MyComponent() {
     <Profile
       width={200}
       height={200}
-      name="Harry"
-      image="harry.jpg"
+      name={"Harry"}
+      image={"harry.jpg"}
     />
   )
 }
@@ -86,7 +86,7 @@ import { Card } from "./canvas"
 export function MyComponent() {
   return (
     <div style={{ width: 200, height: 200 }}>
-      <Card size="100%" />
+      <Card size={"100%"} />
     </div>
   )
 }
@@ -104,6 +104,6 @@ import { Frame } from "framer"
 import { colors } from "./canvas"
 
 export function MyComponent() {
-  return <Frame background={colors.Primary} size="100%" />
+  return <Frame background={colors.Primary} size={"100%"} />
 }
 ```
