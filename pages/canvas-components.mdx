@@ -106,7 +106,7 @@ import { Frame } from "framer"
 import { colors } from "./canvas"
 
 export function MyComponent() {
-  return <Frame background={colors.Primary} />
+  return <Frame backgroundColor={colors.Primary} />
 }
 ```
 
@@ -123,8 +123,8 @@ import { colors } from "./canvas"
 
 export function MyComponent() {
   const [flip, cycle] = useCycle(
-    { background: colors.Primary },
-    { background: colors.Secondary }
+    { backgroundColor: colors.Primary },
+    { backgroundColor: colors.Secondary }
   )
 
   return <Frame animate={flip} onTap={() => cycle()} />
