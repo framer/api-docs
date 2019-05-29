@@ -28,8 +28,11 @@ images and other media from code.
 
 <H3 id="url"><code class="language-typescript">url(path: string): string</code></H3>
 
+</div>
+<div>
+
 Generates a URL for the path provided that will work regardless of where
-the component is being used (e.g. in the Canvas, Preview or Export).
+the component is being used (for example, in the Canvas, Preview or Export).
 
 <APIParams>
     <APIParam name="path" type="string"><p>A path to a file within the current project relative to the folder root.</p></APIParam>
@@ -38,15 +41,13 @@ the component is being used (e.g. in the Canvas, Preview or Export).
 
 </div>
 
-```jsx highlight(3,5,8)
+```jsx highlight(3,6)
 import * as React from "react"
 import { Frame } from "framer"
 import { url } from "framer/resource"
 
-const backgroundImage = url("./code/test.png")
-
 export const MyComponent = () => {
-    return <Frame background={`url(${backgroundImage})`} size="100%" />
+    return <Frame image={url("./code/test.png")} size="100%" />
 }
 ```
 
