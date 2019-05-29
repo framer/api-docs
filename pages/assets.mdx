@@ -1,0 +1,65 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  Template,
+  APIFunctionElement
+} from "../components"
+
+export default Template
+
+# Assets
+
+<span className="lead">
+  Using the <strong>framer/resources</strong> module you can reference any files included in
+  your Framer project from within your code component.
+</span>
+
+Components can use the `url()` function to create a URL that will reference any
+file within your Framer project. This is particularly useful for including
+images and other media from code.
+
+---
+
+## Functions
+
+<APIFunctionElement
+    id={"(function:url)"}
+    parentId={null}
+    name={"url()"}
+    fullname={"url()"}
+    kind={"Function"}
+    releaseTag={"public"}
+    tsdoc={""}
+    signature={"url(path: string): string"}
+    summaryMarkup={`
+    <p>Generates a URL for the path provided that will work regardless of where
+    the component is being used (e.g. in the Canvas, Preview or Export).</p>
+    <pre><code class="language-jsx">import * as React from &#x22;react&#x22;\nimport { Frame } from &#x22;framer&#x22;\nimport { url } from &#x22;framer/resource&#x22;\n\nconst backgroundImage = url(&#x22;./code/test.png&#x22;)\n\nexport const MyComponent = () =&#x3E; {\n  return &#x3C;Frame background={&#x60;url(\$\{backgroundImage\})&#x60;} size=&#x22;100%&#x22; /&#x3E;\n}\n</code></pre>
+    `}
+    remarksMarkup={""}
+    depreactedMarkup={""}
+    visibility={"public"}
+    kind={"Function"}
+    isStatic={false}
+    returnType="string"
+    returnMarkup="<p>An absolute url for the path within the current project.</p>"
+    overloadIndex={0}
+    overloads={[]}
+    parameters={[
+        {
+            id: "(function:url).(path:parameter)",
+            parentId: null,
+            name: "path",
+            fullname: "path",
+            kind: "Parameter",
+            releaseTag: "public",
+            tsdoc: "",
+            signature: "path: string",
+            summaryMarkup: "<p>A path to a file within the current project relative to the folder root.</p>",
+            remarksMarkup: "",
+            depreactedMarkup: "",
+            visibility: "public",
+            type: "string",
+        }
+    ]}
+/>
