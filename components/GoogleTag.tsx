@@ -7,7 +7,7 @@ type Props = {
 
 export const GoogleTag = ({ analyticsId }: Props) => (
     <>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=${analyticsId}"></script>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${analyticsId}`}></script>
         <RawScript>{`
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
