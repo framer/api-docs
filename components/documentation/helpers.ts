@@ -1,4 +1,4 @@
-import * as className from "classnames"
+import className from "classnames"
 import { AnyModel, BaseModel } from "../../api"
 
 export function isHeaderEmpty(model: AnyModel, children: any[] = []): boolean {

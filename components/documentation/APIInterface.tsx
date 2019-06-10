@@ -1,4 +1,5 @@
 import * as React from "react"
+import { APIEntity, APIEntityExample } from "./types"
 import { InterfaceModel, Kind } from "../../api"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIPropertyElement } from "./APIProperty"
@@ -17,7 +18,7 @@ import { apiClassName, permalinkId } from "./helpers"
  * Only renders the documentation specific to the interface. Methods and
  * properties should be provided as children.
  */
-export const APIInterfaceElement: React.FunctionComponent<InterfaceModel & {skipnav?: boolean}> = props => {
+export const APIInterfaceElement: React.FunctionComponent<APIEntityExample<InterfaceModel>> = props => {
     const children = React.Children.toArray(props.children)
     const methods = children.filter(child => React.isValidElement(child) && child.type === APIMethodElement)
     const properties = children.filter(child => React.isValidElement(child) && child.type === APIPropertyElement)
@@ -51,8 +52,8 @@ export const APIInterfaceElement: React.FunctionComponent<InterfaceModel & {skip
  * @param props.overrides - Object containing properties from InterfaceModel to override.
  * @param props.skipnav - If true will hide the item from the navigation
  */
-export const APIInterface: React.FunctionComponent<{ name: string; overrides?: Partial<InterfaceModel>; skipnav?: boolean }> = props => {
-    const { name, overrides } = props
+export const APIInterface: React.FunctionComponent<APIEntity<InterfaceModel>> = props => {
+    const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
     const model = api.resolve(name, Kind.Interface)
     if (!model) return <MissingModelWarning name={props.name} kind={Kind.Interface} />
@@ -60,7 +61,7 @@ export const APIInterface: React.FunctionComponent<{ name: string; overrides?: P
     const methods = model.methods.map(method => <APIMethodElement key={method.id} {...method} />)
     const properties = model.properties.map(property => <APIPropertyElement key={property.id} {...property} />)
     return (
-        <APIInterfaceElement {...model} {...overrides} skipnav={props.skipnav}>
+        <APIInterfaceElement {...model} {...overrides} {...rest}>
             {props.children}
             {properties}
             {methods}
@@ -72,13 +73,8 @@ export const APIInterface: React.FunctionComponent<{ name: string; overrides?: P
  * Renders the documentation for an interface merged with the
  * methods/properties from any additional interfaces provided via `extras`
  */
-export const APIMergedInterface: React.FunctionComponent<{
-    name: string
-    extras?: string[]
-    overrides?: Partial<InterfaceModel>
-    skipnav?: boolean
-}> = props => {
-    const { extras = [], overrides } = props
+export const APIMergedInterface: React.FunctionComponent<APIEntity<InterfaceModel> & { extras?: string[] }> = props => {
+    const { extras = [], overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
     const model = api.resolve(props.name, Kind.Interface)
     if (!model) return <MissingModelWarning name={props.name} kind={Kind.Interface} />
@@ -91,7 +87,7 @@ export const APIMergedInterface: React.FunctionComponent<{
     }, [])
 
     return (
-        <APIInterfaceElement {...model} {...overrides} skipnav={props.skipnav}>
+        <APIInterfaceElement {...model} {...overrides} {...rest}>
             {props.children}
             {members}
         </APIInterfaceElement>

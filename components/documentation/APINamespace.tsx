@@ -15,6 +15,7 @@ import { NamespaceModel, Kind } from "../../api"
 import { Permalink } from "../layout/Permalink"
 import { ReleaseBadge } from "./ReleaseBadge"
 import { apiClassName, permalinkId } from "./helpers"
+import { APIEntity, APIEntityExample } from "./types"
 
 /**
  * Renders documentation for a TypeScript namespace. This is usually a
@@ -24,7 +25,7 @@ import { apiClassName, permalinkId } from "./helpers"
  * Only renders the high level documentation for the namespace if available,
  * module members such as functions and variables should be provided as children.
  */
-export const APINamespaceElement: React.FunctionComponent<NamespaceModel & {skipnav?: boolean}> = props => {
+export const APINamespaceElement: React.FunctionComponent<APIEntityExample<NamespaceModel>> = props => {
     const children = React.Children.toArray(props.children)
     const members = children.filter(child => React.isValidElement(child) && child.type === NamespaceChildren)
     const rest = children.filter(child => !React.isValidElement(child) || child.type !== NamespaceChildren)
@@ -60,13 +61,14 @@ export const APINamespaceElement: React.FunctionComponent<NamespaceModel & {skip
  *
  * @param props.skipnav - If true will hide the item from the navigation
  */
-export const APINamespace: React.FunctionComponent<{ name: string; overrides?: Partial<NamespaceModel>; skipnav?: boolean }> = props => {
+export const APINamespace: React.FunctionComponent<APIEntity<NamespaceModel>> = props => {
+    const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
-    const model = api.resolve(props.name, Kind.Namespace)
-    if (!model) return <MissingModelWarning name={props.name} kind={Kind.Namespace} />
+    const model = api.resolve(name, Kind.Namespace)
+    if (!model) return <MissingModelWarning name={name} kind={Kind.Namespace} />
 
     return (
-        <APINamespaceElement {...model} {...props.overrides} skipnav={props.skipnav}>
+        <APINamespaceElement {...model} {...overrides} {...rest}>
             {props.children}
             <NamespaceChildren {...model} />
         </APINamespaceElement>

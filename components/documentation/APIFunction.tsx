@@ -9,12 +9,13 @@ import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { APIParam, APIParams } from "./APIParams"
 import { apiClassName, permalinkId } from "./helpers"
+import { APIEntityExample, APIEntity } from "components/documentation/types"
 
 /**
  * Displays API information about a particular function.
  * @param props - A MethodModel object.
  */
-export const APIFunctionElement: React.FunctionComponent<MethodModel> = props => {
+export const APIFunctionElement: React.FunctionComponent<APIEntityExample<MethodModel>> = props => {
     const signatures = [props].concat(props.overloads).map(method => (
         <h3 key={method.id}>
             <Permalink id={permalinkId(props)} name={props.name + "()"} modelId={props.id} skipnav />
@@ -24,7 +25,7 @@ export const APIFunctionElement: React.FunctionComponent<MethodModel> = props =>
 
     const parameters = props.parameters.map(param => (
         <APIParam key={param.id} name={param.name} type={param.type}>
-            <APIOverviewElement className="description" {...param} fallback={<em>None</em>} />
+            <APIOverviewElement className="description" {...param} />
         </APIParam>
     ))
     if (props.returnType !== "void" || props.returnMarkup) {
@@ -34,16 +35,11 @@ export const APIFunctionElement: React.FunctionComponent<MethodModel> = props =>
             </APIParam>
         )
     }
-    const overviewFallback = (
-        <p>
-            <em>Undocumented</em>
-        </p>
-    )
     return (
         <Grid className={apiClassName("function", props, React.Children.toArray(props.children))}>
             {signatures}
             <DeprecatedNotice {...props} />
-            <APIOverviewElement {...props} fallback={overviewFallback} />
+            <APIOverviewElement {...props} />
             {props.children}
             {parameters.length ? <APIParams>{parameters}</APIParams> : null}
         </Grid>
@@ -61,18 +57,14 @@ export const APIFunctionElement: React.FunctionComponent<MethodModel> = props =>
  * @param props.name - The name of the method to display.
  * @param props.overrides - An object containing properties of MethodModel to override.
  */
-export const APIFunction: React.FunctionComponent<{
-    name: string
-    overloadIndex?: number
-    overrides?: Partial<MethodModel>
-}> = props => {
-    const { name, overrides } = props
+export const APIFunction: React.FunctionComponent<APIEntity<MethodModel> & { overloadIndex?: number }> = props => {
+    const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
     const model = api.resolve(name, Kind.Function)
     if (!model) return <MissingModelWarning name={name} kind={Kind.Function} />
 
     return (
-        <APIFunctionElement {...model} {...overrides}>
+        <APIFunctionElement {...model} {...overrides} {...rest}>
             {props.children}
         </APIFunctionElement>
     )

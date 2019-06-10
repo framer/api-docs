@@ -8,8 +8,9 @@ import { DeprecatedNotice } from "./DeprecatedNotice"
 import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { apiClassName, permalinkId } from "./helpers"
+import { APIEntity, APIEntityExample } from "./types"
 
-export const APIVariableElement: React.FunctionComponent<PropertyModel> = props => {
+export const APIVariableElement: React.FunctionComponent<APIEntityExample<PropertyModel>> = props => {
     return (
         <Grid className={apiClassName("variable", props, React.Children.toArray(props.children))}>
             <h3>
@@ -18,24 +19,13 @@ export const APIVariableElement: React.FunctionComponent<PropertyModel> = props 
                 <ReleaseBadge {...props} />
             </h3>
             <DeprecatedNotice {...props} />
-            <APIOverviewElement
-                {...props}
-                fallback={
-                    <p>
-                        <em>Undocumented</em>
-                    </p>
-                }
-            />
+            <APIOverviewElement {...props} />
             {props.children}
         </Grid>
     )
 }
 
-export const APIVariable: React.FunctionComponent<{
-    name: string
-    isStatic?: boolean
-    overrides?: Partial<PropertyModel>
-}> = props => {
+export const APIVariable: React.FunctionComponent<APIEntity<PropertyModel>> = props => {
     const api = React.useContext(FramerAPIContext)
     const model = api.resolve(props.name, Kind.Variable)
     if (!model) return <MissingModelWarning name={props.name} kind={Kind.Variable} />

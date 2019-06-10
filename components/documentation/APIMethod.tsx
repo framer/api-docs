@@ -1,5 +1,5 @@
 import * as React from "react"
-import { MethodModel, Kind, ReleaseTag } from "../../api"
+import { MethodModel, Kind } from "../../api"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIOverviewElement } from "./APIOverview"
 import { MissingModelWarning } from "./MissingModelWarning"
@@ -10,12 +10,13 @@ import { Permalink } from "../layout/Permalink"
 import { APIParam, APIParams } from "./APIParams"
 import { Signature } from "./Signature"
 import { apiClassName, permalinkId } from "./helpers"
+import { APIEntityExample, APIEntity } from "./types"
 
 /**
  * Renders the documentation for a single method.
  * @param props - The MethodModel to render
  */
-export const APIMethodElement: React.FunctionComponent<MethodModel> = props => {
+export const APIMethodElement: React.FunctionComponent<APIEntityExample<MethodModel>> = props => {
     const signatures = [props].concat(props.overloads).map(method => (
         <h3 key={method.id}>
             <Permalink id={permalinkId(props)} name={props.name + "()"} modelId={props.id} skipnav />
@@ -25,7 +26,7 @@ export const APIMethodElement: React.FunctionComponent<MethodModel> = props => {
     ))
     const parameters = props.parameters.map(param => (
         <APIParam key={param.id} name={param.name} type={param.type}>
-            <APIOverviewElement className="description" {...param} fallback={<em>None</em>} />
+            <APIOverviewElement className="description" {...param} />
         </APIParam>
     ))
     if (props.returnType !== "void" || props.returnMarkup) {
@@ -40,14 +41,7 @@ export const APIMethodElement: React.FunctionComponent<MethodModel> = props => {
         <Grid className={apiClassName("method", props, React.Children.toArray(props.children))}>
             {signatures}
             <DeprecatedNotice {...props} />
-            <APIOverviewElement
-                {...props}
-                fallback={
-                    <p>
-                        <em>Undocumented</em>
-                    </p>
-                }
-            />
+            <APIOverviewElement {...props} />
             {props.children}
             {parameters.length ? <APIParams>{parameters}</APIParams> : null}
         </Grid>
@@ -61,18 +55,15 @@ export const APIMethodElement: React.FunctionComponent<MethodModel> = props => {
  * @param props.name - The name of the method to display.
  * @param props.overrides - An optional object of properties in MethodModel to override.
  */
-export const APIMethod: React.FunctionComponent<{
-    name: string
-    overrides?: Partial<MethodModel>
-}> = props => {
-    const { name, overrides } = props
+export const APIMethod: React.FunctionComponent<APIEntity<MethodModel>> = props => {
+    const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
 
     const model = api.resolve(name, Kind.Method)
     if (!model) return <MissingModelWarning name={name} kind={Kind.Method} />
 
     return (
-        <APIMethodElement {...model} {...overrides}>
+        <APIMethodElement {...model} {...overrides} {...rest}>
             {props.children}
         </APIMethodElement>
     )

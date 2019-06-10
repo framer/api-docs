@@ -6,7 +6,9 @@ import { MissingModelWarning } from "./MissingModelWarning"
  * Renders the TSDoc summary provided. `summaryMarkup` is just static HTML. To
  * display the full documentation use the `<APIOverviewElement>`.
  */
-export const APISummaryElement: React.FunctionComponent<{ summaryMarkup: string | null | undefined }> = props => {
+export const APISummaryElement: React.FunctionComponent<{
+    summaryMarkup: string | null | undefined
+}> = props => {
     if (!props.summaryMarkup) return null
     return <APIOverviewElement {...props} />
 }

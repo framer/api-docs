@@ -9,8 +9,9 @@ import { Grid } from "components/layout/Grid"
 import { Permalink } from "../layout/Permalink"
 import { Signature } from "./Signature"
 import { apiClassName, permalinkId } from "./helpers"
+import { APIEntity, APIEntityExample } from "./types"
 
-export const APIPropertyElement: React.FunctionComponent<PropertyModel> = props => {
+export const APIPropertyElement: React.FunctionComponent<APIEntityExample<PropertyModel>> = props => {
     return (
         <Grid className={apiClassName("property", props, React.Children.toArray(props.children))}>
             <h3>
@@ -19,14 +20,7 @@ export const APIPropertyElement: React.FunctionComponent<PropertyModel> = props 
                 <ReleaseBadge {...props} />
             </h3>
             <DeprecatedNotice {...props} />
-            <APIOverviewElement
-                {...props}
-                fallback={
-                    <p>
-                        <em>Undocumented</em>
-                    </p>
-                }
-            />
+            <APIOverviewElement {...props} />
             {props.children}
         </Grid>
     )
@@ -38,18 +32,15 @@ export const APIPropertyElement: React.FunctionComponent<PropertyModel> = props 
  * @param props.name The name of the property including classname and namespaces.
  * @param props.overrides An object containing PropertyModel properties to override
  */
-export const APIProperty: React.FunctionComponent<{
-    name: string
-    overrides?: Partial<PropertyModel>
-}> = props => {
+export const APIProperty: React.FunctionComponent<APIEntity<PropertyModel>> = props => {
+    const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
 
-    const model = api.resolve(props.name, Kind.Property)
-
-    if (!model) return <MissingModelWarning name={props.name} kind={Kind.Property} />
+    const model = api.resolve(name, Kind.Property)
+    if (!model) return <MissingModelWarning name={name} kind={Kind.Property} />
 
     return (
-        <APIPropertyElement {...model} {...props.overrides}>
+        <APIPropertyElement {...model} {...overrides} {...rest}>
             {props.children}
         </APIPropertyElement>
     )

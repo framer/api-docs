@@ -3,6 +3,8 @@ import * as ReactDOM from "react-dom"
 import styled from "styled-components"
 import { usePath, Dynamic } from "monobase"
 
+export type WithSkipNav = { skipnav?: boolean }
+
 const Info = styled.div`
     position: fixed;
     top: 10px;
@@ -136,7 +138,7 @@ const PermalinkSpan = styled.span`
     }
 `
 
-export const Permalink: React.FunctionComponent<{ id: string; name: string; modelId?: string, skipnav?: boolean }> = ({
+export const Permalink: React.FunctionComponent<{ id: string; name: string; modelId?: string; skipnav?: boolean }> = ({
     id,
     name,
     modelId,
@@ -162,8 +164,17 @@ export const Permalink: React.FunctionComponent<{ id: string; name: string; mode
  * Puts a linkable anchor on the page, see <RefAnchor />. The `modelId` should
  * be the API model identifier, used to link up the <Ref> component.
  */
-export const PermalinkAnchor: React.FunctionComponent<{ id: string, modelId?: string }> = ({ id, modelId }) => {
+export const PermalinkAnchor: React.FunctionComponent<{ id: string; modelId?: string }> = ({ id, modelId }) => {
     // Offset the permalink from its position in the DOM to give some breathing room.
     const style: React.CSSProperties = { position: "absolute", top: -60, display: "block" }
-    return <span id={id} data-permalink-id={id} data-permalink-path={`${usePath()}#${id}`} data-permalink-ref={modelId} aria-hidden style={style} />
+    return (
+        <span
+            id={id}
+            data-permalink-id={id}
+            data-permalink-path={`${usePath()}#${id}`}
+            data-permalink-ref={modelId}
+            aria-hidden
+            style={style}
+        />
+    )
 }
