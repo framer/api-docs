@@ -1,7 +1,7 @@
 import * as React from "react"
 
 export class RawScript extends React.Component {
-    count: 0
+    private count = 0
 
     render() {
         this.count++
