@@ -71,7 +71,7 @@ Array [
     className="DocFencedCode"
   >
     <code
-      className="language-jsx line-numbers"
+      className="language-jsx"
       data-lang="jsx"
     >
       // Default
@@ -167,7 +167,7 @@ Array [
     className="DocFencedCode"
   >
     <code
-      className="language-jsx line-numbers"
+      className="language-jsx"
       data-lang="jsx"
     >
       const foo = "bar";
