@@ -194,7 +194,7 @@ function render<T>(docNode: DocNode | undefined, { createElement, Fragment }: Li
                     "code",
                     {
                         "data-lang": docFencedCode.language,
-                        className: `language-${docFencedCode.language} line-numbers`,
+                        className: `language-${docFencedCode.language}`,
                     },
                     docFencedCode.code
                 )
