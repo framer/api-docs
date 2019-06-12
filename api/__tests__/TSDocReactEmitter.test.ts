@@ -48,10 +48,10 @@ describe("TSDocReactEmitter", () => {
         /**
          * Hello World
          * 
-         * @prototype
+         * @library
          * Hello prototype
          * 
-         * @production
+         * @motion
          * Hello production
          */`)
         expect(component.toJSON()).toMatchSnapshot()

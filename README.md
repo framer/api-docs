@@ -132,6 +132,6 @@ paths to make:
 
 ## Upgrading
 
-To add support for custom `@prototype` and `@production` block types, we use the undocumented process of monkey-patching the `AedocDefinitions` class within `api-extractor-model`. This is then consumed by `api-extractor`.
+To add support for custom `@library` and `@motion` block types, we use the undocumented process of monkey-patching the `AedocDefinitions` class within `api-extractor-model`. This is then consumed by `api-extractor`.
 
 Ensure that when updating `@microsoft/tsdocs`, `@microsoft/api-extractor-model` and/or `@microsoft/api-extractor` that all three packages are the latest version and that none of them install extra versions of the others to solve a minor version discrepancy. Otherwise the monkey-patch might be applied to an un-used version of `AedocDefinitions`.

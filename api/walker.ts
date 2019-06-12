@@ -284,8 +284,8 @@ function extractTSDoc(
             tsdoc: tsdoc.emitAsTsdoc(),
             summaryMarkup: renderTSDocToHTML(tsdoc.summarySection) || null,
             remarksMarkup: renderTSDocToHTML(tsdoc.remarksBlock),
-            prototypeMarkup: getCustomBlock("@PROTOTYPE"),
-            productionMarkup: getCustomBlock("@PRODUCTION"),
+            prototypeMarkup: getCustomBlock("@LIBRARY"),
+            productionMarkup: getCustomBlock("@MOTION"),
             deprecatedMarkup: renderTSDocToHTML(tsdoc.deprecatedBlock) || null,
         }
     }
