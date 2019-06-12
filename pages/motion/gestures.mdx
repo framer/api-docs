@@ -1,0 +1,97 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template
+
+# Gestures
+
+<span className="lead">
+  A powerful gesture recognition system for the browser.
+</span>
+
+<div>
+
+Framer Motion extends the basic set of gestures provided by React with a simple yet powerful set of UI gesture recognisers.
+
+It also provides `whileHover` and `whileTap` props that make it easy to temporarily animate to a state while a gesture is active.
+
+</div>
+
+```jsx
+import { motion } from "framer-motion"
+
+export function MyComponent() {
+  return (
+    <motion.div
+      drag
+      whileHover={{ scale: 1.2 }}
+      whileTap={{ scale: 0.9 }}
+    />
+}
+```
+
+## Tap
+
+A tap is a convenience alternative to the native browser `click` event.
+
+- It works on both mobile and desktop, leveraging both mouse and touch events depending on the platform.
+- It only fires if `up` was received on the same `motion` component that received the initial `down` to mimic interface button behaviour.
+- It does not fire if panning has been initiated on this or any other component as a result of the same pointer event.
+
+---
+
+<APIProperty name="TapHandlers.whileTap" />
+<APIMethod name="TapHandlers.onTap()" />
+<APIMethod name="TapHandlers.onTapStart()" />
+<APIMethod name="TapHandlers.onTapCancel()" />
+
+## Hover
+
+A hover gesture is initiated while a pointer input enters this component and ended when the pointer leaves.
+
+<APIProperty name="HoverHandlers.whileHover" />
+<APIMethod name="HoverHandlers.onHoverStart()" />
+<APIMethod name="HoverHandlers.onHoverEnd()" />
+
+## Pan
+
+A pan gesture is initiated when a user presses this component and then moves their finger/pointer.
+
+<APIMethod name="PanHandlers.onPan()" />
+<APIMethod name="PanHandlers.onPanStart()" />
+<APIMethod name="PanHandlers.onPanEnd()" />
+
+## Drag
+
+A drag is controlled by the pan gesture.
+
+<APIMethod name="DragHandlers.onDrag()" />
+<APIMethod name="DragHandlers.onDragStart()" />
+<APIMethod name="DragHandlers.onDragEnd()" />
+<APIMethod name="DragHandlers.onDirectionLock()" />
+
+<APIProperty name="DraggableProps.drag" />
+<APIProperty name="DraggableProps.dragConstraints" />
+<APIProperty name="DraggableProps.dragElastic" />
+<APIProperty name="DraggableProps.dragMomentum" />
+<APIProperty name="DraggableProps.dragTransition" />
+<APIProperty name="DraggableProps.dragPropagation" />
+
+## Types
+
+<APIInterface name="TapInfo" skipnav />
+<APIInterface name="PanInfo" skipnav />

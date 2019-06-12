@@ -49,6 +49,8 @@ export function MyComponent() {
 
 ## Overview
 
+### `animate` prop
+
 ### Frame
 
 <div>
@@ -57,4 +59,46 @@ Most animations are controlled via the `Frame` component, where you can set anim
 
 </div>
 
+---
+
+## Tween
+
+An animation that animates between two or more values over a specific `duration` of `time`. This is the default animation for non-physical values like color and opacity.
+
+<APIProperty name="Tween.type" />
+<APIProperty name="Tween.duration" />
+<APIProperty name="Tween.ease" />
+
+<div>
+  <p>
+    These strings are the built-in named easing functions in
+    Framer.
+  </p>
+</div>
+
+- `"linear"`
+- `"easeIn"`, `"easeOut"`, `"easeInOut"`
+- `"circIn"`, `"circOut"`, `"circInOut"`
+- `"backIn"`, `"backOut"`, `"backInOut"`
+- `"anticipate"`
+
+---
+
+<APIProperty name="Tween.easings" />
+<APIProperty name="Tween.from" />
+<APIProperty name="Tween.loop" />
+<APIProperty name="Tween.yoyo" />
 <APIProperty name="Tween.times" />
+<APIProperty name="Tween.flip" />
+
+## Spring
+
+An animation that simulates spring physics for realistic motion. This is the default animation for physical values like `x`, `y`, `scale` and `rotate`.
+
+<APIProperty name="Spring.type" />
+<APIProperty name="Spring.damping" />
+<APIProperty name="Spring.mass" />
+<APIProperty name="Spring.stiffness" />
+<APIProperty name="Spring.velocity" />
+<APIProperty name="Spring.restSpeed" />
+<APIProperty name="Spring.restDelta" />

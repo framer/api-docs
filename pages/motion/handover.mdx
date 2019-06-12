@@ -1,0 +1,102 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template
+
+# Animation
+
+<span className="lead">
+  A set of properties and helpers for high-performance,
+  declarative animations.
+</span>
+
+<div>
+
+Animations in Framer are primarily controlled via the `Frame` component. The key properties are `animate` and `transition`, which take a variety of options to customize animations. All the animation properties and helpers are included when you import `Frame`, with the exception of `useCycle`.
+You can find all the `Frame` animation properties and methods [here](../frame/#animation).
+
+</div>
+
+```jsx
+import * as React from "react"
+import { Frame } from "framer"
+
+export function MyComponent() {
+  return (
+    <Frame
+      animate={{ rotate: 360 }}
+      transition={{ duration: 2 }}
+    />
+  )
+}
+```
+
+---
+
+## Overview
+
+### Frame
+
+<div>
+
+Most animations are controlled via the `Frame` component, where you can set animations, options and listen for updates. The specific `Frame` properties relating to animations are linked to below.
+
+</div>
+
+---
+
+## Tween
+
+An animation that animates between two or more values over a specific `duration` of `time`. This is the default animation for non-physical values like color and opacity.
+
+<APIProperty name="Tween.type" />
+<APIProperty name="Tween.duration" />
+<APIProperty name="Tween.ease" />
+
+<div>
+  <p>
+    These strings are the built-in named easing functions in
+    Framer.
+  </p>
+</div>
+
+- `"linear"`
+- `"easeIn"`, `"easeOut"`, `"easeInOut"`
+- `"circIn"`, `"circOut"`, `"circInOut"`
+- `"backIn"`, `"backOut"`, `"backInOut"`
+- `"anticipate"`
+
+---
+
+<APIProperty name="Tween.easings" />
+<APIProperty name="Tween.from" />
+<APIProperty name="Tween.loop" />
+<APIProperty name="Tween.yoyo" />
+<APIProperty name="Tween.times" />
+<APIProperty name="Tween.flip" />
+
+## Spring
+
+An animation that simulates spring physics for realistic motion. This is the default animation for physical values like `x`, `y`, `scale` and `rotate`.
+
+<APIProperty name="Spring.type" />
+<APIProperty name="Spring.damping" />
+<APIProperty name="Spring.mass" />
+<APIProperty name="Spring.stiffness" />
+<APIProperty name="Spring.velocity" />
+<APIProperty name="Spring.restSpeed" />
+<APIProperty name="Spring.restDelta" />

@@ -1,0 +1,96 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template
+
+# MotionValue
+
+<span className="lead">
+  Create declarative relationships between MotionValues.
+</span>
+
+<div>
+
+All `motion` components in Framer Motion use `MotionValue`s to track the state and velocity of a changing value (for instance `opacity` or `x`).
+
+Usually, these are created automatically. But for advanced use-cases, it is possible to create these manually and inject them into `motion` components via the `style` tag.
+
+</div>
+
+```jsx
+import { motion, useMotionValue } from "framer-motion"
+
+export function MyComponent() {
+  const x = useMotionValue(0)
+  return <motion.div style={{ x }} />
+}
+```
+
+<div>
+
+By manually creating `MotionValue`s you can:
+
+- Set and get their state.
+- Pass to multiple components to synchronise motion across them.
+- Derive new `MotionValue`s with the `useTransform` hook.
+
+Using `MotionValue`s instead of React state allows you to update the visual properties of your website without triggering React's render cycle.
+
+</div>
+
+```jsx
+const x = useMotionValue(0)
+const input = [-200, 0, 200]
+const output = [0, 1, 0]
+const opacity = useTransform(x, input, output)
+
+return <motion.div drag="x" style={{ x, opacity }} />
+```
+
+---
+
+## useMotionValue
+
+<APIFunction name="useMotionValue()" />
+
+---
+
+## useTransform
+
+<APIFunction name="useTransform()" />
+
+<APIFunction name="(useTransform:1)" />
+
+---
+
+## useViewportScroll
+
+<APIFunction name="useViewportScroll()" />
+
+---
+
+## MotionValue
+
+A created `MotionValue` has the following methods, with which you can query and affect its state.
+
+<APIFunction name="MotionValue.get()" />
+<APIFunction name="MotionValue.getVelocity()" />
+<APIFunction name="MotionValue.set()" />
+<APIFunction name="MotionValue.isAnimating()" />
+<APIFunction name="MotionValue.stop()" />
+<APIFunction name="MotionValue.onChange()" />
+<APIFunction name="MotionValue.destroy()" />
