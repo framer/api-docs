@@ -1,8 +1,20 @@
 import * as React from "react"
 import { Menu, MenuItem, SubTitle } from "./layout/Menu"
+import { isMotion } from "./utils/env"
 
-/** Represents the main navigation for the site */
-export const Navigation: React.FunctionComponent = () => {
+const MotionMenu = () => {
+    return (
+        <Menu>
+            <SubTitle name="Get Started" />
+            <MenuItem className="home" href="/pages/motion/index.mdx" title="Introduction" />
+
+            <SubTitle name="Motion API" />
+            <MenuItem className="components" href="/pages/motion/component.mdx" title="Motion components" />
+        </Menu>
+    )
+}
+
+const LibraryMenu = () => {
     return (
         <Menu>
             <SubTitle name="Get Started" />
@@ -29,4 +41,9 @@ export const Navigation: React.FunctionComponent = () => {
             <MenuItem className="render-target" href="/pages/render-target.mdx" title="RenderTarget" />
         </Menu>
     )
+}
+
+/** Represents the main navigation for the site */
+export const Navigation: React.FunctionComponent = () => {
+    return isMotion() ? <MotionMenu /> : <LibraryMenu />
 }

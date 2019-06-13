@@ -1,5 +1,5 @@
 import { usePath } from "monobase"
 
-export const isProduction = () => {
-    return usePath().search("/production/") !== -1
+export const isMotion = () => {
+    return usePath().search("/motion") !== -1
 }

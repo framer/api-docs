@@ -15,7 +15,7 @@ export default Template
 # Framer Motion API
 
 <span className="lead">
-  A complete API reference of Framer Motion, a
+  A complete API reference for Framer Motion, a
   production-ready animation and gesture library.
 </span>
 
@@ -27,15 +27,15 @@ export default Template
 
 ## Overview
 
-Framer Motion shares the same animation and gesture API as the Framer X library, while maintaining HTML and SVG semantics.
+Framer Motion shares the simple animation and gesture API as the Framer X library, while maintaining HTML and SVG semantics.
 
-This makes it simple to port your high-fidelity prototypes to a production-ready environment, or make something completely from scratch!
+This makes it simple to port your high-fidelity prototypes to a production-ready environment, or make something completely new!
 
 </div>
 
 <div>
 
-- **Animations**:
+- **Animations**: Making animations is as easy as setting values on the `animate` prop. Framer Motion will automatically generate an animation for you, and this can be overridden with the powerful `transition` prop.
 
 </div>
 
@@ -45,7 +45,7 @@ This makes it simple to port your high-fidelity prototypes to a production-ready
 
 <div>
 
-- **Gestures**: Blah
+- **Gestures**: Framer Motion extends React's event system with powerful gesture recognisers. It supports hover, tap, pan and drag.
 
 </div>
 
@@ -58,21 +58,26 @@ This makes it simple to port your high-fidelity prototypes to a production-ready
 
 <div>
 
-- **Variants**:
+- **Variants**: Variants can be used to animate entire sub-trees of components with a single `animate` prop. Options like `when` and `staggerChildren` can be used to declaratively orchestrate these animations.
 
 </div>
 
 ```jsx
-<motion.ul animate="hidden" variants={list}>
-  <motion.li variants={item} />
-  <motion.li variants={item} />
-  <motion.li variants={item} />
-</motion.ul>
+const list = { hidden: { opacity: 0 } }
+const item = { hidden: { x: -10, opacity: 0 } }
+
+return (
+  <motion.ul animate="hidden" variants={list}>
+    <motion.li variants={item} />
+    <motion.li variants={item} />
+    <motion.li variants={item} />
+  </motion.ul>
+)
 ```
 
 <div>
 
-- **Imperative controls**: Blah
+- **Imperative controls**: For advanced sequencing of animations, the `useAnimation` hook can create imperative controls for one or more components. `controls.start` can be passed values, variant labels, or functions that dynamically generate unique values for each animating component.
 
 </div>
 
@@ -89,12 +94,39 @@ return <motion.div onClick={sequence} animate={controls} />
 
 <div>
 
-- **Server-side rendering**:
+- **Server-side rendering**: The animated state of a component can be rendered server-side to prevent flashes of re-styled content after your JavaScript loads.
 
 </div>
 
 ```jsx
-<motion.div animate={{ x: 100 }} />
+<motion.div initial={false} animate={{ x: 100 }} />
+```
+
+<div>
+
+- **MotionValues**: Create declarative, reactive chains of `MotionValue`s that can update as a result of animations and/or gestures. Pass these around different components for wild effects.
+
+</div>
+
+```jsx
+const x = useMotionValue(0)
+const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0])
+
+return <motion.div drag="x" style={{ x, opacity }} />
+```
+
+<div>
+
+- **Scroll-based animations**: Performant scroll-based animations like progress bars or parallax are super-easy to make with the special viewport scroll `MotionValue`s.
+
+</div>
+
+```jsx
+const { scrollYProgress } = useViewportScroll()
+
+return (
+  <motion.path style={{ pathLength: scrollYProgress }} />
+)
 ```
 
 ---
@@ -121,21 +153,25 @@ import { motion } from "framer-motion"
 
 ## Basics
 
-### Animate
+### Motion components
 
 <div>
 
-Balllahg
+`motion` components are the core of the Framer Motion API. There's a `motion` component for every HTML and SVG element. They work exactly the same, with added props that allow you to declaratively add animations and gestures.
 
-<CTA name="Learn More" link="/api/examples/#animate" />
+<CTA name="Learn More" link="/api/motion/component" />
 
 </div>
 
 ```jsx
 // Animate scale to 50%
-export function MyComponent() {
-  return <Frame animate={{ scale: 0.5 }} />
-}
+<motion.div animate={{ scale: 0.5 }} />
 ```
 
 ---
+
+<!--
+  - Animations
+  - Gestures
+  - MotionValues
+-->

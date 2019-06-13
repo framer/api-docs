@@ -1,7 +1,7 @@
 import escape from "lodash.escape"
 import * as React from "react"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
-import { isProduction } from "../utils/env"
+import { isMotion } from "../utils/env"
 
 export type WithHighlight = { highlight?: string }
 
@@ -28,7 +28,7 @@ export const APIOverviewElement: React.FunctionComponent<{
     className?: string
     highlight?: string | string[]
 }> = props => {
-    const isProd = isProduction()
+    const isProd = isMotion()
     const api = React.useContext(FramerAPIContext)
     let markup = props.summaryMarkup || ""
 
