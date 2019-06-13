@@ -20,7 +20,7 @@
     "chokidar-cli": "^1.2.1",
     "classnames": "^2.2.6",
     "framer": "^1.0.8",
-    "framer-motion": "^0.18.2",
+    "framer-motion": "^0.18.6",
     "jest": "^24.3.1",
     "monobase": "^3.2.2",
     "prettier": "^1.16.4",
