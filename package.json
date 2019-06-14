@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.1.6",
     "@microsoft/api-extractor-model": "^7.1.1",
     "@microsoft/tsdoc": "^0.12.9",
     "@types/chalk": "^2.2.0",
