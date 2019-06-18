@@ -44,8 +44,7 @@ the component is being used (for example, in the Canvas, Preview or Export).
   </APIParam>
   <APIParam name="returns" type="string">
     <p>
-      A path to a file within the current project relative
-      to the folder root.
+      A full url to the file including origin.
     </p>
   </APIParam>
 </APIParams>
@@ -60,6 +59,34 @@ import { url } from "framer/resource"
 export function MyComponent() {
   return (
     <Frame image={url("./code/test.png")} size={"100%"} />
+  )
+}
+```
+
+This URL will change depending on where and when your project is opened so
+use it directly within your components and avoid storing the result or
+using it as a value in a custom property control.
+
+```jsx highlight(5-6,10,14-15,19)
+import * as React from "react"
+import { Frame } from "framer"
+import { url } from "framer/resource"
+
+// AVOID: Try and avoid doing this as the returned url may change over time.
+const image = url("./code/test.png")
+
+export function MyComponent() {
+  return (
+    <Frame image={image} size={"100%"} />
+  )
+}
+
+// GOOD: Use the relative path and call url() within your component.
+const image = "./code/test.png"
+
+export function MyComponent() {
+  return (
+    <Frame image={url(image)} size={"100%"} />
   )
 }
 ```
