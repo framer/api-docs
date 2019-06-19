@@ -25,73 +25,70 @@ export default Template
 
 <div>
 
-Framer Motion extends the basic set of gestures provided by React with a simple yet powerful set of UI gesture recognisers.
+Framer Motion extends the basic set of event listeners provided by React with a simple yet powerful set of UI gesture recognisers.
 
-It also provides `whileHover` and `whileTap` props that make it easy to temporarily animate to a state while a gesture is active.
+</div>
+
+## Gesture-triggered animations
+
+<div>
+
+`motion` components provide two convinience props, `whileHover` and `whileTap`, that can define animation targets to temporarily animate to while a gesture is active.
 
 </div>
 
 ```jsx
-import { motion } from "framer-motion"
-
-export function MyComponent() {
-  return (
-    <motion.div
-      drag
-      whileHover={{ scale: 1.2 }}
-      whileTap={{ scale: 0.9 }}
-    />
-}
+<motion.button
+  whileHover={{ scale: 1.2, transition: { duration: 1 } }}
+  whileTap={{ scale: 0.9 }}
+/>
 ```
 
-## Tap
+<div>
 
-A tap is a convenience alternative to the native browser `click` event.
+Both props can be set either as a target of values to animate to, or the name of any variants defined via the `variants` prop. Variants will flow down through children as normal.
 
-- It works on both mobile and desktop, leveraging both mouse and touch events depending on the platform.
-- It only fires if `up` was received on the same `motion` component that received the initial `down` to mimic interface button behaviour.
-- It does not fire if panning has been initiated on this or any other component as a result of the same pointer event.
+</div>
 
----
+```jsx
+<motion.button
+  whileTap="tap"
+  whileHover="hover"
+  variants={buttonVariants}
+>
+  <svg>
+    <motion.path variants={iconVariants} />
+  </svg>
+</motion.button>
+```
 
-<APIProperty name="TapHandlers.whileTap" />
-<APIMethod name="TapHandlers.onTap()" />
-<APIMethod name="TapHandlers.onTapStart()" />
-<APIMethod name="TapHandlers.onTapCancel()" />
+`motion` components automatically manage the interplay between the these gestures, so if both are defined and tapping ends, it'll animate either to the state defined in `whileHover`, or the component's original state, depending on whether the hover gesture is still active.
 
-## Hover
+Likewise, if hovering start and stops while the tap gesture is active, the tap gesture gets priority and the `motion` component will know not to animate any values defined in tap.
 
-A hover gesture is initiated while a pointer input enters this component and ended when the pointer leaves.
+### A note on SVG filters
 
-<APIProperty name="HoverHandlers.whileHover" />
-<APIMethod name="HoverHandlers.onHoverStart()" />
-<APIMethod name="HoverHandlers.onHoverEnd()" />
+The `while` helper properties won't work on SVG `filter` components, as these elements don't receive events. To respond to gestures, you need to introduce React state to the component and attach listeners to the physical element.
 
-## Pan
+```jsx
+const MyComponent = () => {
+  const [isHovered, setHovered] = useState(false)
 
-A pan gesture is initiated when a user presses this component and then moves their finger/pointer.
-
-<APIMethod name="PanHandlers.onPan()" />
-<APIMethod name="PanHandlers.onPanStart()" />
-<APIMethod name="PanHandlers.onPanEnd()" />
-
-## Drag
-
-A drag is controlled by the pan gesture.
-
-<APIMethod name="DragHandlers.onDrag()" />
-<APIMethod name="DragHandlers.onDragStart()" />
-<APIMethod name="DragHandlers.onDragEnd()" />
-<APIMethod name="DragHandlers.onDirectionLock()" />
-
-<APIProperty name="DraggableProps.drag" />
-<APIProperty name="DraggableProps.dragConstraints" />
-<APIProperty name="DraggableProps.dragElastic" />
-<APIProperty name="DraggableProps.dragMomentum" />
-<APIProperty name="DraggableProps.dragTransition" />
-<APIProperty name="DraggableProps.dragPropagation" />
-
-## Types
-
-<APIInterface name="TapInfo" skipnav />
-<APIInterface name="PanInfo" skipnav />
+  // Simplified example
+  return (
+    <svg>
+      <image
+        filter="url(#blur)"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      />
+      <filter id="blur">
+        <motion.feGaussianBlur
+          initial={false}
+          animate={{ stdDeviation: isHovered ? 0 : 2 }}
+        />
+      </filter>
+    </svg>
+  )
+}
+```

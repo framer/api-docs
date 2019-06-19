@@ -26,79 +26,168 @@ export default Template
 
 <div>
 
-Animations in Framer are primarily controlled via the `Frame` component. The key properties are `animate` and `transition`, which take a variety of options to customize animations. All the animation properties and helpers are included when you import `Frame`, with the exception of `useCycle`.
-You can find all the `Frame` animation properties and methods [here](../frame/#animation).
+Animations in Framer Motion are primarily controlled via the `motion` component's `animate` property.
+
+It can accept a target object, variant label(s), or imperative animation controls. We'll explore each on this page.
 
 </div>
 
 ```jsx
-import * as React from "react"
-import { Frame } from "framer"
+import { motion } from "framer-motion"
 
-export function MyComponent() {
-  return (
-    <Frame
-      animate={{ rotate: 360 }}
-      transition={{ duration: 2 }}
-    />
-  )
-}
+export const MyComponent = () => (
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 2 }}
+  />
+)
 ```
 
 ---
 
-## Overview
+## Target object
 
-### `animate` prop
+The simplest way to make a component animate is to pass a target object to a component's `animate` prop.
 
-### Frame
+```jsx
+<motion.div animate={{ x: 100 }} />
+```
+
+When any value in `animate` changes, the component will automatically animate to the updated target.
+
+### Transitions
+
+By default, Framer Motion will create an appropriate animation for a snappy transition based on the types of value being animated. For instance, physical properties like `x` or `scale` will be animated via a spring simulation. Whereas values like `opacity` or `color` will be animated with a tween.
+
+However, you can set different types of animation by passing a `Transition` to the `transition` prop.
+
+```jsx
+<motion.div
+  animate={{ x: 100 }}
+  transition={{ ease: "easeOut", duration: 2 }}
+/>
+```
+
+### Mount animations
+
+When a component mounts, it'll automatically animate to the values in `animate` if they're different from those defined in `style` or `initial`. You can set the `initial` prop to `false` to use the value in `animate` as the component's mounted state to disable mount animations.
+
+```jsx
+<motion.div animate={{ x: 100 }} initial={false} />
+```
+
+This will also work with server-side rendering.
+
+### Keyframes
 
 <div>
 
-Most animations are controlled via the `Frame` component, where you can set animations, options and listen for updates. The specific `Frame` properties relating to animations are linked to below.
+Values in `animate` can also be set as a series of keyframes. This will animate through each value in sequence.
 
 </div>
 
----
-
-## Tween
-
-An animation that animates between two or more values over a specific `duration` of `time`. This is the default animation for non-physical values like color and opacity.
-
-<APIProperty name="Tween.type" />
-<APIProperty name="Tween.duration" />
-<APIProperty name="Tween.ease" />
+```jsx
+<motion.feGaussianBlur
+  animate={{ stdDeviation: [0, 5, 0] }}
+/>
+```
 
 <div>
-  <p>
-    These strings are the built-in named easing functions in
-    Framer.
-  </p>
+
+By default, a keyframes animation will start with the first item in the array. To use the **current** value instead, `null` can be passed as a placeholder. This way, if a keyframes animation starts while the value is currently animating, the transition will be more natural.
+
 </div>
 
-- `"linear"`
-- `"easeIn"`, `"easeOut"`, `"easeInOut"`
-- `"circIn"`, `"circOut"`, `"circInOut"`
-- `"backIn"`, `"backOut"`, `"backInOut"`
-- `"anticipate"`
+```jsx
+<motion.circle cx={500} animate={{ cx: [null, 100] }} />
+```
+
+<div>
+
+Each of these keyframes will be spaced equidistantly throughout the animation, but you can override this by setting a `times` prop on the `transition` prop.
+
+This is an array of the same length as the animation target with numbers between `0` and `1` that define when in the animation each keyframe should be hit.
+
+</div>
+
+```jsx
+<motion.circle
+  cx={500}
+  animate={{ cx: [null, 100, 200] }}
+  transition={{ duration: 3, times: [0, 0.2, 1] }}
+/>
+```
+
+## Variants
+
+Setting props directly is great for simple use cases.
+
+### Propagation
+
+Variants
+
+### Dynamic variants
+
+## Animation controls
 
 ---
 
-<APIProperty name="Tween.easings" />
-<APIProperty name="Tween.from" />
-<APIProperty name="Tween.loop" />
-<APIProperty name="Tween.yoyo" />
-<APIProperty name="Tween.times" />
-<APIProperty name="Tween.flip" />
+<!--
+### Transition
 
-## Spring
+The `transition` property can be used to set a **default transition** for all animations on a motion component. ADD LINK TO TRANSITION TYPE HERE
 
-An animation that simulates spring physics for realistic motion. This is the default animation for physical values like `x`, `y`, `scale` and `rotate`.
+```jsx
+<motion.div
+  animate={{ scale: 0.5 }}
+  transition={{ ease: "easeOut" }}
+/>
+```
 
-<APIProperty name="Spring.type" />
-<APIProperty name="Spring.damping" />
-<APIProperty name="Spring.mass" />
-<APIProperty name="Spring.stiffness" />
-<APIProperty name="Spring.velocity" />
-<APIProperty name="Spring.restSpeed" />
-<APIProperty name="Spring.restDelta" />
+You can override this transition by adding `transition` to any prop that accepts an animation target (like `animate`, `whileHover`, `whilePress` etc).
+
+```jsx
+<motion.div
+  transition={{ duration: 2 }}
+  whileHover={{
+    scale: 1.2,
+    transition: { duration: 1 },
+  }}
+/>
+```
+
+You can also define a seperate transition for each animating value. Any properties left unspecified can use a `default` transition:
+
+```jsx
+<motion.div
+  animate={{ x: 100, y: 100 }}
+  transition={{
+    x: { type: "spring", stiffness: 400 },
+    default: { ease: "easeIn" },
+  }}
+/>
+```
+
+You can add orchestration properties like `delay` that affect the whole animation. All durations in Framer Motion are defined in seconds.
+
+```jsx
+const transition = {
+  delay: 1,
+  opacity: { duration: 0.5 },
+}
+```
+
+The `transition` property can also be specified inside your variants object and then passed to your `motion` component using the `variants` property.
+
+```jsx
+const variants = {
+  hidden: {
+    opacity: 0,
+    transition: { duration: 0.25 },
+  },
+  visible: { opacity: 1 },
+}
+
+return <motion.div variants={variants} />
+```
+-->

@@ -10,6 +10,8 @@ const MotionMenu = () => {
 
             <SubTitle name="Motion API" />
             <MenuItem className="components" href="/pages/motion/component.mdx" title="Motion components" />
+            <MenuItem className="animation" href="/pages/motion/animation.mdx" title="Animation" />
+            <MenuItem className="types" href="/pages/motion/types.mdx" title="Types" />
         </Menu>
     )
 }

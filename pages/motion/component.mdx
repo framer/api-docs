@@ -21,14 +21,14 @@ export default Template
 
 <span className="lead">
   Motion components are DOM primitives optimised for 60fps
-  gestures and animation.
+  animation and gestures.
 </span>
 
 <div>
 
-Animations and gestures in Framer Motion are primarily controlled via `motion` components. These can be used to make any DOM element, optimised for 60fps motion.
+There's a `motion` component for every HTML and SVG element, for instance `motion.div`, `motion.circle` etc.
 
-Every HTML and SVG element is supported, for instance `motion.div`, `motion.circle` etc. These work exactly like their static counterparts, but offer props that allow you to:
+These work exactly like their static counterparts, but offer props that allow you to:
 
 - Declaratively or imperatively animate components.
 - Add drag, pan, hover and tap gestures.
@@ -54,6 +54,48 @@ export const MyComponent () => (
 
 ## Supported values
 
+### Value types
+
+<div>
+
+Framer Motion can animate:
+
+- Numbers: `0`, `10` etc.
+- Strings containing numbers: `"0vh"`, `"10px"` etc.
+- Colors: Hex, RGB(A), HSL(A).
+- Complex strings containing multiple numbers and/or colors (ie `"10px 0 #000"`)
+
+When animating to a non-animatable value like `"block"`, this value will be set instantly. By setting this value within `transitionEnd`, this value will be set at the end of the animation.
+
+</div>
+
+```jsx
+<motion.div
+  animate={{
+    x: 0,
+    backgroundColor: "#000",
+    boxShadow: "10px 10px 0 rgba(0, 0, 0, 0.2)",
+    position: "fixed",
+    transitionEnd: {
+      display: "none",
+    },
+  }}
+/>
+```
+
+### Value type conversion
+
+In general, values can only be animated between two of the same type (ie two HSL(A), two `px` etc).
+
+However, HTML component's `x`, `y`, `width`, `height`, `top`, `left`, `right` and `bottom` values have enhanced support and can all be animated freely between different value types.
+
+```jsx
+<motion.div
+  initial={{ x: "100%" }}
+  animate={{ x: "calc(100vw - 50%)" }}
+/>
+```
+
 ### Transform
 
 <div>
@@ -68,14 +110,20 @@ Transform properties are accelerated by the GPU, and therefore animate smoothly.
 </div>
 
 ```jsx
-<motion.a whileHover={{ scale: 1.2 }} style={{ x: 100 }} />
+<motion.a
+  whileHover={{ scale: 1.2 }}
+  whilePress={{ scale: 0.8 }}
+  style={{ x: 100 }}
+/>
 ```
+
+`motion` components have enhanced `style` props, allowing you to set them individually there, too.
 
 <div>
 
-Transform values are applied in a specific order: translate, scale, rotate, skew.
+For convenience, transform values are applied in a specific order: translate, scale, rotate, skew.
 
-You can customise the default order of application using the `transformTemplate` prop.
+However, you can customise this default order using the `transformTemplate` prop.
 
 </div>
 
@@ -97,7 +145,7 @@ return (
 
 <div>
 
-`transform-origin` has three shortcut values that can be animated individually:
+`transform-origin` has three shortcut values that can be set and animated individually:
 
 - `originX`
 - `originY`
@@ -111,11 +159,78 @@ If set as numbers, `originX` and `Y` default to a progress value between `0` and
 <motion.div style={{ originX: 0.5 }} />
 ```
 
+### CSS variables
+
+Framer Motion can animate the value of CSS variables, and also read CSS variables as animation targets.
+
+#### Using pre-defined CSS variables in animation
+
+<div>
+
+`motion` components can animate to and from CSS variables, as long as that variable is defined on a component ancestor.
+
+</div>
+
+```jsx
+<motion.li animate={{ background: "var(--action)" }} />
+```
+
+#### Animating CSS variables
+
+<div>
+
+By defining and animating CSS variables, we can use a parent `motion` component to declaratively animate multiple DOM children.
+
+When animating CSS variables in TypeScript, the prop will need to be cast as `any` to prevent type errors (as there's an infinite number of variable names).
+
+Also, as CSS variables are arbitrary, Framer Motion can't infer their default type. So you're able to animate `rotate` as a number because Framer Motion understands that it should be set in `deg`, whereas `'--rotate'` needs to be set as `'360deg'`.
+
+</div>
+
+```jsx
+<motion.ul
+  initial={{ '--rotate': '0deg' } as any}
+  animate={{ '--rotate': '360deg' } as any}
+  transition={{ duration: 2, loop: Infinity }}
+>
+  <li style={{ transform: 'rotate(var(--rotate))' }} />
+  <li style={{ transform: 'rotate(var(--rotate))' }} />
+  <li style={{ transform: 'rotate(var(--rotate))' }} />
+</motion.ul>
+```
+
+### SVG path
+
+<div>
+
+`motion.path` components have access to three convenience SVG path properties:
+
+- `pathLength`
+- `pathSpacing`
+- `pathOffset`
+
+These are all set as a value between `0` and `1`, where `1` is the measured length of the path.
+
+</div>
+
+```jsx
+<motion.path
+  d={pathDefinition}
+  initial={{ pathLength: 1, pathOffset: 0 }}
+  animate={{ pathLength: 0, pathOffset: 1 }}
+  transition={{ duration: 2 }}
+/>
+```
+
 ---
 
 ### Performance
 
-To get the most performance from your animations, try to only animate [transform values](#transform) and opacity, as they are GPU-accelerated. This way, you can animate hundreds of layers on modern mobile devices.
+Framer Motion animates values outside the React render cycle for increased performance.
+
+Using `MotionValue`s LINK TO MOTION VALUES instead of state to update visual properties will also avoid re-renders.
+
+Where possible, animate just [transform values](#transform) and opacity, as they are GPU-accelerated. This way, you can animate hundreds of layers on modern mobile devices.
 
 ```jsx
 // GPU accelerated (fast)
@@ -127,88 +242,44 @@ To get the most performance from your animations, try to only animate [transform
 
 ---
 
-## API
+## Props
 
 `motion` components accept the following props:
 
-<APIFunction name="MotionProps.transformTemplate()" />
-
----
-
-### Animation
-
-The following are properties accepted by the `motion` components for animation, in addition to its standard properties.
+<APIProperty name="MotionProps.initial" />
+<APIProperty name="MotionProps.style" />
 
 <APIProperty name="AnimationProps.animate" />
 <APIProperty name="AnimationProps.transition" />
-<APIProperty name="MotionProps.initial" />
+<APIProperty name="AnimationProps.variants" />
+<APIProperty name="MotionAdvancedProps.custom" />
+<APIFunction name="MotionProps.transformTemplate()" />
 
 <APIFunction name="MotionCallbacks.onUpdate()" />
 <APIFunction name="MotionCallbacks.onAnimationComplete()" />
 
----
+<APIProperty name="HoverHandlers.whileHover" />
+<APIProperty name="TapHandlers.whileTap" />
 
-### Transition
+<APIMethod name="HoverHandlers.onHoverStart()" />
+<APIMethod name="HoverHandlers.onHoverEnd()" />
 
-The `transition` property can be used to set a **default transition** for all animations on a motion component.
+<APIMethod name="TapHandlers.onTap()" />
+<APIMethod name="TapHandlers.onTapStart()" />
+<APIMethod name="TapHandlers.onTapCancel()" />
 
-```jsx
-<Frame
-  animate={{ scale: 0.5 }}
-  transition={{ ease: "easeOut" }}
-/>
-```
+<APIMethod name="PanHandlers.onPan()" />
+<APIMethod name="PanHandlers.onPanStart()" />
+<APIMethod name="PanHandlers.onPanEnd()" />
 
-You can override this transition by adding `transition` to any prop that accepts an animation target (like `animate`, `whileHover`, `whilePress` etc).
+<APIMethod name="DragHandlers.onDrag()" />
+<APIMethod name="DragHandlers.onDragStart()" />
+<APIMethod name="DragHandlers.onDragEnd()" />
+<APIMethod name="DragHandlers.onDirectionLock()" />
 
-```jsx
-<Frame
-  transition={{ duration: 2 }}
-  whileHover={{
-    scale: 1.2,
-    transition: { duration: 1 },
-  }}
-/>
-```
-
-You can define a seperate transition for each animating value. Any properties left unspecified can use a `default` transition:
-
-```jsx
-const transition = {
-  x: { type: "spring", stiffness: 400 },
-  default: { ease: "easeIn" },
-}
-```
-
-You can add orchestration properties like `delay` to affect the whole animation. The numeric value represent seconds.
-
-```jsx
-const transition = {
-  delay: 1,
-  opacity: { duration: 0.5 },
-}
-```
-
-The `transition` property can also be specified inside your variants object and then passed to your `motion` component using the `variants` property.
-
-```jsx
-const variants = {
-  hidden: {
-    opacity: 0,
-    transition: { duration: 0.25 },
-  },
-  visible: { opacity: 1 },
-}
-
-return <motion.div variants={variants} />
-```
-
----
-
-### Variants
-
-Variants allow you to define animation states and organise them by name. They allow you to control animations across a tree by switching a single `animate` prop.
-
-Using options like `delayChildren` and `staggerChildren`, you are given controls to declaratively orchestrate these animations.
-
-<APIProperty name="AnimationProps.variants" />
+<APIProperty name="DraggableProps.drag" />
+<APIProperty name="DraggableProps.dragConstraints" />
+<APIProperty name="DraggableProps.dragElastic" />
+<APIProperty name="DraggableProps.dragMomentum" />
+<APIProperty name="DraggableProps.dragTransition" />
+<APIProperty name="DraggableProps.dragPropagation" />

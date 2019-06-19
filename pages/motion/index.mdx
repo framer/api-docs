@@ -157,7 +157,7 @@ import { motion } from "framer-motion"
 
 <div>
 
-`motion` components are the core of the Framer Motion API. There's a `motion` component for every HTML and SVG element. They work exactly the same, with added props that allow you to declaratively add animations and gestures.
+`motion` components are the core of the Framer Motion API. There's a `motion` component for every HTML and SVG element. They work exactly the same, with additional props that allow you to declaratively add animations and gestures.
 
 <CTA name="Learn More" link="/api/motion/component" />
 
@@ -168,10 +168,34 @@ import { motion } from "framer-motion"
 <motion.div animate={{ scale: 0.5 }} />
 ```
 
+### Animation
+
+<div>
+
+`motion` components are animated via the flexible `animate` prop. This can accept an object, variant label(s), or a reference to imperative animation controls.
+
+<CTA name="Learn More" link="/api/motion/animation" />
+
+</div>
+
+```jsx
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+}
+
+return (
+  <motion.div
+    initial="hidden"
+    animate="visible"
+    variants={variants}
+  />
+)
+```
+
 ---
 
 <!--
-  - Animations
   - Gestures
   - MotionValues
 -->
