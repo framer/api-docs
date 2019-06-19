@@ -27,6 +27,8 @@ export default Template
 
 Framer Motion extends the basic set of event listeners provided by React with a simple yet powerful set of UI gesture recognisers.
 
+It currently has support for hover, tap, pan and drag gesture detection. Each gesture has a series of event listeners LINK TO MOTION PROPS HERE that you can attach to your `motion` component.
+
 </div>
 
 ## Gesture-triggered animations
@@ -39,7 +41,10 @@ Framer Motion extends the basic set of event listeners provided by React with a 
 
 ```jsx
 <motion.button
-  whileHover={{ scale: 1.2, transition: { duration: 1 } }}
+  whileHover={{
+    scale: 1.2,
+    transition: { duration: 1 },
+  }}
   whileTap={{ scale: 0.9 }}
 />
 ```
@@ -62,13 +67,13 @@ Both props can be set either as a target of values to animate to, or the name of
 </motion.button>
 ```
 
-`motion` components automatically manage the interplay between the these gestures, so if both are defined and tapping ends, it'll animate either to the state defined in `whileHover`, or the component's original state, depending on whether the hover gesture is still active.
+`motion` components automatically manage the interplay between the these gestures. So for instance, if hovering starts and stops while the tap gesture is active, the tap gesture receives priority and any properties defined on both will remain in their tapped state.
 
-Likewise, if hovering start and stops while the tap gesture is active, the tap gesture gets priority and the `motion` component will know not to animate any values defined in tap.
+Likewise, if both gestures are defined and tapping ends, the component will know to animate either to the state defined in `whileHover`, or the component's original state, depending on whether tapping ends inside or outside of the component.
 
 ### A note on SVG filters
 
-The `while` helper properties won't work on SVG `filter` components, as these elements don't receive events. To respond to gestures, you need to introduce React state to the component and attach listeners to the physical element.
+The `while` helper properties won't work on SVG `filter` components, as these elements don't have a physical presence and therefore don't receive events. To respond to gestures, you need to introduce React state to the component and attach listeners to the physical element.
 
 ```jsx
 const MyComponent = () => {
@@ -92,3 +97,13 @@ const MyComponent = () => {
   )
 }
 ```
+
+## Hover
+
+The hover gesture differs from mouse events like `onMouseEnter` and `onMouseLeave` in that they're guaranteed to only fire as a result of actual mouse events (as opposed to browser-generated mice events emulated from touch input).
+
+## Tap
+
+## Pan
+
+## Drag

@@ -120,15 +120,201 @@ This is an array of the same length as the animation target with numbers between
 
 ## Variants
 
-Setting props directly is great for simple use cases.
+Target objects are useful for simple, single-component animations. But sometimes we want to create animations that propagate throughout the DOM, and orchestrate those animations in a declarative way. We can do so with variants.
+
+<div>
+
+Variants are sets of pre-defined target objects.
+
+</div>
+
+```jsx
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+}
+```
+
+<div>
+
+They're passed into `motion` components via the `variants` prop.
+
+</div>
+
+```jsx
+<motion.div variants={variants} />
+```
+
+<div>
+
+These variants can be referred to by label, whereever you can set an animation target.
+
+</div>
+
+```jsx
+<motion.div
+  initial="hidden"
+  animate="visible"
+  variants={variants}
+/>
+```
 
 ### Propagation
 
-Variants
+<div>
+
+If a `motion` component has children, changes in variant will flow down through the component hierarchy. These changes in variant will flow down until a child component defines its own `animate` property.
+
+</div>
+
+```jsx
+const list = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+}
+
+const items = {
+  visible: { opacity: 1, x: 0 },
+  hidden: { opacity: 0, x: -100 },
+}
+
+return (
+  <motion.ul
+    initial="hidden"
+    animate="visible"
+    variants={list}
+  >
+    <motion.li variants={item} />
+    <motion.li variants={item} />
+    <motion.li variants={item} />
+  </motion.ul>
+)
+```
+
+### Orchestration
+
+<div>
+
+By default, all these animations will start simultaneously. But by using variants, we gain access to extra `transition` props like `when`, `delayChildren`, and `staggerChildren` that can let parents orchestrate the execution of child animations.
+
+</div>
+
+```jsx
+const list = {
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.3,
+    },
+  },
+  hidden: {
+    opacity: 0,
+    transition: {
+      when: "afterChildren",
+    },
+  },
+}
+```
 
 ### Dynamic variants
 
+Each variant can be defined as a function that resolves when a variant is accessed. These variant functions are provided a single argument, which can be set in a component's `custom` prop.
+
+```jsx
+const variants = {
+  visible: i => ({
+    opacity: 1,
+    transition: {
+      delay: i * 0.3,
+    },
+  }),
+  hidden: { opacity: 0 },
+}
+
+return items.map((item, i) => (
+  <motion.li
+    custom={i}
+    animate="visible"
+    variants={variants}
+  />
+))
+```
+
 ## Animation controls
+
+Declarative animations are ideal for most UI interactions. But sometimes we need to orchestrate more complex sequences.
+
+The `useAnimation` hook can be used to create a set of imperative `AnimationControls` LINK TO ANIMATIONCONTROLS API with a `start` and `stop` method. These controls can be passed to **one or more** `motion` components via the `animate` prop.
+
+```jsx
+const MyComponent = () => {
+  const controls = useAnimation()
+
+  return <motion.div animate={controls} />
+}
+```
+
+### Starting an animation
+
+<div>
+
+Animations can be started with the `controls.start` method.
+
+</div>
+
+```jsx
+controls.start({
+  x: "100%",
+  backgroundColor: "#f00",
+  transition: { duration: 3 },
+})
+```
+
+`start` accepts either a `TargetAndTransition` or, if the component(s) it's provided to has a `variants` property set, a variant label.
+
+```jsx
+controls.start("hidden")
+```
+
+### Sequencing
+
+`start` returns a `Promise`, so it can be used to sequence animations using `await` or `then`.
+
+Different controls can be sequenced together, and these sequences can be composed into functions that themselves can then be sequenced.
+
+```jsx
+const sequence = async () => {
+  await menuControls.start({ x: 0 })
+  return await itemControls.start({ opacity: 1 })
+}
+```
+
+### Dynamic `start`
+
+`start` can also accept a function that can dynamically start each component the controls are bound to with a different animation definition.
+
+Custom data can be sent to this function via the component's `custom` prop.
+
+```jsx
+const controls = useAnimation()
+
+useEffect(() => {
+  controls.start(i => ({
+    opacity: 0,
+    x: 100,
+    transition: { delay: i * 0.3 },
+  }))
+}, [])
+
+return (
+  <ul>
+    <motion.li custom={0} animate={controls} />
+    <motion.li custom={1} animate={controls} />
+    <motion.li custom={2} animate={controls} />
+  </ul>
+)
+```
 
 ---
 
