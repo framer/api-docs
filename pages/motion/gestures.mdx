@@ -31,11 +31,11 @@ It currently has support for hover, tap, pan and drag gesture detection. Each ge
 
 </div>
 
-## Gesture-triggered animations
+## Animation helpers
 
 <div>
 
-`motion` components provide two convinience props, `whileHover` and `whileTap`, that can define animation targets to temporarily animate to while a gesture is active.
+`motion` components provide two helper props: `whileHover` and `whileTap`. These can define animation targets to temporarily animate to while a gesture is active.
 
 </div>
 
@@ -67,7 +67,7 @@ Both props can be set either as a target of values to animate to, or the name of
 </motion.button>
 ```
 
-`motion` components automatically manage the interplay between the these gestures. So for instance, if hovering starts and stops while the tap gesture is active, the tap gesture receives priority and any properties defined on both will remain in their tapped state.
+`motion` components automatically manage the interplay between the these `while` props. So for instance, if hovering starts and stops while the tap gesture is active, the tap gesture receives priority and any properties defined on both will remain in their tapped state.
 
 Likewise, if both gestures are defined and tapping ends, the component will know to animate either to the state defined in `whileHover`, or the component's original state, depending on whether tapping ends inside or outside of the component.
 
@@ -100,10 +100,71 @@ const MyComponent = () => {
 
 ## Hover
 
-The hover gesture differs from mouse events like `onMouseEnter` and `onMouseLeave` in that they're guaranteed to only fire as a result of actual mouse events (as opposed to browser-generated mice events emulated from touch input).
+<div>
+
+The hover gesture detects when a pointer hovers over or leaves a component.
+
+It differs from `onMouseEnter` and `onMouseLeave` in that hover is guaranteed to only fire as a result of actual mouse events (as opposed to browser-generated mice events emulated from touch input).
+
+</div>
+
+```jsx
+<motion.a
+  whileHover={{ scale: 1.2 }}
+  onHoverStart={e => {}}
+  onHoverEnd={e => {}}
+/>
+```
+
+<APIProperty name="HoverHandlers.whileHover" />
+<APIMethod name="HoverHandlers.onHoverStart()" />
+<APIMethod name="HoverHandlers.onHoverEnd()" />
 
 ## Tap
 
+<div>
+
+The tap gesture detects when a pointer presses down and releases on the same component.
+
+It fires an `tap` event when tapping successfully completes on an component, and a `tapCancel` event when tapping ends outside the component.
+
+If the tappable component is a child of a draggable component, it'll automatically cancel the tap gesture if the pointer moves further than 3 pixels during the gesture.
+
+</div>
+
+<APIProperty name="TapHandlers.whileTap" />
+<APIMethod name="TapHandlers.onTap()" />
+<APIMethod name="TapHandlers.onTapStart()" />
+<APIMethod name="TapHandlers.onTapCancel()" />
+
 ## Pan
 
+The pan gesture recognises when a pointer presses down on a component and moves further than 3 pixels. The pan gesture is ended when the pointer is released.
+
+```jsx
+<motion.div onPan={(e, pointInfo) => {}} />
+```
+
+<APIMethod name="PanHandlers.onPan()" />
+<APIMethod name="PanHandlers.onPanStart()" />
+<APIMethod name="PanHandlers.onPanEnd()" />
+
 ## Drag
+
+The drag gesture follows the rules of the pan gesture but applies pointer movement to the x and/or y axis of the component.
+
+```jsx
+<motion.div drag />
+```
+
+<APIProperty name="DraggableProps.drag" />
+<APIProperty name="DraggableProps.dragConstraints" />
+<APIProperty name="DraggableProps.dragElastic" />
+<APIProperty name="DraggableProps.dragMomentum" />
+<APIProperty name="DraggableProps.dragTransition" />
+<APIProperty name="DraggableProps.dragPropagation" />
+
+<APIMethod name="DragHandlers.onDrag()" />
+<APIMethod name="DragHandlers.onDragStart()" />
+<APIMethod name="DragHandlers.onDragEnd()" />
+<APIMethod name="DragHandlers.onDirectionLock()" />

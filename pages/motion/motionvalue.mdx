@@ -20,14 +20,15 @@ export default Template
 # MotionValue
 
 <span className="lead">
-  Create declarative relationships between MotionValues.
+  MotionValues track the state and velocity of animating
+  values.
 </span>
 
 <div>
 
-All `motion` components in Framer Motion use `MotionValue`s to track the state and velocity of a changing value (for instance `opacity` or `x`).
+All `motion` components internally use `MotionValue`s to track the state and velocity of an animating value.
 
-Usually, these are created automatically. But for advanced use-cases, it is possible to create these manually and inject them into `motion` components via the `style` tag.
+Usually, these are created automatically. But for advanced use-cases, it is possible to create them manually and inject them into `motion` components.
 
 </div>
 
@@ -46,9 +47,8 @@ By manually creating `MotionValue`s you can:
 
 - Set and get their state.
 - Pass to multiple components to synchronise motion across them.
-- Derive new `MotionValue`s with the `useTransform` hook.
-
-Using `MotionValue`s instead of React state allows you to update the visual properties of your website without triggering React's render cycle.
+- Chain `MotionValue`s via the `useTransform` hook.
+- Update visual properties without triggering React's render cycle.
 
 </div>
 
@@ -60,6 +60,91 @@ const opacity = useTransform(x, input, output)
 
 return <motion.div drag="x" style={{ x, opacity }} />
 ```
+
+---
+
+## Overview
+
+`MotionValue`s can be created with the `useMotionValue` hook.
+
+```jsx
+const x = useMotionValue(0)
+```
+
+The value passed to `useMotionValue` will act as the **initial state** of the `MotionValue`.
+
+It can be updated with the `set` method. This **won't** trigger a React re-render.
+
+```jsx
+x.set(100)
+```
+
+A `MotionValue` can be **any string or number**. We can read the value with the `get` method.
+
+```jsx
+x.get() // 100
+```
+
+`MotionValue`s containing a single number can return a velocity via the `getVelocity` method. This returns the velocity as calculcated **per second** to account for variations in frame rate across devices.
+
+```jsx
+x.getVelocity()
+```
+
+If a `MotionValue` contains a color, or more than one number, `getVelocity` will always return `0`.
+
+### Injecting `MotionValue`s
+
+Once a `MotionValue` has been created, it can be injected into the `motion` component in the same way you'd usually set that visual property.
+
+For HTML components, that's via the `style` attribute.
+
+```jsx
+const x = useMotionValue(0)
+
+return <motion.div style={{ x }} />
+```
+
+For SVG components, that's directly into the attribute itself.
+
+```jsx
+const cx = useMotionValue(0)
+
+return <motion.circle cx={cx} />
+```
+
+It is possible to inject a single `MotionValue` into **one or more components**. Changes in the `MotionValue` will be reflected in all the components.
+
+### Responding to changes
+
+Listeners can be added to `MotionValue`s with the `onChange` method. `onChange` returns an unsubscribe method, so it works quite naturally with `useEffect`.
+
+```jsx
+useEffect(() => x.onChange(latest => {}), [])
+```
+
+### Creating child `MotionValue`s
+
+Any `MotionValue` can spawn children `MotionValue`s that update whenever their parent does. This allows the creation of value chains for declarative effects.
+
+Using the `useTransform` hook, we can pass the latest value through an update function that can take the latest parent value and transform it before returning it to update the child.
+
+```jsx
+const y = useTransform(x, latest => latest * 2)
+```
+
+`useTransform` can also accept value ranges that can map from a **linear series of numbers** into **non-linear series of numbers, colors or complex string**.
+
+```jsx
+const xInput = [-100, 0, 100]
+const opacityOutput = [0, 1, 0]
+const colorOutput = ["#f00", "#fff", "#0f0"]
+
+const opacity = useTransform(x, xInput, opacityOutput)
+const color = useTransform(x, xInput, colorOutput)
+```
+
+These child components can be used exactly like the parents. They can be passed to the same component, a different component, or multiple other components.
 
 ---
 
@@ -83,9 +168,9 @@ return <motion.div drag="x" style={{ x, opacity }} />
 
 ---
 
-## MotionValue
+## MotionValue API
 
-A created `MotionValue` has the following methods, with which you can query and affect its state.
+A `MotionValue` has the following methods, with which you can query use to affect its state.
 
 <APIFunction name="MotionValue.get()" />
 <APIFunction name="MotionValue.getVelocity()" />
