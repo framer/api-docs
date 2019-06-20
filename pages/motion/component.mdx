@@ -123,7 +123,7 @@ Transform properties are accelerated by the GPU, and therefore animate smoothly.
 
 For convenience, transform values are applied in a specific order: translate, scale, rotate, skew.
 
-However, you can customise this default order using the `transformTemplate` prop.
+However, you can customise this default order using the [`transformTemplate` prop](#motionprops.transformtemplate).
 
 </div>
 
@@ -228,7 +228,7 @@ These are all set as a value between `0` and `1`, where `1` is the measured leng
 
 Framer Motion animates values outside the React render cycle for increased performance.
 
-Using `MotionValue`s LINK TO MOTION VALUES instead of state to update visual properties will also avoid re-renders.
+[Using `MotionValue`s](/api/motion/motionvalue) instead of state to update visual properties will also avoid re-renders.
 
 Where possible, animate just [transform values](#transform) and opacity, as they are GPU-accelerated. This way, you can animate hundreds of layers on modern mobile devices.
 
