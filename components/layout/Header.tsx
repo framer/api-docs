@@ -1,7 +1,9 @@
 import * as React from "react"
 import styled, { keyframes } from "styled-components"
+import { Dynamic } from "monobase"
 import { desktop, widescreen, mobile } from "./Breakpoints"
 import { Permalink } from "./Permalink"
+import { isMotion } from "../utils/env"
 
 const Background = styled.div<{ height?: number; internal?: boolean }>`
     display: flex;
@@ -67,20 +69,12 @@ export const IconWrapperTwo = styled.section`
     transform: translateY(-15px);
     -webkit-animation: ${animation} 1s cubic-bezier(0.445, 0.05, 0.55, 0.95) -0.15s infinite alternate;
     animation: ${animation} 1s cubic-bezier(0.445, 0.05, 0.55, 0.95) -0.15s infinite alternate;
-
-    svg path {
-        fill: #adf;
-    }
 `
 
 export const IconWrapperThree = styled.section`
     transform: translateY(-15px);
     -webkit-animation: ${animation} 1s cubic-bezier(0.445, 0.05, 0.55, 0.95) -0.3s infinite alternate;
     animation: ${animation} 1s cubic-bezier(0.445, 0.05, 0.55, 0.95) -0.3s infinite alternate;
-
-    svg path {
-        fill: #fff;
-    }
 `
 export const Stack = styled.div`
     width: 252px;
@@ -140,6 +134,10 @@ export const EmbeddedDemo: React.FunctionComponent = (props: any) => {
     )
 }
 
+const libraryHeaderColors = { a: "#09f", p: "#0bf", i: "#fff" }
+const motionHeaderColors = { a: "#95f", p: "#fcf", i: "#fff" }
+const headerColors = isMotion() ? motionHeaderColors : libraryHeaderColors
+
 export const Header: React.FunctionComponent = () => {
     return (
         <BackgroundLogo className="header">
@@ -147,8 +145,8 @@ export const Header: React.FunctionComponent = () => {
                 <IconWrapper>
                     <svg xmlns="http://www.w3.org/2000/svg" width="72" height="60">
                         <g>
-                            <path d="M 72 60 L 36 60 L 36 0 Z" fill="rgba(0, 153, 255, 1.00)" opacity="0.5" />
-                            <path d="M 36 60 L 0 60 L 36 0 Z" fill="rgba(0, 153, 255, 1.00)" />
+                            <path d="M 72 60 L 36 60 L 36 0 Z" fill={headerColors.a} opacity="0.5" />
+                            <path d="M 36 60 L 0 60 L 36 0 Z" fill={headerColors.a} />
                         </g>
                     </svg>
                 </IconWrapper>
@@ -156,10 +154,10 @@ export const Header: React.FunctionComponent = () => {
                 <IconWrapperTwo>
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="60">
                         <g>
-                            <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="#0bf" opacity="0.5" />
+                            <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill={headerColors.p} opacity="0.5" />
                             <path
                                 d="M 0 0 L 30 0 C 41.046 0 50 8.954 50 20 L 50 20 C 50 31.046 41.046 40 30 40 L 0 40 Z"
-                                fill="#0bf"
+                                fill={headerColors.p}
                             />
                         </g>
                     </svg>
@@ -167,7 +165,7 @@ export const Header: React.FunctionComponent = () => {
 
                 <IconWrapperThree>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="60">
-                        <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="rgba(255, 255, 255, 1.00)" />
+                        <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill={headerColors.i} />
                     </svg>
                 </IconWrapperThree>
             </Stack>
