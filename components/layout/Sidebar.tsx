@@ -1,28 +1,45 @@
 import * as React from "react"
-import { Navigation } from "../Navigation"
 import styled from "styled-components"
 import { Dynamic } from "monobase"
 import { tablet } from "./Breakpoints"
+import { Navigation } from "../Navigation"
 import { menuTextColor } from "../theme"
 import { version as libraryVersion } from "framer/package.json"
 import { version as motionVersion } from "framer-motion/package.json"
 import { isMotion } from "../utils/env"
+import { motion } from "framer"
 
-const Home = styled.div`
+const libraryUrl = "/api/"
+const motionUrl = "/api/motion/"
+
+const SideBarHeader = styled.div`
     display: flex;
     height: 60px;
     place-items: center;
-    margin-bottom: 20px;
     border-bottom: 1px solid #eee;
     padding: 15px 20px;
 
-    a {
-        color: ${menuTextColor};
+    &:not(:first-child) {
+        margin-bottom: 20px;
+
+        @media (max-width: ${tablet}) {
+            margin-bottom: 0;
+        }
     }
 
-    @media (max-width: ${tablet}) {
-        padding: 15px 20px;
-        margin-bottom: 0;
+    a {
+        font-size: 15px;
+        font-weight: 500;
+        color: ${menuTextColor};
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: #05f;
+        }
+    }
+
+    path {
+        fill: currentColor;
     }
 `
 
@@ -98,7 +115,7 @@ const MobileToggle: React.FunctionComponent = () => {
     )
 }
 
-const DynamicMobileToggle = Dynamic(MobileToggle)
+export const DynamicMobileToggle = Dynamic(MobileToggle)
 
 const VersionBadgeBackground = styled.div`
     position: absolute;
@@ -134,8 +151,8 @@ function formatVersion(str: string): string {
 
 export const Sidebar: React.FunctionComponent = () => (
     <SideBarWrapper className="side-bar-wrapper">
-        <Home>
-            <a href={isMotion() ? "/api/motion/" : "/api/"}>
+        <SideBarHeader>
+            <a href={isMotion() ? motionUrl : libraryUrl}>
                 <Icon>
                     <svg style={{ marginRight: "10px" }} xmlns="http://www.w3.org/2000/svg" width="10" height="15">
                         <path
@@ -149,7 +166,10 @@ export const Sidebar: React.FunctionComponent = () => (
             <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
 
             <DynamicMobileToggle />
-        </Home>
+        </SideBarHeader>
+        <SideBarHeader>
+            <a href={isMotion() ? libraryUrl : motionUrl}>{`Framer ${isMotion() ? "Library" : "Motion"} ›`}</a>
+        </SideBarHeader>
 
         <Navigation />
     </SideBarWrapper>

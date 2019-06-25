@@ -1,6 +1,5 @@
 import * as React from "react"
 import styled, { keyframes } from "styled-components"
-import { Dynamic } from "monobase"
 import { desktop, widescreen, mobile } from "./Breakpoints"
 import { Permalink } from "./Permalink"
 import { isMotion } from "../utils/env"
