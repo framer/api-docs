@@ -133,7 +133,7 @@ export const EmbeddedDemo: React.FunctionComponent = (props: any) => {
     )
 }
 
-const libraryHeaderColors = { a: "#09f", p: "#0bf", i: "#fff" }
+const libraryHeaderColors = { a: "#09f", p: "#adf", i: "#fff" }
 const motionHeaderColors = { a: "#95f", p: "#fcf", i: "#fff" }
 const headerColors = isMotion() ? motionHeaderColors : libraryHeaderColors
 
