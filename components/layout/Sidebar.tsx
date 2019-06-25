@@ -135,10 +135,13 @@ function formatVersion(str: string): string {
 export const Sidebar: React.FunctionComponent = () => (
     <SideBarWrapper className="side-bar-wrapper">
         <Home>
-            <a href="/api/">
+            <a href={isMotion() ? "/api/motion/" : "/api/"}>
                 <Icon>
                     <svg style={{ marginRight: "10px" }} xmlns="http://www.w3.org/2000/svg" width="10" height="15">
-                        <path d="M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z" fill="rgba(0, 0, 0, 1.00)" />
+                        <path
+                            d={isMotion() ? "M0 0l5 5 5-5v10H0zm5 10l5 5H0z" : "M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z"}
+                            fill="#000"
+                        />
                     </svg>
                 </Icon>
                 <span style={{ fontWeight: 600, paddingTop: "3px", letterSpacing: "-0.5px" }}>API</span>
