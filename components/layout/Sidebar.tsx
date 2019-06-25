@@ -4,8 +4,9 @@ import styled from "styled-components"
 import { Dynamic } from "monobase"
 import { tablet } from "./Breakpoints"
 import { menuTextColor } from "../theme"
-
-import { version } from "framer/package.json"
+import { version as libraryVersion } from "framer/package.json"
+import { version as motionVersion } from "framer-motion/package.json"
+import { isMotion } from "../utils/env"
 
 const Home = styled.div`
     display: flex;
@@ -123,12 +124,12 @@ const VersionBadge: React.FunctionComponent<{ version: string }> = props => {
 function formatVersion(str: string): string {
     function formatPrerelease(str: string): string {
         if (str.length === 0) return str
-        const [name, ...rest] = str.split('.')
-        return (name[0].toUpperCase() + name.slice(1)) + ' ' + rest.join('.')
+        const [name, ...rest] = str.split(".")
+        return name[0].toUpperCase() + name.slice(1) + " " + rest.join(".")
     }
 
-    const [version, ...prerelease] = str.split('-')
-    return version + ' ' + formatPrerelease(prerelease.join('-'))
+    const [version, ...prerelease] = str.split("-")
+    return version + " " + formatPrerelease(prerelease.join("-"))
 }
 
 export const Sidebar: React.FunctionComponent = () => (
@@ -142,7 +143,7 @@ export const Sidebar: React.FunctionComponent = () => (
                 </Icon>
                 <span style={{ fontWeight: 600, paddingTop: "3px", letterSpacing: "-0.5px" }}>API</span>
             </a>
-            <VersionBadge version={formatVersion(version)} />
+            <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
 
             <DynamicMobileToggle />
         </Home>
