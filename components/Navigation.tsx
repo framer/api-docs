@@ -13,6 +13,7 @@ const MotionMenu = () => {
             <MenuItem className="animation" href="/pages/motion/animation.mdx" title="Animation" />
             <MenuItem className="gestures" href="/pages/motion/gestures.mdx" title="Gestures" />
             <MenuItem className="motionvalue" href="/pages/motion/motionvalue.mdx" title="MotionValue" />
+            <MenuItem className="utilities" href="/pages/motion/utilities.mdx" title="Utilities" />
             <MenuItem className="types" href="/pages/motion/types.mdx" title="Types" />
         </Menu>
     )
