@@ -46,11 +46,11 @@ in the GitHub repository and clicking the "Create new file" button.
 ![Create New File](https://static.framer.com/repos/contributing/new-file-ui.png)
 
 Give your file a name with the `.mdx` file extension, for example (color.mdx).
-You'll then need to include the generic boilerplace for a page.
+You'll then need to include the generic boilerplate for a page.
 
 ```tsx
 import { Template } from "../components/Template"
-export default Template
+export default Template('Page title')
 
 ## <Insert Page Title>
 ```
@@ -61,7 +61,7 @@ Add the rest of your content and follow the same publish steps outlined above.
 
 We support adding code examples. Just use the markdown syntax for a code
 block, three back-ticks followed by the language (e.g `jsx`, the documentation should
-always use JavaScript for all examples). For example, the `Color()` function allows 
+always use JavaScript for all examples). For example, the `Color()` function allows
 you to work with and manipulate colors:
 
     ```jsx
@@ -213,5 +213,5 @@ with the grid system.
 ## Layout and Formatting
 
 Each high level module that we want to document should have a corresponding file in the **pages**
-directory. We also need to keep the table of contents in the 
+directory. We also need to keep the table of contents in the
 [Navigation.tsx](./components/Navigation.tsx) file up-to-date.

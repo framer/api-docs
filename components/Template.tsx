@@ -7,6 +7,7 @@ import styled from "styled-components"
 import { tablet, mobile } from "./layout/Breakpoints"
 import { Markdown } from "./layout/Markdown"
 import { GoogleTag } from "./GoogleTag"
+import { isMotion } from "./utils/env"
 
 const Body = styled.body`
     font-family: Colfax, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
@@ -101,16 +102,13 @@ const EditButton = styled.a`
         display: none;
     }
 `
-
 /** Template ONLY for mdx files. It does custom processing of the children. */
-export const Template: React.FunctionComponent<{ title?: string }> = ({ title, children }) => {
-    return (
-        <Page title={title}>
-            <Markdown>{children}</Markdown>
-            <Codebar className="codebar" />
-        </Page>
-    )
-}
+export const Template = (title: string): React.FunctionComponent => ({ children }) => (
+    <Page title={title}>
+        <Markdown>{children}</Markdown>
+        <Codebar className="codebar" />
+    </Page>
+)
 
 /** Base HTML markup for the page. */
 export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean }> = ({
@@ -120,6 +118,10 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
 }) => {
     // Use context gives the file path
     const path = "https://github.com/framer/api-docs/edit/master/" + useContext().path
+    let pageTitle = isMotion() ? `Framer Motion API` : `Framer API`
+    if (title) {
+        pageTitle += ` | ${title}`
+    }
 
     // Use path gives the page name
     if (showEdit === undefined) {
@@ -156,7 +158,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
             <FramerAPIDefaultProvider>
                 <head>
                     <meta charSet="utf-8" />
-                    <title>{`Framer API${title ? ` ${title}` : ""}`}</title>
+                    <title>{pageTitle}</title>
                     <link rel="stylesheet" href={urlFor("/static/styles/fonts.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/highlight.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/reset.css")} />
