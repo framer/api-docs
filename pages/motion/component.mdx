@@ -102,7 +102,8 @@ However, HTML component's `x`, `y`, `width`, `height`, `top`, `left`, `right` an
 
 Transform properties are accelerated by the GPU, and therefore animate smoothly. They can be set and animated individually as:
 
-- Translate: `x`, `y`, `z`
+- Translate shortcuts: `x`, `y`, `z`
+- Translate: `translateX`, `translateY`, `translateZ`
 - Scale: `scale`, `scaleX`, `scaleY`
 - Rotate: `rotate`, `rotateX`, `rotateY`, `rotateZ`
 - Skew: `skew`, `skewX`, `skewY`
@@ -141,6 +142,8 @@ return (
 )
 ```
 
+**SVG note:** For SVG components, `x` and `y` are positional attributes distinct from `translateX` and `translateY`. Using the former will change the element's `x`/`y` attributes, while using the latter will set its `style.transform` property.
+
 ### Transform origin
 
 <div>
@@ -167,7 +170,7 @@ Framer Motion can animate the value of CSS variables, and also read CSS variable
 
 <div>
 
-`motion` components can animate to and from CSS variables, as long as that variable is defined on a component ancestor.
+HTML `motion` components can animate to and from CSS variables, as long as that variable is defined on a component ancestor.
 
 </div>
 
@@ -238,6 +241,35 @@ Where possible, animate just [transform values](#transform) and opacity, as they
 
 // CPU drawing (slower)
 <motion.div style={{ left: 0 }} animate={{ left: 100 }} />
+```
+
+---
+
+### Server-side rendering
+
+`motion` components are fully compatible with server-side rendering, meaning the initial state of a component will be reflected in the server-generated output.
+
+```jsx
+// Server will output `translateX(100px)`
+<motion.div initial={false} animate={{ x: 100 }} />
+```
+
+#### Exceptions
+
+The following SVG values are not currently compatible with server-side rendering: `scale`, `rotate`, `pathLength`, `pathOffset` and `pathSpacing`.
+
+`scale` and `rotate` rely on the dynamic calculation of `transformOrigin` - `originX` and `originY` should be set as strings (either `px` or `%`) to support these server side.
+
+```jsx
+<motion.circle
+  style={{ scale: 2, originX: "100px", originY: "100px" }}
+/>
+```
+
+`path` values rely on the measurement of the overall path length. Setting `strokeDasharray` to `0` will hide the path until Framer Motion can measure it.
+
+```jsx
+<motion.path strokeDasharray={0} />
 ```
 
 ---
