@@ -1,6 +1,12 @@
 <!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
 
-import { Template, Button } from "../../components"
+import {
+  Template,
+  Button,
+  EmbeddedExample,
+} from "../../components"
+
+import { MotionExample } from "../../components/examples/motion"
 
 export default Template("Examples")
 
@@ -25,6 +31,10 @@ The `Frame` is a basic container for layout, styling, animation and events. It�
 />
 
 </div>
+
+<EmbeddedExample background="#05f">
+  <MotionExample />
+</EmbeddedExample>
 
 ```jsx highlight(6)
 import * as React from "react"
