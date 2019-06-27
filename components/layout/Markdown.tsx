@@ -100,10 +100,11 @@ export const Markdown: React.FunctionComponent = ({ children }) => {
             // Peek at the item preceding the code block to see if we should include it.
             // otherwise we'll have a standalone grid.
             const next = contents[0]
-            if (shouldPairWithCodeExample(next)) {
+            const [shoudlPairWithCode, pairTag] = getPairWithCodeExample(next)
+            if (shoudlPairWithCode) {
                 add(contents.shift())
             }
-            close("code")
+            close(pairTag ? "code grid-example" : "code")
         } else if (isSeparator(child)) {
             // Avoids wrapping grid divs around HR tags for custom separators.
             close()
@@ -131,6 +132,10 @@ function isAPIElement(node: React.ReactNode): node is React.ReactElement<any> {
 
 function isEmbeddedDemo(node: React.ReactNode): node is React.ReactElement<any> {
     return React.isValidElement(node) && typeof node.type === "function" && node.type.name === "EmbeddedDemo"
+}
+
+function isEmbeddedExample(node: React.ReactNode): node is MDXElement {
+    return React.isValidElement(node) && typeof node.type === "function" && node.type.name === "EmbeddedExample"
 }
 
 function isMDXElement(node: React.ReactNode): node is MDXElement {
@@ -166,9 +171,15 @@ function shouldPairWithCodeExample(node: React.ReactNode): node is MDXElement {
     const supported = new Set(["p", "div"])
     return (
         isHeading(node) ||
+        isEmbeddedExample(node) ||
         (isMDXElement(node) && supported.has(getMDXTag(node))) ||
         (isDOMElement(node) && supported.has(node.type))
     )
+}
+
+function getPairWithCodeExample(node: React.ReactNode): [boolean, string | boolean] {
+    const tag = (isMDXElement(node) && getMDXTag(node)) || (isDOMElement(node) && node.type)
+    return [shouldPairWithCodeExample(node), tag]
 }
 
 function isHeading(node: React.ReactNode): node is MDXElement {

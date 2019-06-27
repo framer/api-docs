@@ -51,6 +51,9 @@ const GridDiv = styled.div`
     &.grid-code + .grid-code {
         margin-top: 30px;
     }
+    &.grid-example {
+        margin: 30px 0;
+    }
 
     div + div {
         margin-top: 30px;
