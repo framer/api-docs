@@ -16,7 +16,7 @@ GENERATOR_DEPENDENCIES := "$(FRAMER_LIBRARY_DIR)/$(FRAMER_LIBRARY_JSON)" "$(FRAM
 usage:
 	@echo "Usage: make <command>"
 	@echo "    bootstrap - installs project dependencies"
-	@echo "    serve - runs a development server"
+	@echo "    dev - runs a development server (alias: serve)"
 	@echo "    build [BUILD_DIR=<path>] - generates a static site in the build directory"
 	@echo "    verify-api-references [BUILD_DIR=<path>] - checks for missing API references in the HTML reports an error if found"
 	@echo "    publish - generates a build for publishing to production"
@@ -39,12 +39,15 @@ node_modules/.yarn-integrity: yarn.lock package.json
 .PHONY: bootstrap
 bootstrap: node_modules/.yarn-integrity
 
-.PHONY: serve
-serve: bootstrap data
+.PHONY: dev
+dev: bootstrap data changelog
 	@$(monobase) serve --project=. --prefix=/api
 
+.PHONY: serve
+serve: dev
+
 .PHONY: build
-build: bootstrap data
+build: bootstrap data changelog
 	@$(monobase) build --project=. --path=$(BUILD_DIR)
 	@$(node) ./api/linkify.ts ${BUILD_DIR}/**/*.html
 
@@ -53,7 +56,7 @@ verify-api-references:
 	@!(grep --count data-missing-model $(BUILD_DIR)/**/*.html) || (echo "Build has missing API references. See above output for file paths" && exit 1)
 
 .PHONY: publish
-publish: bootstrap data
+publish: bootstrap data changelog
 	# Using /api for framer.com
 	@$(monobase) build --project=. --path=build --prefix=/api
 	@$(node) ./api/linkify.ts build/api/**/*.html
@@ -111,6 +114,15 @@ components/framer.data.ts: bootstrap $(wildcard api/*)
 	done
 	@cat <(printf "export default ") <($(node) ./api/generator.ts $(GENERATOR_DEPENDENCIES)) > "$@.tmp"
 	@mv -f "$@.tmp" "$@"
+
+pages/changelog.mdx: bootstrap node_modules/framer/CHANGELOG.md
+	@echo 'import { Changelog } from "../components/Changelog"' > "$@"
+	@echo 'export default Changelog' >> "$@"
+	@echo '' >> "$@"
+	@cat node_modules/framer/CHANGELOG.md >> "$@"
+
+.PHONY: changelog
+changelog: pages/changelog.mdx
 
 api/__fixtures__/example.data.ts: api/__fixtures__/example.api.json
 	@cat <(printf "export default ") <($(node) ./api/generator.ts $<) > "$@"

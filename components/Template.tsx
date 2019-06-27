@@ -107,6 +107,7 @@ export const Template: React.FunctionComponent<{ title?: string }> = ({ title, c
     return (
         <Page title={title}>
             <Markdown>{children}</Markdown>
+            <Codebar className="codebar" />
         </Page>
     )
 }
@@ -143,7 +144,6 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
                 ) : null}
 
                 {children}
-                <Codebar className="codebar" />
             </Main>
             {/* The Development component adds auto reloading */}
             <Development />
@@ -156,7 +156,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
             <FramerAPIDefaultProvider>
                 <head>
                     <meta charSet="utf-8" />
-                    <title>Framer API{title ? <> {title}</> : null}</title>
+                    <title>{`Framer API${title ? ` ${title}` : ""}`}</title>
                     <link rel="stylesheet" href={urlFor("/static/styles/fonts.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/highlight.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/reset.css")} />

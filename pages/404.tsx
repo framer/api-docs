@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import { Page } from "../components/Template"
+import { Codebar } from "../components/layout/Codebar"
 import { MarkdownStyles, InlineButton, Grid, Center } from "components"
 
 export default function render() {
@@ -33,6 +34,7 @@ export default function render() {
                     </svg>
                 </Center>
             </Grid>
+            <Codebar />
         </Page>
     )
 }
