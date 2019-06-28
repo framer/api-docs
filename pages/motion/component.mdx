@@ -186,7 +186,7 @@ By defining and animating CSS variables, we can use a parent `motion` component 
 
 When animating CSS variables in TypeScript, the prop will need to be cast as `any` to prevent type errors (as there's an infinite number of variable names).
 
-Also, as CSS variables are arbitrary, Framer Motion can't infer their default type. So you're able to animate `rotate` as a number because Framer Motion understands that it should be set in `deg`, whereas `'--rotate'` needs to be set as `'360deg'`.
+CSS variables are also of an arbitary type, so Framer Motion can't infer their default type. You're able to animate `rotate` as a number because Motion understands that it should be set as `deg`, whereas `'--rotate'` needs to be explicitly set with the unit type, e.g. `'360deg'`.
 
 </div>
 
@@ -266,10 +266,10 @@ The following SVG values are not currently compatible with server-side rendering
 />
 ```
 
-`path` values rely on the measurement of the overall path length. Setting `strokeDasharray` to `0` will hide the path until Framer Motion can measure it.
+`path` values rely on the measurement of the overall path length. Setting `strokeDasharray` to `"0 1"` will hide the path until Framer Motion can measure it.
 
 ```jsx
-<motion.path strokeDasharray={0} />
+<motion.path strokeDasharray="0 1" />
 ```
 
 ---

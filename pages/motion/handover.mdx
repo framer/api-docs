@@ -17,86 +17,85 @@ import {
 
 export default Template("Handover from Framer X")
 
-# Animation
+# Handover from Framer X
 
 <span className="lead">
-  A set of properties and helpers for high-performance,
-  declarative animations.
+  A guide on how to convert interactive Framer X prototypes
+  into production.
 </span>
 
-<div>
+Framer Motion is the library driving Framer X's animation and gesture capabilities, so converting prototypes into production-level code is usually straightforward.
 
-Animations in Framer are primarily controlled via the `Frame` component. The key properties are `animate` and `transition`, which take a variety of options to customize animations. All the animation properties and helpers are included when you import `Frame`, with the exception of `useCycle`.
-You can find all the `Frame` animation properties and methods [here](../frame/#animation).
+In this guide we'll cover the main differences between the libraries.
 
-</div>
+## Striking a balance
+
+Every API has to strike a balance between simplicity, flexibility, performance, file-size, and more.
+
+That ideal balance is different depending on whether our code is being used in a prototype, or being deployed in a production environment. Whether it's bei9ng consumed by a designer, or a developer. This is why Framer Motion presents a different API than Framer Library.
+
+## Frame vs Motion components
+
+The single biggest difference between the two APIs is that in Framer Library the fundamental building block is a `Frame`, while Framer Motion uses `motion` components.
+
+A `Frame` is always a `div`, and offers a number of top-level convenience style props like `x`. It also makes big assumptions about the `div`'s default styles, like `position: "absolute"` and `width: 100`.
 
 ```jsx
-import * as React from "react"
-import { Frame } from "framer"
-
-export function MyComponent() {
-  return (
-    <Frame
-      animate={{ rotate: 360 }}
-      transition={{ duration: 2 }}
-    />
-  )
-}
+<Frame x={100} />
 ```
 
----
+For a semantic web, there's a `motion` component for every valid HTML and SVG element. They offer the same animation and gesture API as a `Frame` as well as individual transform shortcuts like `x` and `scale`, but they're otherwise identical to their underlying element.
 
-## Overview
+```jsx
+<motion.div style={{ x: 100 }} />
+```
 
-### Frame
+## MotionValues
 
-<div>
+With a `Frame`, `MotionValue`s are injected where you'd statically set a visual prop, which is usually via the top-level props.
 
-Most animations are controlled via the `Frame` component, where you can set animations, options and listen for updates. The specific `Frame` properties relating to animations are linked to below.
+```jsx
+const x = useMotionValue(0)
 
-</div>
+return <Frame x={x} />
+```
 
----
+The same is true for `motion` components. So for HTML components, this is via the `style` property.
 
-## Tween
+```jsx
+const x = useMotionValue(0)
 
-An animation that animates between two or more values over a specific `duration` of `time`. This is the default animation for non-physical values like color and opacity.
+<motion.div style={{ x }} />
+```
 
-<APIProperty name="Tween.type" />
-<APIProperty name="Tween.duration" />
-<APIProperty name="Tween.ease" />
+For SVG, via the prop or `style` property.
 
-<div>
-  <p>
-    These strings are the built-in named easing functions in
-    Framer.
-  </p>
-</div>
+```jsx
+const cx = useMotionValue(0)
+const scale = useMotionValue(1)
+const originX = useMotionValue(0.5)
 
-- `"linear"`
-- `"easeIn"`, `"easeOut"`, `"easeInOut"`
-- `"circIn"`, `"circOut"`, `"circInOut"`
-- `"backIn"`, `"backOut"`, `"backInOut"`
-- `"anticipate"`
+<motion.circle cx={cx} style={{ scale, originX }} />
+```
 
----
+## Color support
 
-<APIProperty name="Tween.easings" />
-<APIProperty name="Tween.from" />
-<APIProperty name="Tween.loop" />
-<APIProperty name="Tween.yoyo" />
-<APIProperty name="Tween.times" />
-<APIProperty name="Tween.flip" />
+Framer Library offers the `Color` primitive. This allows animation between named colors, and/or different types of color (ie RGBA to HSLA).
 
-## Spring
+```jsx
+<Frame
+  initial={{ backgroundColor: Color("red") }}
+  animate={{ backgroundColor: Color("#fff") }}
+/>
+```
 
-An animation that simulates spring physics for realistic motion. This is the default animation for physical values like `x`, `y`, `scale` and `rotate`.
+The code that interpolates between different color spaces is quite large. It's useful in a prototype environment but in production style guides and design systems usually define colors in a single color space.
 
-<APIProperty name="Spring.type" />
-<APIProperty name="Spring.damping" />
-<APIProperty name="Spring.mass" />
-<APIProperty name="Spring.stiffness" />
-<APIProperty name="Spring.velocity" />
-<APIProperty name="Spring.restSpeed" />
-<APIProperty name="Spring.restDelta" />
+For this reason Framer Motion only supports animating colors between RGBA/Hex, **or** HSLA. It also doesn't support the animation of named colors.
+
+```jsx
+<motion.div
+  initial={{ backgroundColor: "#f00" }}
+  animate={{ backgroundColor: "#fff" }}
+/>
+```
