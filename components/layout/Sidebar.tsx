@@ -154,9 +154,18 @@ export const Sidebar: React.FunctionComponent = () => (
         <SideBarHeader>
             <a href={isMotion() ? motionUrl : libraryUrl}>
                 <Icon>
-                    <svg style={{ marginRight: "10px" }} xmlns="http://www.w3.org/2000/svg" width="10" height="15">
+                    <svg
+                        style={{ marginRight: "10px" }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={isMotion() ? 13 : 10}
+                        height={15}
+                    >
                         <path
-                            d={isMotion() ? "M0 0l5 5 5-5v10H0zm5 10l5 5H0z" : "M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z"}
+                            d={
+                                isMotion()
+                                    ? "M0 14V1l6.5 6.5L13 1v13l-3.25-3.25L6.5 14l-3.25-3.25z"
+                                    : "M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z"
+                            }
                             fill="#000"
                         />
                     </svg>
