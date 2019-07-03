@@ -7,14 +7,18 @@ const MotionMenu = () => {
         <Menu>
             <SubTitle name="Get Started" />
             <MenuItem className="home" href="/pages/motion/index.mdx" title="Introduction" />
+            <MenuItem className="examples" href="/pages/motion/examples.mdx" title="Examples" />
 
-            <SubTitle name="Motion API" />
-            <MenuItem className="components" href="/pages/motion/component.mdx" title="Motion components" />
+            <SubTitle name="API" />
             <MenuItem className="animation" href="/pages/motion/animation.mdx" title="Animation" />
             <MenuItem className="gestures" href="/pages/motion/gestures.mdx" title="Gestures" />
             <MenuItem className="motionvalue" href="/pages/motion/motionvalue.mdx" title="MotionValue" />
             <MenuItem className="utilities" href="/pages/motion/utilities.mdx" title="Utilities" />
             <MenuItem className="types" href="/pages/motion/types.mdx" title="Types" />
+
+            <SubTitle name="Components" />
+            <MenuItem className="motion" href="/pages/motion/component.mdx" title="motion" />
+            <MenuItem className="animatepresence" href="/pages/motion/animatepresence.mdx" title="AnimatePresence" />
 
             <SubTitle name="Guides" />
             <MenuItem className="handover" href="/pages/motion/handover.mdx" title="Handover from Framer X" />

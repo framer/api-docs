@@ -6,7 +6,16 @@ import {
   EmbeddedExample,
 } from "../../components"
 
-import { MotionExample } from "../../components/examples/motion"
+import {
+  AnimationBasicExample,
+  AnimationKeyframesExample,
+  AnimationVariantsExample,
+  GestureAnimationShortcuts,
+  GestureDrag,
+  MotionValueSVG,
+  MotionValueUseSpring,
+  ViewportScroll,
+} from "../../components/examples/motion"
 
 export default Template("Examples")
 
@@ -19,30 +28,236 @@ export default Template("Examples")
 
 ---
 
-## Frame
+## Animation
 
 <div>
 
-The `Frame` is a basic container for layout, styling, animation and events. It’s essentially a `div` element with extra options and smart defaults. Here, you see how easy it is to add visual properties, like `background` and `radius`. Plus, we include shorthand properties that make it easier to quickly customize elements, like `size`, which sets both `width` and `height`.
+The `animate` prop can accept an object of values. When one of them changes, the `motion` component will automatically animate to the new state.
+
+The animation used can be configured using the `transition` prop.
 
 <Button
   name="Open in Sandbox"
-  link="https://codesandbox.io/s/62km0298rk"
+  link="https://codesandbox.io/s/62km0298rk?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
 </div>
 
 <EmbeddedExample background="#05f">
-  <MotionExample />
+  <AnimationBasicExample />
 </EmbeddedExample>
 
-```jsx highlight(6)
-import * as React from "react"
-import { Frame } from "framer"
+```jsx highlight(4-7)
+import { motion } from "framer-motion"
 
-export function MyComponent() {
+export const MyComponent = () => (
+  <motion.div
+    animate={{ scale: 2 }}
+    transition={{ duration: 0.5 }}
+  />
+)
+```
+
+<div>
+
+Keyframes
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-keyframes-ekks8?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <AnimationKeyframesExample />
+</EmbeddedExample>
+
+```jsx highlight(5-9)
+import { motion } from "framer-motion"
+
+export const MyComponent = () => (
+  <motion.div
+    animate={{
+      scale: [1, 2, 2, 1, 1],
+      rotate: [0, 0, 270, 270, 0],
+      borderRadius: ["20%", "20%", "50%", "50%", "20%"],
+    }}
+  />
+)
+```
+
+<div>
+
+Variants
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-side-menu-mx2rw?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <AnimationVariantsExample />
+</EmbeddedExample>
+
+```jsx highlight(3-7,13-14)
+import { motion } from "framer-motion"
+
+const variants = {
+  open: { opacity: 1, x: 0 },
+  closed: { opacity: 0, x: "-100%" },
+}
+
+export const MyComponent = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
   return (
-    <Frame size={150} background={"#fff"} radius={30} />
+    <motion.nav
+      animate={isOpen ? "open" : "closed"}
+      variants={variants}
+    >
+      <Toggle onClick={() => setIsOpen(!isOpen)} />
+      <Items />
+    </motion.nav>
+  )
+}
+```
+
+---
+
+## Gestures
+
+<div>
+
+Animation shortcuts
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-gesture-animations-8c5y3?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <GestureAnimationShortcuts />
+</EmbeddedExample>
+
+```jsx highlight(5-6)
+import { motion } from "framer-motion"
+
+export const MyComponent = () => (
+  <motion.button
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.9 }}
+  />
+)
+```
+
+<div>
+
+Drag
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <GestureDrag />
+</EmbeddedExample>
+
+```jsx highlight(5-11)
+import { motion } from "framer-motion"
+
+export const MyComponent = () => (
+  <motion.div
+    drag
+    dragConstraints={{
+      top: -50,
+      left: -50,
+      right: 50,
+      bottom: 50,
+    }}
+  />
+)
+```
+
+## MotionValues
+
+<div>
+
+MotionValues SVG paths
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <MotionValueSVG />
+</EmbeddedExample>
+
+```jsx highlight(8-13)
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+} from "framer-motion"
+
+export const MyComponent = () => {
+  const x = useMotionValue(0)
+  const background = useTransform(
+    x,
+    [-100, 0, 100],
+    ["#ff008c", "#7700ff", "rgb(230, 255, 0)"]
+  )
+
+  return (
+    <motion.div style={{ background }}>
+      <motion.div
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        style={{ x }}
+      >
+        <Icon x={x} />
+      </motion.div>
+    </motion.div>
+  )
+}
+```
+
+<div>
+
+MotionValues SVG paths
+
+<Button
+  name="Open in Sandbox"
+  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <ViewportScroll />
+</EmbeddedExample>
+
+```jsx highlight(3-13)
+import { motion, useViewportScroll } from "framer-motion"
+
+export const CircleIndicator = () => {
+  const { scrollYProgress } = useViewportScroll()
+
+  return (
+    <motion.path
+      d="M 0, 20 a 20, 20 0 1,0 40,0 a 20, 20 0 1,0 -40,0"
+      style={{ pathLength: scrollYProgress }}
+    />
   )
 }
 ```

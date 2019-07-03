@@ -58,7 +58,7 @@ export const MyComponent () => (
 
 <div>
 
-Framer Motion can animate:
+Motion can animate:
 
 - Numbers: `0`, `10` etc.
 - Strings containing numbers: `"0vh"`, `"10px"` etc.
@@ -164,7 +164,7 @@ If set as numbers, `originX` and `Y` default to a progress value between `0` and
 
 ### CSS variables
 
-Framer Motion can animate the value of CSS variables, and also read CSS variables as animation targets.
+Motion can animate the value of CSS variables, and also read CSS variables as animation targets.
 
 #### Using pre-defined CSS variables in animation
 
@@ -186,7 +186,7 @@ By defining and animating CSS variables, we can use a parent `motion` component 
 
 When animating CSS variables in TypeScript, the prop will need to be cast as `any` to prevent type errors (as there's an infinite number of variable names).
 
-CSS variables are also of an arbitary type, so Framer Motion can't infer their default type. You're able to animate `rotate` as a number because Motion understands that it should be set as `deg`, whereas `'--rotate'` needs to be explicitly set with the unit type, e.g. `'360deg'`.
+CSS variables are also of an arbitary type, so Motion can't infer their default type. You're able to animate `rotate` as a number because Motion understands that it should be set as `deg`, whereas `'--rotate'` needs to be explicitly set with the unit type, e.g. `'360deg'`.
 
 </div>
 
@@ -229,7 +229,7 @@ These are all set as a value between `0` and `1`, where `1` is the measured leng
 
 ### Performance
 
-Framer Motion animates values outside the React render cycle for increased performance.
+Motion animates values outside the React render cycle for increased performance.
 
 [Using `MotionValue`s](/api/motion/motionvalue) instead of state to update visual properties will also avoid re-renders.
 
@@ -266,7 +266,7 @@ The following SVG values are not currently compatible with server-side rendering
 />
 ```
 
-`path` values rely on the measurement of the overall path length. Setting `strokeDasharray` to `"0 1"` will hide the path until Framer Motion can measure it.
+`path` values rely on the measurement of the overall path length. Setting `strokeDasharray` to `"0 1"` will hide the path until Motion can measure it.
 
 ```jsx
 <motion.path strokeDasharray="0 1" />

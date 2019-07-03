@@ -15,16 +15,16 @@ import {
   Todo,
 } from "../../components"
 
-export default Template("Handover from Framer X")
+export default Template("Handoff from Framer X")
 
-# Handover from Framer X
+# Handoff from Framer X
 
 <span className="lead">
   How to convert interactive Framer X prototypes into
   production.
 </span>
 
-Framer Motion is the library driving Framer X's animation and gesture capabilities, so converting prototypes into production-level code is usually straightforward.
+Motion is the library driving Framer X's animation and gesture capabilities, so converting prototypes into production-level code is usually straightforward.
 
 In this guide we'll cover the main differences between the libraries.
 
@@ -32,11 +32,11 @@ In this guide we'll cover the main differences between the libraries.
 
 Every API has to strike a balance between simplicity, flexibility, performance, file-size, and more.
 
-That ideal balance is different depending on whether our code is being used in a prototype, or being deployed in a production environment. Whether it's bei9ng consumed by a designer, or a developer. This is why Framer Motion presents a different API than Framer Library.
+That ideal balance is different depending on whether our code is being used in a prototype, or being deployed in a production environment. Whether it's bei9ng consumed by a designer, or a developer. This is why Motion presents a different API than Framer Library.
 
 ## Frame vs Motion components
 
-The single biggest difference between the two APIs is that in Framer Library the fundamental building block is a `Frame`, while Framer Motion uses `motion` components.
+The single biggest difference between the two APIs is that in Framer Library the fundamental building block is a `Frame`, while Motion uses `motion` components.
 
 A `Frame` is always a `div`, and offers a number of top-level convenience style props like `x`. It also makes big assumptions about the `div`'s default styles, like `position: "absolute"` and `width: 100`.
 
@@ -91,7 +91,7 @@ Framer Library offers the `Color` primitive. This allows animation between named
 
 The code that interpolates between different color spaces is quite large. It's useful in a prototype environment but in production style guides and design systems usually define colors in a single color space.
 
-For this reason Framer Motion only supports animating colors between RGBA/Hex, **or** HSLA. It also doesn't support the animation of named colors.
+For this reason Motion only supports animating colors between RGBA/Hex, **or** HSLA. It also doesn't support the animation of named colors.
 
 ```jsx
 <motion.div

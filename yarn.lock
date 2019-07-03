@@ -3246,18 +3246,18 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^0.18.6:
-  version "0.18.6"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-0.18.6.tgz#c5911fae3bd3b123d0c2c07c676d7c839e456cb0"
-  integrity sha512-m40MDncNugelj2tr2m95ktrT56KsnO8Ts/UObPgNxC7j+NDgvjuVm6643j5rdL6xklp0F5X33pMNegXWOmpemg==
+framer-motion@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.1.0.tgz#f561ba6e330775c8a44729c068f62535db25898e"
+  integrity sha512-AylpmgYdyOhWhtdy685SvF6y0KSO+u+cx1kLK9WqTZAwpIJaQpbOk3iwqV2zG4FzDy+yBE94RhviKaKstZWULg==
   dependencies:
     "@emotion/is-prop-valid" "^0.7.3"
     "@popmotion/popcorn" "^0.4.0"
     framesync "^4.0.2"
     hey-listen "^1.0.8"
-    popmotion "^8.6.9"
+    popmotion "^8.7.0"
     style-value-types "^3.1.4"
-    stylefire "^4.1.4"
+    stylefire "^6.0.2"
 
 framer@^1.0.8:
   version "1.0.8"
@@ -6129,9 +6129,10 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
-popmotion@^8.6.9:
-  version "8.6.9"
-  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-8.6.9.tgz#c8d0626a3956afef6c7aab357b424cf175363396"
+popmotion@^8.7.0:
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-8.7.0.tgz#83e03a14dc1f24e73b9488c6d9d7b14e5ac0947d"
+  integrity sha512-RnJMbWN+TEBT0tgG+3WS0O1i9LAq+senXSAcKw+srGviT1c9G+iKUXrp24D2w6Og0mDd61rEfKz3pFrFCdKn5Q==
   dependencies:
     "@popmotion/easing" "^1.0.1"
     "@popmotion/popcorn" "^0.4.0"
@@ -7266,9 +7267,10 @@ stylefire@^4.1.3:
     hey-listen "^1.0.8"
     style-value-types "^3.1.4"
 
-stylefire@^4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-4.1.4.tgz#42de066da75762bf086de33856a45ac95f7d66ce"
+stylefire@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.2.tgz#415ab52fc7c900081767405457f790cdc37bae5b"
+  integrity sha512-7b1IdWqHCWQJBJOCC+lFua3HmCDEsNdnoxeQjcUhlx5AqtHNjRDBpnlHtk+ODI+HT8Mw9No1KhCaKUtt5nZ1eQ==
   dependencies:
     "@popmotion/popcorn" "^0.4.0"
     framesync "^4.0.0"

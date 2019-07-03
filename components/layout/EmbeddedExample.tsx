@@ -14,6 +14,7 @@ const EmbeddedExampleBackground = styled.div<{ height?: number; background?: str
     max-width: 100%;
     overflow: hidden;
     user-select: none;
+    position: relative;
 
     @media (min-width: ${desktop}) {
         margin: 0;

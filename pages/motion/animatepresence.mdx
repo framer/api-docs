@@ -1,0 +1,200 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template("AnimatePresence")
+
+# AnimatePresence
+
+<span className="lead">
+  Animate components as they're removed from the React tree.
+</span>
+
+<div>
+
+Wrapping one or more `motion` components in `AnimatePresence` enables the use of an `exit` prop, which can define an animation to use when a component is unmounted.
+
+The reason this component is required for this, is React lacks a lifecycle method that:
+
+1. Notifies components when they're going to be unmounted and
+2. Allows them to defer that unmounting until after an operation is complete (for instance an animation).
+
+`AnimatePresence` can also be used to suppress initial animations only on components that are present when it first mounts.
+
+</div>
+
+```jsx
+import { motion, AnimatePresence } from "framer-motion"
+
+export const MyComponent = ({ isVisible }) => (
+  <AnimatePresence>
+    {isVisible && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+    )}
+  </AnimatePresence>
+)
+```
+
+---
+
+## Usage
+
+### Unmount animations
+
+Any component
+
+```jsx
+const Slideshow = () => {
+  const [count, setCount] = useState(0)
+
+  return (
+    <AnimatePresence>
+      <motion.img
+        key={count}
+        src={images[count % images.length]}
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -300, opacity: 0 }}
+        onClick={() => setCount(count + 1)}
+      />
+    </AnimatePresence>
+  )
+}
+```
+
+### Multiple children
+
+<div>
+
+`AnimatePresence` works great with multiple children. Just wrap a list of components and if any item is removed, it'll animate out.
+
+**Note:** You must provide each child a unique `key` to `AnimatePresence` can track which children are entering and leaving.
+
+</div>
+
+```jsx
+export const Notifications = ({ messages }) => (
+  <AnimatePresence>
+    {messages.map(({ id, content }) => (
+      <motion.li
+        key={id}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        {content}
+      </motion.li>
+    ))}
+  </AnimatePresence>
+)
+```
+
+Add a `positionTransition` prop to the child components to allow them to smoothly animate into their new positions when an item is removed.
+
+### Variants
+
+<div>
+
+`exit` can also be defined as a variant. This allows you to wait for an entire tree of animations to complete before unmounting a component.
+
+</div>
+
+```jsx
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+}
+
+export const MyComponent = ({ isVisible }) => (
+  <AnimatePresence>
+    {isVisible && (
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        variants={variants}
+      />
+    )}
+  </AnimatePresence>
+)
+```
+
+### Suppressing initial animations
+
+<div>
+
+Mount animations are already handled by `motion` components via the `initial` and `animate` props.
+
+If a `motion` component is set to `initial={false}`, it'll start in the state defined in `animate`. But sometimes, for instance a chatbox or a slideshow, we only want to animate in new components.
+
+By setting `initial={false}` on `AnimatePresence`, components present when `AnimatePresence` first loads will start in their `animate` state. Only components that enter after this initial render will animate in.
+
+</div>
+
+```jsx highlight(2, 5-6)
+const MyComponent = ({ isVisible }) => (
+  <AnimatePresence initial={false}>
+    {isVisible && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+    )}
+  </AnimatePresence>
+)
+```
+
+### Animating custom components
+
+<div>
+
+The children of `AnimatePresence` can be a custom component. The way `AnimatePresence` works is by taking the `exit` prop and providing it to `animate`. It also provides an `onAnimationComplete` that lets it know when it's safe to unmount the child.
+
+So to use a custom component you just have to make sure that:
+
+1. The custom component is defined with an `exit` prop.
+2. The `animate` and `onAnimationComplete` props are forwarded to an underlying `motion` component.
+
+</div>
+
+```jsx
+const Item = ({ animate, onAnimationComplete }) => (
+  <motion.div
+    animate={animate}
+    onAnimationComplete={onAnimationComplete}
+  />
+)
+
+export const MyComponent = ({ items }) => (
+  <AnimatePresence>
+    {items.map(({ id }) => (
+      <Item key={id} exit={{ opacity: 0 }} />
+    ))}
+  </AnimatePresence>
+)
+```
+
+---
+
+## Props
+
+<APIProperty name="AnimatePresenceProps.initial" />
+<APIProperty name="AnimatePresenceProps.custom" />
+<APIProperty name="AnimatePresenceProps.onExitComplete" />
