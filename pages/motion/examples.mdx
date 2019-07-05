@@ -37,7 +37,7 @@ The `animate` prop can accept an object of values. When one of them changes, the
 The animation used can be configured using the `transition` prop.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/62km0298rk?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -58,12 +58,18 @@ export const MyComponent = () => (
 )
 ```
 
+---
+
+## Keyframes
+
 <div>
 
-Keyframes
+Set a value as an array and Motion will animate through each of these values in turn.
+
+By default, each keyframe will be spaced evenly throughout the animation, but the exact timing and easing can be configured via the `transition` property.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-keyframes-ekks8?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -87,12 +93,20 @@ export const MyComponent = () => (
 )
 ```
 
+---
+
+## Variants
+
 <div>
 
-Variants
+Variants are pre-defined visual states that a component can be in. By giving a component and its children `variants` with matching names, whole React trees can be animated by changing a single prop.
+
+By using variants, a parent can easily orchestrate the animations of its children with special `transition` props like `staggerChildren`.
+
+Variants can also be dynamic functions that return different props based on data passed to each component's `custom` prop.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-side-menu-mx2rw?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -127,14 +141,18 @@ export const MyComponent = () => {
 
 ---
 
-## Gestures
+## Gesture animations
 
 <div>
 
-Animation shortcuts
+Motion provides `whileHover` and `whileTap` helper props, that will temporarily animate a component to a visual state while a gesture is active.
+
+Like `animate`, these can either be set as an object of properties (each with their own `transition` prop), or the name of a variant.
+
+Motion will also automatically handle the interplay of the two gestures, so if a component is being pressed while a hover gestures starts/stops, the `whileTap` gesture will take priority.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-gesture-animations-8c5y3?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -155,12 +173,20 @@ export const MyComponent = () => (
 )
 ```
 
+---
+
+## Drag
+
 <div>
 
-Drag
+A component can be made draggable with the addition of the `drag` prop. Lock it to either axis by setting `drag` to `"x"` or `"y"`.
+
+The component can be constrained to a specific range, defined either in pixels, or by providing a `ref` to another DOM element.
+
+These constraints are elastic, and the strength of this elasticity can be configured with the `dragElastic` prop.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -186,14 +212,18 @@ export const MyComponent = () => (
 )
 ```
 
+---
+
 ## MotionValues
 
 <div>
 
-MotionValues SVG paths
+Motion uses `MotionValue`s to track the state and velocity of every animating value.
+
+By making `MotionValue`s yourself, you can create declarative chains of values that map from one into the other.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -232,12 +262,18 @@ export const MyComponent = () => {
 }
 ```
 
+---
+
+## Viewport scroll
+
 <div>
 
-MotionValues SVG paths
+The `useViewportScroll` hook provides four read-only `MotionValue`s, two that return the viewport's x/y scroll position in pixels, and two that return it as progress value between `0` and `1`.
+
+You can use these `MotionValue`s to declaratively drive features like progress indicators or parallax effects.
 
 <Button
-  name="Open in Sandbox"
+  name="Open sandbox"
   link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
@@ -247,7 +283,7 @@ MotionValues SVG paths
   <ViewportScroll />
 </EmbeddedExample>
 
-```jsx highlight(3-13)
+```jsx highlight(4-13)
 import { motion, useViewportScroll } from "framer-motion"
 
 export const CircleIndicator = () => {
@@ -264,11 +300,73 @@ export const CircleIndicator = () => {
 
 ---
 
+## Exit animations
+
+<div>
+
+In React, it's usually difficult to animate components once they've been removed from the DOM.
+
+By wrapping `motion` components with `AnimatePresence`, they gain the use of an `exit` property that can define either a set of values or a variant name to animate to before being removed.
+
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <ViewportScroll />
+</EmbeddedExample>
+
+```jsx highlight(4,10,13)
+import { motion, AnimatePresence } from "framer-motion"
+
+export const List = ({ items }) => (
+  <AnimatePresence>
+    {items.map(item => (
+      <motion.li
+        key={item.id}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+    ))}
+  </AnimatePresence>
+)
+```
+
+---
+
+## Position transitions
+
+<div>
+
+By setting `positionTransition`, a `motion` component will smoothly animate to its new layout when it moves relative to its parent as a result of a render.
+
+It can be set to `true` to use the default x/y transitions, or set as a `Transition` for full control over the animation.
+
+It's great for smoothly reordering lists, and becomes super-powerful when paired with `AnimatePresence`.
+
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+/>
+
+</div>
+
+<EmbeddedExample background="#05f">
+  <ViewportScroll />
+</EmbeddedExample>
+
+```jsx highlight(4)
+import { motion } from "framer-motion"
+
+export const List = ({ items }) =>
+  items.map(item => <motion.li positionTransition />)
+```
+
 <!--
-Simple animation
-Drag with constraints
-whileTap/whileHover
-useTransform
-SVG duotone animation
 useSpring
+CSS variables
 -->
