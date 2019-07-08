@@ -21,7 +21,7 @@ const MotionMenu = () => {
             <MenuItem className="animatepresence" href="/pages/motion/animatepresence.mdx" title="AnimatePresence" />
 
             <SubTitle name="Guides" />
-            <MenuItem className="handover" href="/pages/motion/handover.mdx" title="Handover from Framer X" />
+            <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer X" />
         </Menu>
     )
 }
