@@ -7,7 +7,6 @@ import { MarkdownStyles, InlineButton, Grid, Center } from "components"
 export default function render() {
     return (
         <Page showEdit={false}>
-            {isMotion().toString()}
             <Grid className="four-o-four">
                 <Center className="error-message">
                     <MarkdownStyles>
