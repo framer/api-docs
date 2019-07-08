@@ -99,3 +99,18 @@ For this reason Motion only supports animating colors between RGBA/Hex, **or** H
   animate={{ backgroundColor: "#fff" }}
 />
 ```
+
+## Scroll
+
+In Framer X, scrollable areas are created with the `Scroll` component. On the web, the entire viewport is scrollable. So instead Motion offers [the `useViewportScroll` hook](/api/motion/motionvalue/#useviewportscroll) which returns four read-only `MotionValue`s that can be used to power scroll-driven animations.
+
+There isn't currently an equivalent for scrollable elements (via `overflow: scroll`), but it is possible to set up an equivalent system with `useMotionValue` and `onScroll`.
+
+```jsx
+const scrollX = useMotionValue(0)
+const handleScroll = e => {
+  scrollX.set(e.nativeEvent.target.scrollLeft)
+}
+
+return <div onScroll={handleScroll} />
+```
