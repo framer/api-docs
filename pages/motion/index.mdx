@@ -77,24 +77,7 @@ return (
 
 <div>
 
-- **Imperative controls**: For advanced sequencing of animations, the `useAnimation` hook can create imperative controls for one or more components. `controls.start` can be passed values, variant labels, or functions that dynamically generate unique values for each animating component.
-
-</div>
-
-```jsx
-const controls = useAnimation()
-
-async function sequence() {
-  await controls.start({ opacity: 1 })
-  return await controls.start({ color: "#0f0" })
-}
-
-return <motion.div onClick={sequence} animate={controls} />
-```
-
-<div>
-
-- **Server-side rendering**: The animated state of a component can be rendered server-side to prevent flashes of re-styled content after your JavaScript loads.
+- **Server-side rendering**: The animated state of a component will be rendered server-side to prevent flashes of re-styled content after your JavaScript loads.
 
 </div>
 
@@ -104,7 +87,7 @@ return <motion.div onClick={sequence} animate={controls} />
 
 <div>
 
-- **MotionValues**: Create declarative, reactive chains of `MotionValue`s that can update as a result of animations and/or gestures. Pass these around different components for wild effects.
+- **MotionValues**: Create declarative, reactive chains of `MotionValue`s that can update as a result of animations and/or gestures.
 
 </div>
 
@@ -145,7 +128,7 @@ npm install framer-motion
 
 ### Importing
 
-Once installed, you can import Motion into your components.
+Once installed, you can import Motion into your components via `framer-motion`.
 
 ```jsx
 import { motion } from "framer-motion"

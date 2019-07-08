@@ -15,6 +15,8 @@ import {
   MotionValueSVG,
   MotionValueUseSpring,
   ViewportScroll,
+  PositionTransition,
+  AnimatePresenceExample,
 } from "../../components/examples/motion"
 
 export default Template("Examples")
@@ -38,7 +40,7 @@ The animation used can be configured using the `transition` prop.
 
 <Button
   name="Open sandbox"
-  link="https://codesandbox.io/s/62km0298rk?fontsize=14&module=%2Fsrc%2FExample.tsx"
+  link="https://codesandbox.io/s/framer-motion-simple-animation-fz7cz?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
 </div>
@@ -224,7 +226,7 @@ By making `MotionValue`s yourself, you can create declarative chains of values t
 
 <Button
   name="Open sandbox"
-  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+  link="https://codesandbox.io/s/framer-motion-path-drawing-drag-and-usetransform-jnqk2?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
 </div>
@@ -274,7 +276,7 @@ You can use these `MotionValue`s to declaratively drive features like progress i
 
 <Button
   name="Open sandbox"
-  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+  link="https://codesandbox.io/s/framer-motion-viewport-scroll-and-svg-path-animation-mwi35?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
 </div>
@@ -310,28 +312,27 @@ By wrapping `motion` components with `AnimatePresence`, they gain the use of an 
 
 <Button
   name="Open sandbox"
-  link="https://codesandbox.io/s/framer-motion-drag-with-constraints-pjn6t?fontsize=14&module=%2Fsrc%2FExample.tsx"
+  link="https://codesandbox.io/s/framer-motion-image-gallery-pqvx3?fontsize=14&module=%2Fsrc%2FExample.tsx"
 />
 
 </div>
 
-<EmbeddedExample background="#05f">
-  <ViewportScroll />
+<EmbeddedExample background="#151515">
+  <AnimatePresenceExample />
 </EmbeddedExample>
 
 ```jsx highlight(4,10,13)
 import { motion, AnimatePresence } from "framer-motion"
 
-export const List = ({ items }) => (
+export const Slideshow = ({ image }) => (
   <AnimatePresence>
-    {items.map(item => (
-      <motion.li
-        key={item.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      />
-    ))}
+    <motion.img
+      key={image.src}
+      src={image.src}
+      initial={{ opacity: 0, y: 200 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    />
   </AnimatePresence>
 )
 ```
@@ -355,8 +356,8 @@ It's great for smoothly reordering lists, and becomes super-powerful when paired
 
 </div>
 
-<EmbeddedExample background="#05f">
-  <ViewportScroll />
+<EmbeddedExample background="#151515">
+  <PositionTransition />
 </EmbeddedExample>
 
 ```jsx highlight(4)
@@ -366,7 +367,4 @@ export const List = ({ items }) =>
   items.map(item => <motion.li positionTransition />)
 ```
 
-<!--
-useSpring
-CSS variables
--->
+---

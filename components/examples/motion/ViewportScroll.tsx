@@ -84,8 +84,8 @@ export const ContentPlaceholder = () => (
             <Word height={32} width={130} />
             <Word height={32} width={98} />
         </Header>
-        {paragraphs.map(words => (
-            <Paragraph words={words} />
+        {paragraphs.map((words, i) => (
+            <Paragraph key={i} words={words} />
         ))}
     </ContentContainer>
 )
