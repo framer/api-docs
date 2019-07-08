@@ -32,13 +32,13 @@ In this guide we'll cover the main differences between the libraries.
 
 Every API has to strike a balance between simplicity, flexibility, performance, file-size, and more.
 
-That ideal balance is different depending on whether our code is being used in a prototype, or being deployed in a production environment. Whether it's bei9ng consumed by a designer, or a developer. This is why Motion presents a different API than Framer Library.
+That ideal balance is different depending on whether our code is being used in a prototype, or being deployed in a production environment. Whether it's being consumed by a designer, or a developer. This is why Motion presents a different API than Framer Library.
 
 ## Frame vs Motion components
 
 The single biggest difference between the two APIs is that in Framer Library the fundamental building block is a `Frame`, while Motion uses `motion` components.
 
-A `Frame` is always a `div`, and offers a number of top-level convenience style props like `x`. It also makes big assumptions about the `div`'s default styles, like `position: "absolute"` and `width: 100`.
+A `Frame` always renders a `div`, and it offers a number of top-level convenience style props like `x` and `shadow`. It also makes big assumptions about the `div`'s default styles, like `position: "absolute"` and `width: 100`.
 
 ```jsx
 <Frame x={100} />
@@ -52,7 +52,7 @@ For a semantic web, there's a `motion` component for every valid HTML and SVG el
 
 ## MotionValues
 
-With a `Frame`, `MotionValue`s are injected where you'd statically set a visual prop, which is usually via the top-level props.
+`MotionValue`s are bound to a `Frame` where you'd statically set a visual value, which for a `Frame` is usually the top-level props like `x`.
 
 ```jsx
 const x = useMotionValue(0)
@@ -60,7 +60,7 @@ const x = useMotionValue(0)
 return <Frame x={x} />
 ```
 
-The same is true for `motion` components. So for HTML components, this is via the `style` property.
+The same is true for `motion` components. `MotionValue`s are set where you'd usually static set a value. So for HTML components, this is via the `style` property.
 
 ```jsx
 const x = useMotionValue(0)
@@ -68,7 +68,7 @@ const x = useMotionValue(0)
 <motion.div style={{ x }} />
 ```
 
-For SVG, via the prop or `style` property.
+For SVG, via the top-level prop for attributes, or the `style` property for transforms.
 
 ```jsx
 const cx = useMotionValue(0)
