@@ -100,8 +100,8 @@ export const Markdown: React.FunctionComponent = ({ children }) => {
             // Peek at the item preceding the code block to see if we should include it.
             // otherwise we'll have a standalone grid.
             const next = contents[0]
-            const [shoudlPairWithCode, pairTag] = getPairWithCodeExample(next)
-            if (shoudlPairWithCode) {
+            const [shouldPairWithCode, pairTag] = getPairWithCodeExample(next)
+            if (shouldPairWithCode) {
                 add(contents.shift())
             }
             close(pairTag ? "code grid-example" : "code")
@@ -179,7 +179,8 @@ function shouldPairWithCodeExample(node: React.ReactNode): node is MDXElement {
 
 function getPairWithCodeExample(node: React.ReactNode): [boolean, string | boolean] {
     const tag = (isMDXElement(node) && getMDXTag(node)) || (isDOMElement(node) && node.type)
-    return [shouldPairWithCodeExample(node), tag]
+    const shouldPairWithCode = shouldPairWithCodeExample(node)
+    return [shouldPairWithCode, tag]
 }
 
 function isHeading(node: React.ReactNode): node is MDXElement {
