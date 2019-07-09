@@ -129,9 +129,6 @@ li > code {
     font-family: "Input", "Menlo", "Monaco", Courier, monospace;
     font-weight: 600;
     font-size: 13px;
-    background: #eee;
-    border-radius: 4px;
-    padding: 2px 4px;
 }
 div[class*="framer-"] h5 > code .token.token.punctuation {
     color: #555;
