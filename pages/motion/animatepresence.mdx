@@ -104,22 +104,17 @@ In React, changing a component's `key` makes React treat it as an entirely new c
 </EmbeddedExample>
 
 ```jsx
-const Slideshow = () => {
-  const [count, setCount] = useState(0)
-
-  return (
-    <AnimatePresence>
-      <motion.img
-        key={count}
-        src={images[count % images.length]}
-        initial={{ x: 300, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: -300, opacity: 0 }}
-        onClick={() => setCount(count + 1)}
-      />
-    </AnimatePresence>
-  )
-}
+export const Slideshow = ({ image }) => (
+  <AnimatePresence>
+    <motion.img
+      key={image.src}
+      src={image.src}
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -300, opacity: 0 }}
+    />
+  </AnimatePresence>
+)
 ```
 
 ### Multiple children
