@@ -13,9 +13,17 @@ const Container = styled.div`
     height: 100%;
 `
 
-const Slide = styled(motion.img)`
+const Slide = styled(motion.div)`
     position: absolute;
-    max-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0 !important;
+    padding: 0 !important;
 `
 
 const variants = {
@@ -35,7 +43,7 @@ function StaticAnimatePresence() {
             <AnimatePresence initial={false}>
                 <Slide
                     key={page}
-                    src={images[imageIndex]}
+                    style={{ backgroundImage: `url(${images[imageIndex]})` }}
                     variants={variants}
                     transition={{ duration: 0.5, ease: "backOut" }}
                     initial="enter"
