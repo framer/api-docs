@@ -122,6 +122,12 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
     if (title) {
         pageTitle += ` | ${title}`
     }
+    const description = isMotion()
+        ? "An open source, production-ready motion library for React on the web"
+        : "A JavaScript library for rapid interactive prototyping for web and mobile."
+    const socialImage = isMotion()
+        ? "https://framer.com/static/images/social/motion.png"
+        : "https://static.framer.com/api/social.png"
 
     // Use path gives the page name
     if (showEdit === undefined) {
@@ -175,27 +181,18 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
 
                     {/* Meta Tags */}
                     <meta name="title" content="Framer API" />
-                    <meta
-                        name="description"
-                        content="A JavaScript library for rapid interactive prototyping for web and mobile."
-                    />
+                    <meta name="description" content={description} />
                     <meta property="og:type" content="website" />
                     <meta property="og:url" content="https://framer.com/api" />
-                    <meta property="og:title" content="Framer API" />
-                    <meta
-                        property="og:description"
-                        content="A JavaScript library for rapid interactive prototyping for web and mobile."
-                    />
-                    <meta property="og:image" content="https://static.framer.com/api/social.png" />
+                    <meta property="og:title" content={pageTitle} />
+                    <meta property="og:description" content={description} />
+                    <meta property="og:image" content={socialImage} />
                     <meta name="twitter:card" content="photo" />
                     <meta name="twitter:site" content="@framer" />
                     <meta name="twitter:creator" content="@framer" />
-                    <meta name="twitter:title" content="Framer API" />
-                    <meta
-                        name="twitter:description"
-                        content="A JavaScript library for rapid interactive prototyping for web and mobile."
-                    />
-                    <meta name="twitter:image:src" content="https://static.framer.com/api/social.png" />
+                    <meta name="twitter:title" content={pageTitle} />
+                    <meta name="twitter:description" content={description} />
+                    <meta name="twitter:image:src" content={socialImage} />
                     <meta name="twitter:domain" content="https://framer.com/api" />
 
                     {/* Tracking */}
