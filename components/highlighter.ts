@@ -4,8 +4,6 @@ import "prismjs/components/prism-jsx"
 import "prismjs/components/prism-tsx"
 import "prismjs/components/prism-typescript"
 
-const HighlightLineRegex = /"([^)]+)"/i
-
 const isNumber = (num: number) => !Number.isNaN(num)
 
 Prism.hooks.add("before-insert", env => {
@@ -13,12 +11,20 @@ Prism.hooks.add("before-insert", env => {
     const source = env.highlightedCode
     if (!source || !el || el.classList.contains("highlight-line")) return
 
-    const metastring = el.getAttribute("highlight")
-    const match = metastring && HighlightLineRegex.exec(metastring)
-    if (!match) return
+    const highlight = el.getAttribute("highlight")
+    if (!highlight) return
+
+    // If the fenced code block has a metastring attribute then the highlight
+    // prop likely contained spaces and may be malformed.
+    const metastring = el.getAttribute("metastring") || ""
+    if (metastring.length > 0) {
+        console.warn(
+            `Found "metastring" attribute "${metastring}" on a code block, ensure there are no spaces in your highlight block: "${highlight}"`
+        )
+    }
 
     // Format is 1-3,6-8
-    const ranges = match[1].split(",").map(range => {
+    const ranges = highlight.split(",").map(range => {
         const parsed = range
             .trim()
             .split("-")
