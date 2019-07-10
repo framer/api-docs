@@ -4,7 +4,7 @@ import "prismjs/components/prism-jsx"
 import "prismjs/components/prism-tsx"
 import "prismjs/components/prism-typescript"
 
-const HighlightLineRegex = /highlight\(([^)]+)\)/i
+const HighlightLineRegex = /"([^)]+)"/i
 
 const isNumber = (num: number) => !Number.isNaN(num)
 
@@ -13,7 +13,7 @@ Prism.hooks.add("before-insert", env => {
     const source = env.highlightedCode
     if (!source || !el || el.classList.contains("highlight-line")) return
 
-    const metastring = el.getAttribute("metastring")
+    const metastring = el.getAttribute("highlight")
     const match = metastring && HighlightLineRegex.exec(metastring)
     if (!match) return
 

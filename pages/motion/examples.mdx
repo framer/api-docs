@@ -49,7 +49,7 @@ The animation used can be configured using the `transition` prop.
   <AnimationBasicExample />
 </EmbeddedExample>
 
-```jsx highlight(4-7)
+```jsx highlight="4-7"
 import { motion } from "framer-motion"
 
 export const MyComponent = () => (
@@ -81,7 +81,7 @@ By default, each keyframe will be spaced evenly throughout the animation, but th
   <AnimationKeyframesExample />
 </EmbeddedExample>
 
-```jsx highlight(5-9)
+```jsx highlight="5-9"
 import { motion } from "framer-motion"
 
 export const MyComponent = () => (
@@ -118,7 +118,7 @@ Variants can also be dynamic functions that return different props based on data
   <AnimationVariantsExample />
 </EmbeddedExample>
 
-```jsx highlight(3-7,13-14)
+```jsx highlight="3-7,13-14"
 import { motion } from "framer-motion"
 
 const variants = {
@@ -164,7 +164,7 @@ Motion will also automatically handle the interplay of the two gestures, so if a
   <GestureAnimationShortcuts />
 </EmbeddedExample>
 
-```jsx highlight(5-6)
+```jsx highlight="5-6"
 import { motion } from "framer-motion"
 
 export const MyComponent = () => (
@@ -198,7 +198,7 @@ These constraints are elastic, and the strength of this elasticity can be config
   <GestureDrag />
 </EmbeddedExample>
 
-```jsx highlight(5-11)
+```jsx highlight="5-11"
 import { motion } from "framer-motion"
 
 export const MyComponent = () => (
@@ -235,7 +235,7 @@ By making `MotionValue`s yourself, you can create declarative chains of values t
   <MotionValueSVG />
 </EmbeddedExample>
 
-```jsx highlight(8-13)
+```jsx highlight="8-13"
 import {
   motion,
   useMotionValue,
@@ -285,7 +285,7 @@ You can use these `MotionValue`s to declaratively drive features like progress i
   <ViewportScroll />
 </EmbeddedExample>
 
-```jsx highlight(4-13)
+```jsx highlight="4-13"
 import { motion, useViewportScroll } from "framer-motion"
 
 export const CircleIndicator = () => {
@@ -321,7 +321,7 @@ By wrapping `motion` components with `AnimatePresence`, they gain the use of an 
   <AnimatePresenceExample />
 </EmbeddedExample>
 
-```jsx highlight(4,10,13)
+```jsx highlight="4,10,13"
 import { motion, AnimatePresence } from "framer-motion"
 
 export const Slideshow = ({ image }) => (
@@ -360,7 +360,7 @@ It's great for smoothly reordering lists, and becomes super-powerful when paired
   <PositionTransition />
 </EmbeddedExample>
 
-```jsx highlight(4)
+```jsx highlight="4"
 import { motion } from "framer-motion"
 
 export const List = ({ items }) =>

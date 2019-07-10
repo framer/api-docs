@@ -188,7 +188,7 @@ Your `App` component needs to know about the `Slider` component so it can be use
 
 </div>
 
-```tsx  highlight(4)
+```tsx  highlight="4"
 import * as React from "react"
 import { render } from "react-dom"
 import { Frame } from "framer"
@@ -210,7 +210,7 @@ You should be able to see the `Slider` component now. **Great!** It’s currentl
 
 </div>
 
-```tsx highlight(1-2, 6-8)
+```tsx highlight="1-2, 6-8"
 <Frame
   name={"SliderApp"}
   width={"100%"}
@@ -281,7 +281,7 @@ You also want the **middle** of the knob to sit at the left edge of the rail. To
 
 </div>
 
-```tsx highlight(1-2, 8-18)
+```tsx highlight="1-2, 8-18"
 <Frame
   name={"Rail"}
   width={130}
@@ -319,7 +319,7 @@ Now that you have all the elements of a slider, its time to add dragging to the 
 
 </div>
 
-```tsx highlight(5-11)
+```tsx highlight="5-11"
 <Frame
   name={"Rail"}
   ...
@@ -362,7 +362,7 @@ The knob will now travel from edge-to-edge of the rail with the `x` position ran
 
 </div>
 
-```tsx highlight(1,2, 9-13)
+```tsx highlight="1,2, 9-13"
 <Frame
   name={"Knob"}
   size={40}
@@ -395,7 +395,7 @@ This new `MotionValue` variable will be quite useful in allowing you to keep you
 
 </div>
 
-```tsx highlight(2,5)
+```tsx highlight="2,5"
 import * as React from "react";
 import { Frame, useMotionValue } from "framer";
 
@@ -432,7 +432,7 @@ This whole process occurs outside of the React lifecycle to keep things performa
 
 </div>
 
-```tsx highlight(5-7,9-12,14)
+```tsx highlight="5-7,9-12,14"
     <Frame
       name={"Rail"}
       ...
@@ -483,7 +483,7 @@ The image `Frame` will be set to `center` and have a scale of 25%. It will also 
 
 </div>
 
-```tsx highlight(5-11)
+```tsx highlight="5-11"
 <Frame
   name={"SliderApp"}
   ...
@@ -515,7 +515,7 @@ The `Slider` component won’t control the profile image quite yet. You need to 
 
 </div>
 
-```tsx highlight(2, 8-10, 12)
+```tsx highlight="2, 8-10, 12"
 export function App() {
   const [scale, setScale] = React.useState(0.5);
   return (
@@ -548,7 +548,7 @@ These properties allow you to setup your `Slider` and update the `scale` value o
 
 </div>
 
-```tsx highlight(9-16)
+```tsx highlight="9-16"
 <Frame
   name={"SliderApp"}
   ...
@@ -590,7 +590,7 @@ All errors are gone. **Woo!** In the next few steps you’ll get the `onChange` 
 
 </div>
 
-```tsx highlight(1-7)
+```tsx highlight="1-7"
 export function Slider({
   min = 0,
   max = 1,
@@ -631,7 +631,7 @@ Now that you have the `useTransform()` function imported, let’s put it to work
 
 </div>
 
-```tsx highlight(2-6)
+```tsx highlight="2-6"
 import * as React from "react"
 import { Frame, useMotionValue, useTransform } from "framer"
 ```
@@ -656,7 +656,7 @@ You can now call the `onChange()` property safely with `newValue.get()`. Since `
 
 </div>
 
-```tsx highlight(8, 18-19, 21-24)
+```tsx highlight="8, 18-19, 21-24"
 export function Slider({
   min = 0,
   max = 1,
@@ -718,7 +718,7 @@ This will mask your image but, when its scaled you will only be able to view the
 
 </div>
 
-```tsx highlight(1-10, 12-13)
+```tsx highlight="1-10, 12-13"
 <Frame
   name={"Mask"}
   size={120}
@@ -746,7 +746,7 @@ You can now drag the image `frame` inside the mask, but there is one last proble
 
 </div>
 
-```tsx highlight(1-2, 4-7)
+```tsx highlight="1-2, 4-7"
 <Frame
   name={"Image"}
   ...
@@ -775,7 +775,7 @@ Now when you drag your image `Frame` you’ll notice, no matter what the size, t
 
 </div>
 
-```tsx highlight(3, 7-8, 13-19)
+```tsx highlight="3, 7-8, 13-19"
 export function App() {
   const [scale, setScale] = React.useState(0.5);
   const constraint = (480 * scale - 120) / 2;

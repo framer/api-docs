@@ -26,7 +26,7 @@ The `Frame` is a basic container for layout, styling, animation and events. It�
 
 </div>
 
-```jsx highlight(6)
+```jsx highlight="6"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -53,7 +53,7 @@ It’s based on a `Frame`, which means it supports all Frame properties. In this
 
 </div>
 
-```jsx highlight(6-10)
+```jsx highlight="6-10"
 import * as React from "react"
 import { Frame, Stack } from "framer"
 
@@ -85,7 +85,7 @@ With the `transition` property, we can customize the animation options, like set
 
 </div>
 
-```jsx highlight(6-9)
+```jsx highlight="6-9"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -116,7 +116,7 @@ Here, we’re setting the `loop` property to `Infinity`, and the `ease` to `line
 
 </div>
 
-```jsx highlight(6-13)
+```jsx highlight="6-13"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -150,7 +150,7 @@ Here, we’re cycling between 2 sets of properties on every tap.
 
 </div>
 
-```jsx highlight(2, 5-8, 10)
+```jsx highlight="2, 5-8, 10"
 import * as React from "react"
 import { Frame, useCycle } from "framer"
 
@@ -179,7 +179,7 @@ Color strings can also be animated by using the `background` property. In this e
 
 </div>
 
-```jsx highlight(6-13)
+```jsx highlight="6-13"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -212,7 +212,7 @@ Next to single values, you can also animate arrays of values within the `animate
 
 </div>
 
-```jsx highlight(6-13)
+```jsx highlight="6-13"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -249,7 +249,7 @@ Finally, we’ll pass along `rotate` to the `animate` property, and the `toggleR
 
 </div>
 
-```jsx highlight(2, 6-7, 9)
+```jsx highlight="2, 6-7, 9"
 import * as React from "react"
 import { useState } from "react"
 import { Frame } from "framer"
@@ -278,7 +278,7 @@ We can use the `whileHover` property, and pass along a property an its value.
 
 </div>
 
-```jsx highlight(5)
+```jsx highlight="5"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -293,7 +293,7 @@ export function MyComponent() {
 
 You can easily make any `Frame` draggable with the `drag` property. It can be set to control the drag axis using `"x"` or `"y"`. It can also be dragged in any direction by setting it to `true`.
 
-```jsx highlight(5)
+```jsx highlight="5"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -320,7 +320,7 @@ The values are measured relatively to the current object, so if you wanted to al
 
 </div>
 
-```jsx highlight(6-14)
+```jsx highlight="6-14"
 import * as React from "react"
 import { Frame } from "framer"
 
@@ -354,7 +354,7 @@ For scrolling, you can wrap Frames in a `Scroll` component, to make them automat
 
 </div>
 
-```jsx highlight(2, 6-10)
+```jsx highlight="2, 6-10"
 import * as React from "react"
 import { Frame, Scroll } from "framer"
 
@@ -384,7 +384,7 @@ For paging, you can wrap Frames in a `Page` component to make them swipeable. Op
 
 </div>
 
-```jsx highlight(2, 6-10)
+```jsx highlight="2, 6-10"
 import * as React from "react"
 import { Frame, Page } from "framer"
 
@@ -417,7 +417,7 @@ Finally, we’ll apply both properties to the `Frame`.
 
 </div>
 
-```jsx highlight(2, 5-6, 8)
+```jsx highlight="2, 5-6, 8"
 import * as React from "react"
 import { Frame, useMotionValue, useTransform } from "framer"
 
@@ -451,7 +451,7 @@ Finally, we’re referencing the properties using the `variants` property, and a
 
 </div>
 
-```jsx highlight(5-8, 11-15)
+```jsx highlight="5-8, 11-15"
 import * as React from "react"
 import { Frame } from "framer"
 

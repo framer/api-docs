@@ -49,7 +49,7 @@ the component is being used (for example, in the Canvas, Preview or Export).
 <br/>
 </div>
 
-```jsx highlight(3,7)
+```jsx highlight="3,7"
 import * as React from "react"
 import { Frame } from "framer"
 import { url } from "framer/resource"
@@ -66,7 +66,7 @@ project is opened so use it directly within your
 components and avoid storing the result or using it as a
 value in a custom property control.
 
-```jsx highlight(1-2,5)
+```jsx highlight="1-2,5"
 // GOOD: Use a relative path. Call url() within component.
 const image = "./code/test.png"
 
@@ -75,7 +75,7 @@ export function MyComponent() {
 }
 ```
 
-```jsx highlight(1-2,5)
+```jsx highlight="1-2,5"
 // BAD: Avoid this. The returned url may change over time.
 const image = url("./code/test.png")
 

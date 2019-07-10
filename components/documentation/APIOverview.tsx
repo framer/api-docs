@@ -90,7 +90,7 @@ function insertHighlight(html: string, value: string | string[]): string {
     const values = Array.isArray(value) ? value : [value]
     return html.replace(/data-lang=/gi, match => {
         const range = values[index++] || null
-        return range ? `metastring="highlight(${escape(range)})" ${match}` : match
+        return range ? `highlight="\"${escape(range)})\"" ${match}` : match
     })
 }
 
