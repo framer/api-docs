@@ -22,6 +22,11 @@ const MotionMenu = () => {
 
             <SubTitle name="Guides" />
             <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer X" />
+            <MenuItem
+                className="migrate-from-pose"
+                href="/pages/motion/migrate-from-pose.mdx"
+                title="Migrate from Pose"
+            />
         </Menu>
     )
 }
