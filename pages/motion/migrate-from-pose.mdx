@@ -1,0 +1,386 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template(
+  "Migrate to Framer Motion from Pose"
+)
+
+# Migrate to Framer Motion from Pose
+
+<span className="lead">
+  How to convert a Pose project to Framer Motion.
+</span>
+
+Framer Motion is the successor to the [Pose](https://popmotion.io/pose) animation library. Like Pose, it provides a declarative API to power animations and gestures in your React app. But Motion attempts to make the API even simpler for the simplest cases, yet more flexible to handle the most advanced.
+
+In this guide we'll explain how to migrate a Pose project to Motion.
+
+## What's missing?
+
+First, it's important to outline what is missing from this new API, as this might be a blocker for you to upgrade your project.
+
+The good news is that the only missing feature is the FLIP animation option. This allowed you to define an expensive, layout-changing prop like `height` or `top` and automatically convert it to a performant animation like `scaleY` or `y`.
+
+```jsx
+const Component = posed.div({
+  visible: {
+    height: 100,
+    flip: true,
+  },
+})
+```
+
+In some cases, this was very useful. But it was the single biggest source of bugs in Pose, and the visual results often weren't what you expected.
+
+Framer Motion does use FLIP techniques in its API, for instance its `positionTransition` feature, or its ability to animate values like `x` between different value types.
+
+```jsx
+<motion.div
+  initial={{ x: 0 }}
+  animate={{ x: "calc(80vh - 50%)" }}
+/>
+```
+
+But if we ever re-introduce this specific functionality, it'll be considered, and thoroughly tested.
+
+## `posed` vs `motion`
+
+The primary API change is that in Pose, components had to be pre-made outside the render function.
+
+```jsx
+const MyComponent = posed.div(config)
+```
+
+This proved to be very inflexible. In Motion, `motion` components are called directly within the render function itself.
+
+```jsx
+<motion.div />
+```
+
+## Poses vs variants
+
+Poses exist in Framer Motion under the name "variants". In Pose, they had to be defined outside of the render function, pre-defined in a component.
+
+```jsx
+// Pose
+const Posed = posed.div({
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+})
+
+const MyComponent = () => {
+  return <Posed initialPose="hidden" pose="visible" />
+}
+```
+
+Variants work in much the same way as poses, only now they can be defined anywhere and passed in via the `variants` prop.
+
+```jsx
+// Motion
+const MyComponent = () => {
+  const variants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+  }
+
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+    />
+  )
+}
+```
+
+Of course, in the Framer Motion you only have to use variants if you're performing animations throughout the tree. Otherwise you can set props to `animate` directly.
+
+```jsx
+<motion.div animate={{ opacity: 0 }} />
+```
+
+## Dynamic poses
+
+Each value within a Pose could be set as a function, to dynamically return a different value based on the props passed to that component.
+
+```jsx
+const Posed = posed.div({
+  visible: {
+    opacity: ({ target }) => target,
+  },
+  hidden: { opacity: 0 },
+})
+
+const MyComponent = () => {
+  return (
+    <Posed initialPose="hidden" pose="visible" target={1} />
+  )
+}
+```
+
+This came with the limitation that the pose itself couldn't be dynamic. The values themselves could change, but we couldn't return different poses with different values.
+
+In Motion, because variants can be defined within the render function, it might be that you don't even need dynamic variants. But because the same `variants` definition can be used for multiple components, they are often still useful.
+
+So in Motion, entire variants are dynamic, so they can return entirely different definitions based on the data received. This data is now passed through `custom` to ensure type safety for the rest of the component's props (as the previous approach required very permissive types).
+
+```jsx
+// Motion
+const MyComponent = () => {
+  const variants = {
+    visible: target => ({ opacity: target }),
+    hidden: { opacity: 0 },
+  }
+
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={variants}
+      custom={1}
+    />
+  )
+}
+```
+
+## applyAtStart/applyAtEnd
+
+Pose offered the `applyAtStart` and `applyAtEnd` for setting properties at the start and end of a transition.
+
+```jsx
+const Posed = posed.div({
+  visible: {
+    opacity: 1,
+    applyAtStart: {
+      display: "block",
+    },
+  },
+  hidden: {
+    opacity: 0,
+    applyAtEnd: {
+      display: "none",
+    },
+  },
+})
+```
+
+In Motion, non-animatable properties are automatically applied at the start of an animation. Anything that you want to be applied at the end can be set to `transitionEnd`.
+
+```jsx
+const variants = {
+  visible: {
+    opacity: 1,
+    display: "block",
+  },
+  hidden: {
+    opacity: 0,
+    transitionEnd: {
+      display: "none",
+    },
+  },
+}
+```
+
+## Durations
+
+Durations and delays in Pose were set in milliseconds. In Motion, they're set in seconds.
+
+```jsx
+// Pose
+const duration = 1000
+
+// Motion
+const duration = 1
+```
+
+## Transition
+
+Orchestration props like `staggerChildren` have now moved underneath `transition`.
+
+```jsx
+const variants = {
+  visible: {
+    opacity: 1,
+    display: "block",
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+}
+```
+
+In Pose, there were both `beforeChildren` and `afterChildren` boolean props. In Motion, there's just one: `when`. This can be set to either `"beforeChildren"` or `"afterChildren"`.
+
+You can also set a default `transition` for a component via the `transition` prop.
+
+```jsx
+<motion.div transition={{ duration: 2 }} />
+```
+
+## Mount animations
+
+In Pose, to animate a component on mount, you had to set the `initialPose` prop.
+
+```jsx
+<PosedComponent initialPose="hidden" pose="visible" />
+```
+
+In Motion, components will always animate on mount if the content of `animate` is different to `initial`, or the value read from the DOM (as set by CSS).
+
+```jsx
+<motion.div animate={{ scale: 2 }} />
+```
+
+This mount animation can be suppressed by setting `initial` to `false`.
+
+```jsx
+<motion.div initial={false} animate={{ scale: 2 }} />
+```
+
+Unlike Pose, this initial state will also be rendered server side, so no more flashes of styles.
+
+## Hoverable/Pressable
+
+Pose provided shortcuts to animate a component while certain gestures were active. For instance to respond to hover gestures with an animation, you had to set `hoverable` to `true` and provide a `"hover"` pose.
+
+```jsx
+const PosedComponent = posed.div({
+  hover: { scale: 1.1 },
+  hoverable: true,
+})
+```
+
+This had a couple of limitations in that the name of the hoverable pose **had** had to be `"hover"`. Because of this, we couldn't use the presence of the "hover" pose to tell whether this specific component should respond to hovers, or we were just defining a pose to animate as a result of a hover over a parent component.
+
+Instead, Motion provides the `whileHover` and `whileTap` props instead. These can be set either as an object of values, or the name of a variant.
+
+```jsx
+<motion.a whileHover={{ scale: 1.1 }} />
+```
+
+## Draggable
+
+In Pose a component could be made draggable by setting its config to `draggable: true | "x" | "y"`. This was inconvinient because once defined, this configuration couldn't be changed.
+
+```jsx
+posed.div({ draggable: "x" })
+```
+
+In Motion, `drag` is a prop that can be changed like any other.
+
+```jsx
+<motion.div drag />
+```
+
+There was also a special `"drag"` pose to animate to while dragging was active. But in Motion the `whileTap` prop can be used, as this shares the same lifecycle.
+
+## Drag boundaries
+
+In Pose there was a `dragBounds` option that could define the boundaries of the draggable area. It could define top/left/bottom/right boundaries in pixels or a percentage.
+
+In Motion, the `dragConstraints` prop can define boundaries only in pixels.
+
+```jsx
+<motion.div
+  drag="x"
+  dragConstraints={{ left: 0, right: 100 }}
+/>
+```
+
+But now there's also the ability to pass in a `ref` to another component, and have that act as the drag constraints for this component. So if that component is styled responsively, the drag constraints will update when the viewport size changes.
+
+```jsx
+const MyComponent = () => {
+  const constraintsRef = useRef(null)
+  return (
+    <>
+      <div ref={constraintsRef} />
+      <motion.div drag dragConstraints={constraintsRef} />
+    </>
+  )
+}
+```
+
+These constraints are enforced elastically now, but we can remove this effect by setting `dragElastic` to `0`.
+
+```jsx
+<motion.div
+  drag
+  dragConstraints={constraints}
+  dragElastic={0}
+/>
+```
+
+## PoseGroup
+
+The final difference between the two libraries is the `PoseGroup` component. It provided three main functionalities:
+
+- Unmount animations
+- Reorder animations
+- FLIP-powered unmount
+
+This FLIP animation to unmount has been removed, again as it often lead to unexpected or weird results. It also wasn't often needed. However the other two have been split into specific functionalities.
+
+### Unmount animations
+
+There's a [new component](/api/motion/animate-presence), `AnimatePresence`, that is responsible for unmount animations. It works in much the same way as `PoseGroup`, enabling the use of an `exit` prop that can either be an object or the name of a variant.
+
+```jsx
+<AnimatePresence>
+  {isVisible && (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    />
+  )}
+</AnimatePresence>
+```
+
+### Reorder animations
+
+With `PoseGroup`, when an item was removed all of the other items would animate smoothly into their new place.
+
+This has been evolved into a [new prop called `positionTransition`](/api/motion/component/#animationprops.positiontransition), and it doesn't require the use of `AnimatePresence` to work (but they do work nicely together).
+
+```jsx
+<motion.div positionTransition />
+```
+
+It can be set either as a boolean for a default animation, or as a `Transition`.
+
+```jsx
+<motion.div
+  positionTransition={{ type: "spring", stiffness: 500 }}
+/>
+```
+
+If defined, when the `motion` component changes position on a page as a result of the component re-rendering, it'll use this transition to animate smoothly to its new layout.
+
+Paired with `AnimatePresence`, you have all the previous functionality of `PoseGroup`.
+
+```jsx
+<AnimatePresence>
+  {items.map(item => (
+    <motion.li
+      key={item.id}
+      exit={{ opacity: 0 }}
+      positionTransition
+    />
+  ))}
+</AnimatePresence>
+```
