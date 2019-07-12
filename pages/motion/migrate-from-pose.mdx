@@ -73,7 +73,7 @@ This proved to be very inflexible. In Motion, `motion` components are called dir
 
 ## Poses vs variants
 
-Poses exist in Framer Motion under the name "variants". In Pose, they had to be defined outside of the render function, pre-defined in a component.
+Poses exist in Framer Motion under the name `"variants"`. In Pose, they had to be defined outside of the render function, pre-defined in a component.
 
 ```jsx
 // Pose
@@ -107,7 +107,7 @@ const MyComponent = () => {
 }
 ```
 
-Of course, in the Framer Motion you only have to use variants if you're performing animations throughout the tree. Otherwise you can set props to `animate` directly.
+Of course, in Framer Motion you only have to use variants if you're performing animations throughout the tree. Otherwise you can set props to `animate` directly.
 
 ```jsx
 <motion.div animate={{ opacity: 0 }} />
@@ -264,7 +264,7 @@ const PosedComponent = posed.div({
 })
 ```
 
-This had a couple of limitations in that the name of the hoverable pose **had** had to be `"hover"`. Because of this, we couldn't use the presence of the "hover" pose to tell whether this specific component should respond to hovers, or we were just defining a pose to animate as a result of a hover over a parent component.
+This had a couple of limitations in that the name of the hoverable pose **had** to be `"hover"`. Because of this, we couldn't use the presence of the `"hover"` pose to tell whether this specific component should respond to hovers, or we were just defining a pose to animate as a result of a hover over a parent component.
 
 Instead, Motion provides the `whileHover` and `whileTap` props instead. These can be set either as an object of values, or the name of a variant.
 
@@ -274,7 +274,7 @@ Instead, Motion provides the `whileHover` and `whileTap` props instead. These ca
 
 ## Draggable
 
-In Pose a component could be made draggable by setting its config to `draggable: true | "x" | "y"`. This was inconvinient because once defined, this configuration couldn't be changed.
+In Pose, a component could be made draggable by setting its config to `draggable: true | "x" | "y"`. This was inconvenient because once defined, this configuration couldn't be changed.
 
 ```jsx
 posed.div({ draggable: "x" })
