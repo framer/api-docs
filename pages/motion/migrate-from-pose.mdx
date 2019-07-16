@@ -15,11 +15,9 @@ import {
   Todo,
 } from "../../components"
 
-export default Template(
-  "Migrate to Framer Motion from Pose"
-)
+export default Template("Migrate from Pose to Motion")
 
-# Migrate to Framer Motion from Pose
+# Migrate from Pose to Motion
 
 <span className="lead">
   How to convert a Pose project to Framer Motion.
@@ -323,6 +321,40 @@ These constraints are enforced elastically now, but we can remove this effect by
   dragConstraints={constraints}
   dragElastic={0}
 />
+```
+
+## Passive values
+
+Pose allowed you to passively animate values based on the output of others.
+
+```jsx
+const Box = posed.div({
+  draggable: "x",
+  passive: {
+    y: ["x", latestX => latestX * 2],
+  },
+})
+```
+
+You could attach values either to others on the same component, or those higher up the hierarchy via labels.
+
+This could be useful but the strict hierarchal relationship was limiting and the use of labels created brittle soft dependencies.
+
+Motion tracks the state and velocity of every animating value [with a `MotionValue`](/api/motion/motionvalue). Usually, it creates these by default, but by manually creating them they can be passed between components, and interesting relationships can be formed with the [`useTransform` hook](/api/motion/motionvalue#usetransform).
+
+```jsx
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+} from "framer-motion"
+
+export const Box = () => {
+  const x = useMotionValue(0)
+  const y = useTransform(x, latestX => latestX * 2)
+
+  return <motion.div drag style={{ x, y }} />
+}
 ```
 
 ## PoseGroup
