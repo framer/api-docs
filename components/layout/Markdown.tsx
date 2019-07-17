@@ -127,6 +127,9 @@ export const Markdown: React.FunctionComponent = ({ children }) => {
 }
 
 function isAPIElement(node: React.ReactNode): node is React.ReactElement<any> {
+    if (isMDXElement(node) && node.props.mdxType.startsWith("API")) {
+        return true
+    }
     return React.isValidElement(node) && typeof node.type === "function" && node.type.name.startsWith("API")
 }
 
