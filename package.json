@@ -22,7 +22,7 @@
     "framer-motion": "^1.2.1",
     "jest": "^24.3.1",
     "lodash.escape": "^4.0.1",
-    "monobase": "^3.2.2",
+    "monobase": "^3.3.1",
     "prettier": "^1.16.4",
     "prismjs": "^1.15.0",
     "react": "^16.8.1",
