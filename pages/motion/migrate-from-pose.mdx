@@ -338,9 +338,9 @@ const Box = posed.div({
 
 You could attach values either to others on the same component, or those higher up the hierarchy via labels.
 
-This could be useful but the strict hierarchal relationship was limiting and the use of labels created brittle soft dependencies.
+This could be useful but the strict hierarchal relationship was limiting and the use of labels created brittle, weak dependencies.
 
-Motion tracks the state and velocity of every animating value [with a `MotionValue`](/api/motion/motionvalue). Usually, it creates these by default, but by manually creating them they can be passed between components, and interesting relationships can be formed with the [`useTransform` hook](/api/motion/motionvalue#usetransform).
+Motion tracks the state and velocity of every animating value <Link href="motion/motionvalue">with a `MotionValue`</Link>. Usually, it creates these by default, but by manually creating them they can be passed between components, and interesting relationships can be formed with <Link href="motion/motionvalue#usetransform">the `useTransform` hook</Link>.
 
 ```jsx
 import {
@@ -369,7 +369,7 @@ This FLIP animation to unmount has been removed, again as it often lead to unexp
 
 ### Unmount animations
 
-There's a [new component](/api/motion/animate-presence), `AnimatePresence`, that is responsible for unmount animations. It works in much the same way as `PoseGroup`, enabling the use of an `exit` prop that can either be an object or the name of a variant.
+There's a <Link href="motion/animate-presence">new component</Link>, `AnimatePresence`, that is responsible for unmount animations. It works in much the same way as `PoseGroup`, enabling the use of an `exit` prop that can either be an object or the name of a variant.
 
 ```jsx
 <AnimatePresence>
@@ -387,7 +387,7 @@ There's a [new component](/api/motion/animate-presence), `AnimatePresence`, that
 
 With `PoseGroup`, when an item was removed all of the other items would animate smoothly into their new place.
 
-This has been evolved into a [new prop called `positionTransition`](/api/motion/component/#animationprops.positiontransition), and it doesn't require the use of `AnimatePresence` to work (but they do work nicely together).
+This has been evolved into a <Link href="motion/component/#animationprops.positiontransition">new prop called `positionTransition`</Link>, and it doesn't require the use of `AnimatePresence` to work (but they do work nicely together).
 
 ```jsx
 <motion.div positionTransition />
