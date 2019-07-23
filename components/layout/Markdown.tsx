@@ -1,5 +1,6 @@
 /// <reference path="../../types/mdx.d.ts">
 import * as React from "react"
+import cx from "classnames"
 import styled from "styled-components"
 import { desktop, mobile } from "./Breakpoints"
 import { Grid } from "./Grid"
@@ -100,11 +101,10 @@ export const Markdown: React.FunctionComponent = ({ children }) => {
             // Peek at the item preceding the code block to see if we should include it.
             // otherwise we'll have a standalone grid.
             const next = contents[0]
-            const [shouldPairWithCode, pairTag] = getPairWithCodeExample(next)
-            if (shouldPairWithCode) {
+            if (shouldPairWithCodeExample(next)) {
                 add(contents.shift())
             }
-            close(pairTag ? "code grid-example" : "code")
+            close(cx("code", isEmbeddedExample(next) && "code-example"))
         } else if (isSeparator(child)) {
             // Avoids wrapping grid divs around HR tags for custom separators.
             close()
@@ -134,10 +134,16 @@ function isAPIElement(node: React.ReactNode): node is React.ReactElement<any> {
 }
 
 function isEmbeddedDemo(node: React.ReactNode): node is React.ReactElement<any> {
+    if (isMDXElement(node) && node.props.mdxType === "EmbeddedDemo") {
+        return true
+    }
     return React.isValidElement(node) && typeof node.type === "function" && node.type.name === "EmbeddedDemo"
 }
 
 function isEmbeddedExample(node: React.ReactNode): node is MDXElement {
+    if (isMDXElement(node) && node.props.mdxType === "EmbeddedExample") {
+        return true
+    }
     return React.isValidElement(node) && typeof node.type === "function" && node.type.name === "EmbeddedExample"
 }
 
@@ -178,12 +184,6 @@ function shouldPairWithCodeExample(node: React.ReactNode): node is MDXElement {
         (isMDXElement(node) && supported.has(getMDXTag(node))) ||
         (isDOMElement(node) && supported.has(node.type))
     )
-}
-
-function getPairWithCodeExample(node: React.ReactNode): [boolean, string | boolean] {
-    const tag = (isMDXElement(node) && getMDXTag(node)) || (isDOMElement(node) && node.type)
-    const shouldPairWithCode = shouldPairWithCodeExample(node)
-    return [shouldPairWithCode, tag]
 }
 
 function isHeading(node: React.ReactNode): node is MDXElement {
