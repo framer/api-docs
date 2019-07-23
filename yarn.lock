@@ -1083,7 +1083,7 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@popmotion/easing/-/easing-1.0.2.tgz#17d925c45b4bf44189e5a38038d149df42d8c0b4"
 
-"@popmotion/popcorn@^0.4.1":
+"@popmotion/popcorn@^0.4.0", "@popmotion/popcorn@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@popmotion/popcorn/-/popcorn-0.4.1.tgz#02a3aa146dabef4e1bae0567511427fd89fc9cbf"
   integrity sha512-vFqx+NXPGj0iXNUPgxehayiMHR1bOpTqYYF0nypay3J6ltp831hit1ml+OBJYQkk4Dcq3GSQzSokVZdLBQuC5Q==
@@ -3234,10 +3234,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.2.1.tgz#3ee6eed95db28db0be51289610fcf6bcbe362f0a"
-  integrity sha512-SLs4UfvrEYzTaVQyUai2hy6KEx7nlKMYG+frXXTWhVXBnTszGrRDhP9PlFpxjHQezLcwXEDfAMVh/riUJpTxDA==
+framer-motion@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.2.6.tgz#57eebf6a465e0f359a90921b5af4fa1fc10aa7f5"
+  integrity sha512-amlr3TIkAIS1k3rVqGRZzo0RN7qXYxro977dZgspnxLMLBt+ppm9juS/e6Ld0OMwRDgOa3lolofzbt1Z2o97cA==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.1"
@@ -3245,15 +3245,15 @@ framer-motion@^1.2.1:
     hey-listen "^1.0.8"
     popmotion "^9.0.0-beta-7"
     style-value-types "^3.1.5"
-    stylefire "^6.0.4"
+    stylefire "^6.0.7"
     tslib "^1.10.0"
 
-framer@^1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.0.14.tgz#c28e018e7777e43bcbe7ac750cb0a57c18a01949"
-  integrity sha512-arMs/yQUPBZqZwWz5+3Q2OdWZCMDPFtcaRKmh2MP2ettw6LrJ4ct8erwzUt0TESlPvuk4pVsyM2qCx99JCRyyA==
+framer@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.0.15.tgz#cd9afa540b41a882f8e11300bfb79f7aaaf94046"
+  integrity sha512-nX1Oay2ZviLssKmes/6Fxbp4AKZ4i25tq/5ibRkXabMdHlQ+IM6ndfhLFeUmdAml2BeiTR/W/Qzytta2c0QsKg==
 
-framesync@^4.0.4:
+framesync@^4.0.0, framesync@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/framesync/-/framesync-4.0.4.tgz#79c42c0118f26821c078570db0ff81fb863516a2"
   integrity sha512-mdP0WvVHe0/qA62KG2LFUAOiWLng5GLpscRlwzBxu2VXOp6B8hNs5C5XlFigsMgrfDrr2YbqTsgdWZTc4RXRMQ==
@@ -6843,7 +6843,7 @@ style-to-object@^0.2.1:
   dependencies:
     css "2.2.4"
 
-style-value-types@^3.1.5:
+style-value-types@^3.1.4, style-value-types@^3.1.5:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-3.1.5.tgz#b3a8cac34059b0e7e0458593fb96892e2d3a9b13"
   integrity sha512-D4ksO88QUxpqiogoyl5nKvFgOpoNZrD4pr0BbZRdS2WsPdVYetdbKUtbsBlwX5mUdfXfoMNuv2pS8h+XRey+Eg==
@@ -6866,16 +6866,15 @@ styled-components@^4.1.3:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-stylefire@^6.0.4:
-  version "6.0.4"
-  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.4.tgz#3291d2e2b92eeb7c63f7ac9e5a1f8c1e1ccbebcf"
-  integrity sha512-94jy496blL+/zfqmxRYXl4xApvwndG6V9YubVIDxkULI6hiTdZqamBqWemusMNMXgrqzNKp8JjcH898+UD9K/A==
+stylefire@^6.0.7:
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.7.tgz#200289dba4d0f1bc3938ea8e9c5c5eb70c978953"
+  integrity sha512-nI9GAtxSv0nzvc6d8k+CLg/2iDDGFqHyU0NI3St4nNQi1hcPcvl42PqBmYyNgAm+9O5fXNjvjosfXYGFj0w3EA==
   dependencies:
-    "@popmotion/popcorn" "^0.4.1"
-    framesync "^4.0.4"
+    "@popmotion/popcorn" "^0.4.0"
+    framesync "^4.0.0"
     hey-listen "^1.0.8"
-    style-value-types "^3.1.5"
-    tslib "^1.10.0"
+    style-value-types "^3.1.4"
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
