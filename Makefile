@@ -55,7 +55,7 @@ build: bootstrap data changelog
 
 .PHONY: verify-api-references
 verify-api-references:
-	@!(grep --count data-missing-model $(BUILD_DIR)/**/*.html) || (echo "Build has missing API references. See above output for file paths" && exit 1)
+	@./test/verify-api-references build
 
 .PHONY: publish
 publish: bootstrap data changelog

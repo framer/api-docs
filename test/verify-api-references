@@ -1,0 +1,21 @@
+#!/bin/bash
+# Checks for any missing models in the built website by looking for the
+# data-missing-model attribute assigned in the MissingModelWarning component.
+# The command will fail with a non-zero exit code if any warnings are found
+# and a summary printed to the console.
+#
+# Usage:
+#   ./verify-api-references <path>
+set -euo pipefail
+
+SEARCHPATH="$1"
+FILES=$(find "$SEARCHPATH" -name '*.html')
+
+if grep -q data-missing-model $FILES ; then
+    echo "Build has missing API references:"
+    # Use awk to extract data-missing-model values and print them alongside the
+    # filename. awk doesn't support regexp capture groups so we offset
+    # the match position to remove the data-missing-model part.
+    awk 'match($0, /data-missing-model="[^"]+"/){ print "\033[01;33m" FILENAME ": " "\033[0m" substr($0, RSTART+20, RLENGTH-21) }' $FILES
+    exit 1
+fi

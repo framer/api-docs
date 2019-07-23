@@ -94,9 +94,13 @@ export class FramerAPI {
                 // differentiate say from a function called Color and a
                 // namespace called Color.
                 if (kind && remainder === "") {
-                    const potential = keyForKind(key, kind)
-                    const match = next(current, potential, remainder)
-                    if (match) return match
+                    const potentials = keysForKind(key, kind)
+                    for (const potential of potentials) {
+                        const match = next(current, potential, remainder)
+                        if (match) return match
+                    }
+                    // If provided a hint then bail.
+                    return null
                 }
 
                 // Otherwise loop through all potential matches
@@ -214,38 +218,40 @@ function potentialKeys(name: string): string[] {
     ]
 }
 
-function keyForKind(name: string, kind: Kind): string {
+function keysForKind(name: string, kind: Kind): string[] {
     name = name.replace(/\(\)$/, "")
     switch (kind) {
         case Kind.Class:
-            return `(${name}:class)`
+            return [`(${name}:class)`]
         case Kind.Interface:
-            return `(${name}:interface)`
+            return [`(${name}:interface)`]
         case Kind.Constructor:
         case Kind.ConstructSignature:
-            return `(${name}:constructor)`
+            return [`(${name}:constructor)`]
         case Kind.Function:
-            return `(${name}:function)`
+            // Support override syntax. We go up to 1 because api-extractor
+            // treats functions with namespace extensions as overrides.
+            return [`(${name}:function)`, `(${name}:0)`, `(${name}:1)`]
         case Kind.Method:
-            return `(${name}:instance)`
         case Kind.MethodSignature:
-            return `(${name}:instance)`
+            return [`(${name}:instance)`, `(${name}:0)`]
         case Kind.Enum:
-            return `(${name}:enum)`
+            return [`(${name}:enum)`]
         case Kind.Namespace:
-            return `(${name}:namespace)`
+            return [`(${name}:namespace)`]
         case Kind.EnumMember:
-            return name
+            return [name]
         case Kind.Parameter:
-            return `(${name}:parameter)`
+            return [`(${name}:parameter)`]
         case Kind.Property:
-            return `(${name}:instance)`
+            // Support both Property & PropertySignature & MethodSignature here
+            return [`(${name}:instance)`, `(${name}:0)`, name]
         case Kind.PropertySignature:
-            return name
+            return [name]
         case Kind.TypeAlias:
-            return name
+            return [name]
         case Kind.Variable:
-            return `(${name}:variable)`
+            return [`(${name}:variable)`, name]
         default:
             return assertNever(kind)
     }

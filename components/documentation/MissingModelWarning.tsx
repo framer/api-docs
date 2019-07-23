@@ -7,7 +7,7 @@ import { Kind } from "../../api"
  */
 export const MissingModelWarning: React.FunctionComponent<{ name: string; kind?: Kind }> = ({ name, kind }) => {
     return (
-        <div data-missing-model={`${kind} -> ${name}`}>
+        <div data-missing-model={`${kind} → ${name}`}>
             <h3>
                 <span style={{ color: "red", fontWeight: 500 }}>{name}</span>
                 <span style={{ opacity: 0.5 }}> missing</span>
