@@ -1079,10 +1079,10 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.10.tgz#c0e2c875c24a21da6d345d09189f5df4a1801d82"
   integrity sha512-tsog/HTdM88/WyR0Jz7XWTI0ghbJkt9soFXnQJrINDyaTGzbCoJjRttaW/IY5eAp4eqDyfg++jq6o+byEDOkIQ==
 
-"@microsoft/tsdoc@^0.12.9":
-  version "0.12.9"
-  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.9.tgz#f92538bebf649b1b9d00bdd34a9c9971aef17d01"
-  integrity sha512-sDhulvuVk65eMppYOE6fr6mMI6RUqs53KUg9deYzNCBpP+2FhR0OFB5innEfdtSedk0LK+1Ppu6MxkfiNjS/Cw==
+"@microsoft/tsdoc@^0.12.11":
+  version "0.12.11"
+  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.11.tgz#b1384eb544f39e37c4fd5a68b9cbaf5e70739ca9"
+  integrity sha512-CXAEl/mTBkr+KcX/+Xi7wbNBnofZ1p2UwYbaJ+zwcVMCWQTMsheqkOwPM3BQ7J6uOacxwxO6rBRDjQqBdfe8dQ==
 
 "@popmotion/easing@^1.0.1", "@popmotion/easing@^1.0.2":
   version "1.0.2"
