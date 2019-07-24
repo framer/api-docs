@@ -1,22 +1,44 @@
 {
   "metadata": {
     "toolPackage": "@microsoft/api-extractor",
-    "toolVersion": "7.0.13",
-    "schemaVersion": 1000
+    "toolVersion": "7.3.4",
+    "schemaVersion": 1002,
+    "oldestForwardsCompatibleVersion": 1001
   },
   "kind": "Package",
-  "canonicalReference": "example",
   "docComment": "",
   "name": "example",
   "members": [
     {
       "kind": "EntryPoint",
-      "canonicalReference": "",
       "name": "",
       "members": [
         {
+          "kind": "Variable",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Reference",
+              "text": "MY_VARIABLE"
+            },
+            {
+              "kind": "Content",
+              "text": ": "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "MY_VARIABLE",
+          "variableTypeTokenRange": {
+            "startIndex": 2,
+            "endIndex": 3
+          }
+        },
+        {
           "kind": "Class",
-          "canonicalReference": "(MyClass:class)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -37,8 +59,7 @@
           "members": [
             {
               "kind": "Constructor",
-              "canonicalReference": "(:constructor,instance,0)",
-              "docComment": "/**\n * @public\n */\n",
+              "docComment": "/**\n * Constructs a new instance of the `MyClass` class\n *\n * @public\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -61,7 +82,6 @@
                   "text": ");"
                 }
               ],
-              "isStatic": false,
               "releaseTag": "Public",
               "overloadIndex": 0,
               "parameters": [
@@ -76,7 +96,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(myMethod:instance,0)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -118,7 +137,7 @@
                 "endIndex": 7
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "param1",
@@ -132,7 +151,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(myMethod:instance,1)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -174,7 +192,7 @@
                 "endIndex": 7
               },
               "releaseTag": "Public",
-              "overloadIndex": 1,
+              "overloadIndex": 2,
               "parameters": [
                 {
                   "parameterName": "overload1",
@@ -188,7 +206,6 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "(myProperty:instance)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -218,7 +235,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(myStaticMethod:static,0)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -264,7 +280,7 @@
                 "endIndex": 8
               },
               "releaseTag": "Public",
-              "overloadIndex": 0,
+              "overloadIndex": 1,
               "parameters": [
                 {
                   "parameterName": "param1",
@@ -278,7 +294,6 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "(myStaticMethod:static,1)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -324,7 +339,7 @@
                 "endIndex": 8
               },
               "releaseTag": "Public",
-              "overloadIndex": 1,
+              "overloadIndex": 2,
               "parameters": [
                 {
                   "parameterName": "overloaded1",
@@ -338,7 +353,6 @@
             },
             {
               "kind": "Property",
-              "canonicalReference": "(myStaticProperty:static)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -375,7 +389,6 @@
         },
         {
           "kind": "Enum",
-          "canonicalReference": "(MyEnum:enum)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -396,7 +409,6 @@
           "members": [
             {
               "kind": "EnumMember",
-              "canonicalReference": "MyField1",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -413,7 +425,6 @@
             },
             {
               "kind": "EnumMember",
-              "canonicalReference": "MyField2",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -430,7 +441,6 @@
             },
             {
               "kind": "EnumMember",
-              "canonicalReference": "MyField3",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -449,7 +459,6 @@
         },
         {
           "kind": "Enum",
-          "canonicalReference": "(MyExtendedEnum:enum)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -470,7 +479,6 @@
           "members": [
             {
               "kind": "EnumMember",
-              "canonicalReference": "MyExtendedEnumField",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -489,7 +497,6 @@
         },
         {
           "kind": "Namespace",
-          "canonicalReference": "(MyExtendedEnum:namespace)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -510,7 +517,6 @@
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "(myExtendedEnumMethod:0)",
               "docComment": "",
               "excerptTokens": [
                 {
@@ -547,7 +553,6 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(myFunction:0)",
           "docComment": "/**\n * This is a simple public function.\n *\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -592,7 +597,7 @@
             "endIndex": 8
           },
           "releaseTag": "Public",
-          "overloadIndex": 0,
+          "overloadIndex": 1,
           "parameters": [
             {
               "parameterName": "param1",
@@ -606,7 +611,6 @@
         },
         {
           "kind": "Function",
-          "canonicalReference": "(myFunction:1)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -651,7 +655,7 @@
             "endIndex": 8
           },
           "releaseTag": "Public",
-          "overloadIndex": 1,
+          "overloadIndex": 2,
           "parameters": [
             {
               "parameterName": "overloaded1",
@@ -664,8 +668,145 @@
           "name": "myFunction"
         },
         {
+          "kind": "Function",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare function "
+            },
+            {
+              "kind": "Reference",
+              "text": "MyFunctionWithNamespace"
+            },
+            {
+              "kind": "Content",
+              "text": "("
+            },
+            {
+              "kind": "Reference",
+              "text": "param1"
+            },
+            {
+              "kind": "Content",
+              "text": ": "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": "): "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "returnTypeTokenRange": {
+            "startIndex": 7,
+            "endIndex": 8
+          },
+          "releaseTag": "Public",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "parameterName": "param1",
+              "parameterTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            }
+          ],
+          "name": "MyFunctionWithNamespace"
+        },
+        {
+          "kind": "Namespace",
+          "docComment": "/**\n * @public\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare namespace "
+            },
+            {
+              "kind": "Reference",
+              "text": "MyFunctionWithNamespace"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "MyFunctionWithNamespace",
+          "members": [
+            {
+              "kind": "Function",
+              "docComment": "/**\n * @public\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "export function "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "myFunctionWithNamespaceFunction"
+                },
+                {
+                  "kind": "Content",
+                  "text": "("
+                },
+                {
+                  "kind": "Reference",
+                  "text": "param1"
+                },
+                {
+                  "kind": "Content",
+                  "text": ": "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 0,
+              "parameters": [
+                {
+                  "parameterName": "param1",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ],
+              "name": "myFunctionWithNamespaceFunction"
+            }
+          ]
+        },
+        {
           "kind": "Interface",
-          "canonicalReference": "(MyInterface:interface)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -686,7 +827,6 @@
           "members": [
             {
               "kind": "ConstructSignature",
-              "canonicalReference": "(:new,0)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -736,7 +876,6 @@
             },
             {
               "kind": "MethodSignature",
-              "canonicalReference": "(myMethodSignature:0)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -791,7 +930,6 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "myPropertySignature",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -823,7 +961,6 @@
         },
         {
           "kind": "Namespace",
-          "canonicalReference": "(MyNamespace:namespace)",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -844,7 +981,6 @@
           "members": [
             {
               "kind": "Function",
-              "canonicalReference": "(myNamespaceFunction:0)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -903,7 +1039,6 @@
             },
             {
               "kind": "Interface",
-              "canonicalReference": "(MyNamespaceInterface:interface)",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -926,7 +1061,6 @@
             },
             {
               "kind": "TypeAlias",
-              "canonicalReference": "myNamespaceType",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -939,15 +1073,26 @@
                 },
                 {
                   "kind": "Content",
-                  "text": " = string;"
+                  "text": " = "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
                 }
               ],
               "releaseTag": "Public",
-              "name": "myNamespaceType"
+              "name": "myNamespaceType",
+              "typeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
             },
             {
               "kind": "Variable",
-              "canonicalReference": "myNamespaceVariable",
               "docComment": "/**\n * @public\n */\n",
               "excerptTokens": [
                 {
@@ -973,33 +1118,7 @@
           ]
         },
         {
-          "kind": "Variable",
-          "canonicalReference": "MY_VARIABLE",
-          "docComment": "/**\n * @public\n */\n",
-          "excerptTokens": [
-            {
-              "kind": "Reference",
-              "text": "MY_VARIABLE"
-            },
-            {
-              "kind": "Content",
-              "text": ": "
-            },
-            {
-              "kind": "Content",
-              "text": "string"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "MY_VARIABLE",
-          "variableTypeTokenRange": {
-            "startIndex": 2,
-            "endIndex": 3
-          }
-        },
-        {
           "kind": "TypeAlias",
-          "canonicalReference": "MyType",
           "docComment": "/**\n * @public\n */\n",
           "excerptTokens": [
             {
@@ -1012,11 +1131,23 @@
             },
             {
               "kind": "Content",
-              "text": " = string;"
+              "text": " = "
+            },
+            {
+              "kind": "Content",
+              "text": "string"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
             }
           ],
           "releaseTag": "Public",
-          "name": "MyType"
+          "name": "MyType",
+          "typeTokenRange": {
+            "startIndex": 3,
+            "endIndex": 4
+          }
         }
       ]
     }

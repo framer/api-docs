@@ -1,13 +1,13 @@
 export default {
   "(myclass:class)": {
     "children": {
-      "(mymethod:instance)": {
+      "(mymethod:instance,1)": {
         "children": {
           "(param1:parameter)": {
             "children": {},
             "model": {
-              "id": "(myclass:class).(mymethod:instance).(param1:parameter)",
-              "parentId": "(myclass:class).(mymethod:instance)",
+              "id": "(myclass:class).(mymethod:instance,1).(param1:parameter)",
+              "parentId": "(myclass:class).(mymethod:instance,1)",
               "name": "param1",
               "fullname": "MyClass.myMethod().param1",
               "kind": "Parameter",
@@ -17,54 +17,10 @@ export default {
               "tsdoc": "/**\n * @public\n */\n",
               "summaryMarkup": null,
               "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
               "deprecatedMarkup": null,
               "type": "string"
-            }
-          }
-        },
-        "model": {
-          "id": "(myclass:class).(mymethod:instance)",
-          "parentId": "(myclass:class)",
-          "name": "myMethod",
-          "fullname": "MyClass.myMethod()",
-          "kind": "Method",
-          "releaseTag": "public",
-          "visibility": "public",
-          "signature": "myMethod(param1): string",
-          "tsdoc": "/**\n * @public\n */\n",
-          "summaryMarkup": null,
-          "remarksMarkup": null,
-          "deprecatedMarkup": null,
-          "returnType": "string",
-          "returnMarkup": null,
-          "isStatic": false,
-          "overloadIndex": 0,
-          "overloads": [
-            "(myclass:class).(mymethod:instance,1)"
-          ],
-          "parameters": [
-            "(myclass:class).(mymethod:instance).(param1:parameter)"
-          ]
-        }
-      },
-      "(mymethod:instance,1)": {
-        "children": {
-          "(overload1:parameter)": {
-            "children": {},
-            "model": {
-              "id": "(myclass:class).(mymethod:instance,1).(overload1:parameter)",
-              "parentId": "(myclass:class).(mymethod:instance,1)",
-              "name": "overload1",
-              "fullname": "MyClass.myMethod().overload1",
-              "kind": "Parameter",
-              "releaseTag": "public",
-              "visibility": "public",
-              "signature": "myMethod(overload1: number): string;",
-              "tsdoc": "/**\n * @public\n */\n",
-              "summaryMarkup": null,
-              "remarksMarkup": null,
-              "deprecatedMarkup": null,
-              "type": "number"
             }
           }
         },
@@ -76,20 +32,72 @@ export default {
           "kind": "Method",
           "releaseTag": "public",
           "visibility": "public",
-          "signature": "myMethod(overload1): string",
+          "signature": "myMethod(param1): string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "string",
           "returnMarkup": null,
           "isStatic": false,
           "overloadIndex": 1,
           "overloads": [
-            "(myclass:class).(mymethod:instance)"
+            "(myclass:class).(mymethod:instance,2)"
           ],
           "parameters": [
-            "(myclass:class).(mymethod:instance,1).(overload1:parameter)"
+            "(myclass:class).(mymethod:instance,1).(param1:parameter)"
+          ]
+        }
+      },
+      "(mymethod:instance,2)": {
+        "children": {
+          "(overload1:parameter)": {
+            "children": {},
+            "model": {
+              "id": "(myclass:class).(mymethod:instance,2).(overload1:parameter)",
+              "parentId": "(myclass:class).(mymethod:instance,2)",
+              "name": "overload1",
+              "fullname": "MyClass.myMethod().overload1",
+              "kind": "Parameter",
+              "releaseTag": "public",
+              "visibility": "public",
+              "signature": "myMethod(overload1: number): string;",
+              "tsdoc": "/**\n * @public\n */\n",
+              "summaryMarkup": null,
+              "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
+              "deprecatedMarkup": null,
+              "type": "number"
+            }
+          }
+        },
+        "model": {
+          "id": "(myclass:class).(mymethod:instance,2)",
+          "parentId": "(myclass:class)",
+          "name": "myMethod",
+          "fullname": "MyClass.myMethod()",
+          "kind": "Method",
+          "releaseTag": "public",
+          "visibility": "public",
+          "signature": "myMethod(overload1): string",
+          "tsdoc": "/**\n * @public\n */\n",
+          "summaryMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
+          "deprecatedMarkup": null,
+          "returnType": "string",
+          "returnMarkup": null,
+          "isStatic": false,
+          "overloadIndex": 2,
+          "overloads": [
+            "(myclass:class).(mymethod:instance,1)"
+          ],
+          "parameters": [
+            "(myclass:class).(mymethod:instance,2).(overload1:parameter)"
           ]
         }
       },
@@ -106,18 +114,20 @@ export default {
           "signature": "myProperty: string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
         }
       },
-      "(mystaticmethod:static)": {
+      "(mystaticmethod:static,1)": {
         "children": {
           "(param1:parameter)": {
             "children": {},
             "model": {
-              "id": "(myclass:class).(mystaticmethod:static).(param1:parameter)",
-              "parentId": "(myclass:class).(mystaticmethod:static)",
+              "id": "(myclass:class).(mystaticmethod:static,1).(param1:parameter)",
+              "parentId": "(myclass:class).(mystaticmethod:static,1)",
               "name": "param1",
               "fullname": "MyClass.myStaticMethod().param1",
               "kind": "Parameter",
@@ -127,54 +137,10 @@ export default {
               "tsdoc": "/**\n * @public\n */\n",
               "summaryMarkup": null,
               "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
               "deprecatedMarkup": null,
               "type": "string"
-            }
-          }
-        },
-        "model": {
-          "id": "(myclass:class).(mystaticmethod:static)",
-          "parentId": "(myclass:class)",
-          "name": "myStaticMethod",
-          "fullname": "MyClass.myStaticMethod()",
-          "kind": "Method",
-          "releaseTag": "public",
-          "visibility": "public",
-          "signature": "static myStaticMethod(param1): string",
-          "tsdoc": "/**\n * @public\n */\n",
-          "summaryMarkup": null,
-          "remarksMarkup": null,
-          "deprecatedMarkup": null,
-          "returnType": "string",
-          "returnMarkup": null,
-          "isStatic": true,
-          "overloadIndex": 0,
-          "overloads": [
-            "(myclass:class).(mystaticmethod:static,1)"
-          ],
-          "parameters": [
-            "(myclass:class).(mystaticmethod:static).(param1:parameter)"
-          ]
-        }
-      },
-      "(mystaticmethod:static,1)": {
-        "children": {
-          "(overloaded1:parameter)": {
-            "children": {},
-            "model": {
-              "id": "(myclass:class).(mystaticmethod:static,1).(overloaded1:parameter)",
-              "parentId": "(myclass:class).(mystaticmethod:static,1)",
-              "name": "overloaded1",
-              "fullname": "MyClass.myStaticMethod().overloaded1",
-              "kind": "Parameter",
-              "releaseTag": "public",
-              "visibility": "public",
-              "signature": "static myStaticMethod(overloaded1: number): string;",
-              "tsdoc": "/**\n * @public\n */\n",
-              "summaryMarkup": null,
-              "remarksMarkup": null,
-              "deprecatedMarkup": null,
-              "type": "number"
             }
           }
         },
@@ -186,20 +152,72 @@ export default {
           "kind": "Method",
           "releaseTag": "public",
           "visibility": "public",
-          "signature": "static myStaticMethod(overloaded1): string",
+          "signature": "static myStaticMethod(param1): string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "string",
           "returnMarkup": null,
           "isStatic": true,
           "overloadIndex": 1,
           "overloads": [
-            "(myclass:class).(mystaticmethod:static)"
+            "(myclass:class).(mystaticmethod:static,2)"
           ],
           "parameters": [
-            "(myclass:class).(mystaticmethod:static,1).(overloaded1:parameter)"
+            "(myclass:class).(mystaticmethod:static,1).(param1:parameter)"
+          ]
+        }
+      },
+      "(mystaticmethod:static,2)": {
+        "children": {
+          "(overloaded1:parameter)": {
+            "children": {},
+            "model": {
+              "id": "(myclass:class).(mystaticmethod:static,2).(overloaded1:parameter)",
+              "parentId": "(myclass:class).(mystaticmethod:static,2)",
+              "name": "overloaded1",
+              "fullname": "MyClass.myStaticMethod().overloaded1",
+              "kind": "Parameter",
+              "releaseTag": "public",
+              "visibility": "public",
+              "signature": "static myStaticMethod(overloaded1: number): string;",
+              "tsdoc": "/**\n * @public\n */\n",
+              "summaryMarkup": null,
+              "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
+              "deprecatedMarkup": null,
+              "type": "number"
+            }
+          }
+        },
+        "model": {
+          "id": "(myclass:class).(mystaticmethod:static,2)",
+          "parentId": "(myclass:class)",
+          "name": "myStaticMethod",
+          "fullname": "MyClass.myStaticMethod()",
+          "kind": "Method",
+          "releaseTag": "public",
+          "visibility": "public",
+          "signature": "static myStaticMethod(overloaded1): string",
+          "tsdoc": "/**\n * @public\n */\n",
+          "summaryMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
+          "deprecatedMarkup": null,
+          "returnType": "string",
+          "returnMarkup": null,
+          "isStatic": true,
+          "overloadIndex": 2,
+          "overloads": [
+            "(myclass:class).(mystaticmethod:static,1)"
+          ],
+          "parameters": [
+            "(myclass:class).(mystaticmethod:static,2).(overloaded1:parameter)"
           ]
         }
       },
@@ -216,7 +234,9 @@ export default {
           "signature": "static myStaticProperty: string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
         }
@@ -233,17 +253,16 @@ export default {
       "signature": "export declare class MyClass ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "constructor": "(myclass:constructor)",
       "properties": [
         "(myclass:class).(myproperty:instance)",
         "(myclass:class).(mystaticproperty:static)"
       ],
-      "methods": [
-        "(myclass:class).(mymethod:instance)",
-        "(myclass:class).(mystaticmethod:static)"
-      ]
+      "methods": []
     }
   },
   "(myclass:constructor)": {
@@ -254,14 +273,16 @@ export default {
           "id": "(myclass:constructor).(param1:parameter)",
           "parentId": "(myclass:constructor)",
           "name": "param1",
-          "fullname": "MyClass.(constructor)().param1",
+          "fullname": "MyClass.(constructor).param1",
           "kind": "Parameter",
           "releaseTag": "public",
           "visibility": "public",
           "signature": "constructor(param1: string);",
-          "tsdoc": "/**\n * @public\n */\n",
+          "tsdoc": "/**\n * Constructs a new instance of the `MyClass` class\n *\n * @public\n */\n",
           "summaryMarkup": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
         }
@@ -271,18 +292,19 @@ export default {
       "id": "(myclass:constructor)",
       "parentId": "(myclass:class)",
       "name": "MyClass",
-      "fullname": "MyClass.(constructor)()",
+      "fullname": "MyClass.(constructor)",
       "kind": "Constructor",
       "releaseTag": "public",
       "visibility": "public",
       "signature": "MyClass(param1)",
-      "tsdoc": "/**\n * @public\n */\n",
-      "summaryMarkup": null,
-      "remarksMarkup": null,
+      "tsdoc": "/**\n * Constructs a new instance of the `MyClass` class\n *\n * @public\n */\n",
+      "summaryMarkup": "<p>Constructs a new instance of the <code class=\"DocCodeSpan\">MyClass</code> class</p>",
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "returnType": "void",
       "returnMarkup": null,
-      "isStatic": false,
       "overloadIndex": 0,
       "overloads": [],
       "parameters": [
@@ -306,6 +328,8 @@ export default {
           "summaryMarkup": null,
           "tsdoc": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": ""
         }
@@ -324,6 +348,8 @@ export default {
           "summaryMarkup": null,
           "tsdoc": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": ""
         }
@@ -342,6 +368,8 @@ export default {
           "summaryMarkup": null,
           "tsdoc": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": ""
         }
@@ -358,7 +386,9 @@ export default {
       "signature": "export declare enum MyEnum ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "fields": [
         "(myenum:enum).myfield1",
@@ -383,6 +413,8 @@ export default {
           "summaryMarkup": null,
           "tsdoc": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": ""
         }
@@ -399,7 +431,9 @@ export default {
       "signature": "export declare enum MyExtendedEnum ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "fields": [
         "(myextendedenum:enum).myextendedenumfield"
@@ -422,6 +456,8 @@ export default {
           "summaryMarkup": null,
           "tsdoc": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "string",
           "returnMarkup": null,
@@ -443,20 +479,22 @@ export default {
       "signature": "export declare namespace MyExtendedEnum ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "members": [
         "(myextendedenum:namespace).(myextendedenummethod:function)"
       ]
     }
   },
-  "(myfunction:function)": {
+  "(myfunction:1)": {
     "children": {
       "(param1:parameter)": {
         "children": {},
         "model": {
-          "id": "(myfunction:function).(param1:parameter)",
-          "parentId": "(myfunction:function)",
+          "id": "(myfunction:1).(param1:parameter)",
+          "parentId": "(myfunction:1)",
           "name": "param1",
           "fullname": "myFunction().param1",
           "kind": "Parameter",
@@ -466,52 +504,10 @@ export default {
           "tsdoc": "/**\n * This is a simple public function.\n *\n * @public\n */\n",
           "summaryMarkup": null,
           "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
-        }
-      }
-    },
-    "model": {
-      "id": "(myfunction:function)",
-      "parentId": "",
-      "name": "myFunction",
-      "fullname": "myFunction()",
-      "kind": "Function",
-      "releaseTag": "public",
-      "visibility": "public",
-      "signature": "myFunction(param1): string",
-      "tsdoc": "/**\n * This is a simple public function.\n *\n * @public\n */\n",
-      "summaryMarkup": "<p>This is a simple public function.</p>",
-      "remarksMarkup": null,
-      "deprecatedMarkup": null,
-      "returnType": "string",
-      "returnMarkup": null,
-      "isStatic": false,
-      "overloadIndex": 0,
-      "overloads": [],
-      "parameters": [
-        "(myfunction:function).(param1:parameter)"
-      ]
-    }
-  },
-  "(myfunction:1)": {
-    "children": {
-      "(overloaded1:parameter)": {
-        "children": {},
-        "model": {
-          "id": "(myfunction:1).(overloaded1:parameter)",
-          "parentId": "(myfunction:1)",
-          "name": "overloaded1",
-          "fullname": "myFunction().overloaded1",
-          "kind": "Parameter",
-          "releaseTag": "public",
-          "visibility": "public",
-          "signature": "export declare function myFunction(overloaded1: number): string;",
-          "tsdoc": "/**\n * @public\n */\n",
-          "summaryMarkup": null,
-          "remarksMarkup": null,
-          "deprecatedMarkup": null,
-          "type": "number"
         }
       }
     },
@@ -523,10 +519,12 @@ export default {
       "kind": "Function",
       "releaseTag": "public",
       "visibility": "public",
-      "signature": "myFunction(overloaded1): string",
-      "tsdoc": "/**\n * @public\n */\n",
-      "summaryMarkup": null,
-      "remarksMarkup": null,
+      "signature": "myFunction(param1): string",
+      "tsdoc": "/**\n * This is a simple public function.\n *\n * @public\n */\n",
+      "summaryMarkup": "<p>This is a simple public function.</p>",
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "returnType": "string",
       "returnMarkup": null,
@@ -534,7 +532,174 @@ export default {
       "overloadIndex": 1,
       "overloads": [],
       "parameters": [
-        "(myfunction:1).(overloaded1:parameter)"
+        "(myfunction:1).(param1:parameter)"
+      ]
+    }
+  },
+  "(myfunction:2)": {
+    "children": {
+      "(overloaded1:parameter)": {
+        "children": {},
+        "model": {
+          "id": "(myfunction:2).(overloaded1:parameter)",
+          "parentId": "(myfunction:2)",
+          "name": "overloaded1",
+          "fullname": "myFunction().overloaded1",
+          "kind": "Parameter",
+          "releaseTag": "public",
+          "visibility": "public",
+          "signature": "export declare function myFunction(overloaded1: number): string;",
+          "tsdoc": "/**\n * @public\n */\n",
+          "summaryMarkup": null,
+          "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
+          "deprecatedMarkup": null,
+          "type": "number"
+        }
+      }
+    },
+    "model": {
+      "id": "(myfunction:2)",
+      "parentId": "",
+      "name": "myFunction",
+      "fullname": "myFunction()",
+      "kind": "Function",
+      "releaseTag": "public",
+      "visibility": "public",
+      "signature": "myFunction(overloaded1): string",
+      "tsdoc": "/**\n * @public\n */\n",
+      "summaryMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
+      "deprecatedMarkup": null,
+      "returnType": "string",
+      "returnMarkup": null,
+      "isStatic": false,
+      "overloadIndex": 2,
+      "overloads": [],
+      "parameters": [
+        "(myfunction:2).(overloaded1:parameter)"
+      ]
+    }
+  },
+  "(myfunctionwithnamespace:1)": {
+    "children": {
+      "(param1:parameter)": {
+        "children": {},
+        "model": {
+          "id": "(myfunctionwithnamespace:1).(param1:parameter)",
+          "parentId": "(myfunctionwithnamespace:1)",
+          "name": "param1",
+          "fullname": "MyFunctionWithNamespace().param1",
+          "kind": "Parameter",
+          "releaseTag": "public",
+          "visibility": "public",
+          "signature": "export declare function MyFunctionWithNamespace(param1: string): string;",
+          "tsdoc": "/**\n * @public\n */\n",
+          "summaryMarkup": null,
+          "remarksMarkup": null,
+          "prototypeMarkup": null,
+          "productionMarkup": null,
+          "deprecatedMarkup": null,
+          "type": "string"
+        }
+      }
+    },
+    "model": {
+      "id": "(myfunctionwithnamespace:1)",
+      "parentId": "",
+      "name": "MyFunctionWithNamespace",
+      "fullname": "MyFunctionWithNamespace()",
+      "kind": "Function",
+      "releaseTag": "public",
+      "visibility": "public",
+      "signature": "MyFunctionWithNamespace(param1): string",
+      "tsdoc": "/**\n * @public\n */\n",
+      "summaryMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
+      "deprecatedMarkup": null,
+      "returnType": "string",
+      "returnMarkup": null,
+      "isStatic": false,
+      "overloadIndex": 1,
+      "overloads": [],
+      "parameters": [
+        "(myfunctionwithnamespace:1).(param1:parameter)"
+      ]
+    }
+  },
+  "(myfunctionwithnamespace:namespace)": {
+    "children": {
+      "(myfunctionwithnamespacefunction:function)": {
+        "children": {
+          "(param1:parameter)": {
+            "children": {},
+            "model": {
+              "id": "(myfunctionwithnamespace:namespace).(myfunctionwithnamespacefunction:function).(param1:parameter)",
+              "parentId": "(myfunctionwithnamespace:namespace).(myfunctionwithnamespacefunction:function)",
+              "name": "param1",
+              "fullname": "MyFunctionWithNamespace.myFunctionWithNamespaceFunction().param1",
+              "kind": "Parameter",
+              "releaseTag": "public",
+              "visibility": "public",
+              "signature": "export function myFunctionWithNamespaceFunction(param1: string): string;",
+              "tsdoc": "/**\n * @public\n */\n",
+              "summaryMarkup": null,
+              "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
+              "deprecatedMarkup": null,
+              "type": "string"
+            }
+          }
+        },
+        "model": {
+          "id": "(myfunctionwithnamespace:namespace).(myfunctionwithnamespacefunction:function)",
+          "parentId": "(myfunctionwithnamespace:namespace)",
+          "name": "myFunctionWithNamespaceFunction",
+          "fullname": "MyFunctionWithNamespace.myFunctionWithNamespaceFunction()",
+          "kind": "Function",
+          "releaseTag": "public",
+          "visibility": "public",
+          "signature": "MyFunctionWithNamespace.myFunctionWithNamespaceFunction(param1): string",
+          "tsdoc": "/**\n * @public\n */\n",
+          "summaryMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
+          "deprecatedMarkup": null,
+          "returnType": "string",
+          "returnMarkup": null,
+          "isStatic": false,
+          "overloadIndex": 0,
+          "overloads": [],
+          "parameters": [
+            "(myfunctionwithnamespace:namespace).(myfunctionwithnamespacefunction:function).(param1:parameter)"
+          ]
+        }
+      }
+    },
+    "model": {
+      "id": "(myfunctionwithnamespace:namespace)",
+      "parentId": "",
+      "name": "MyFunctionWithNamespace",
+      "fullname": "MyFunctionWithNamespace",
+      "kind": "Namespace",
+      "releaseTag": "public",
+      "visibility": "public",
+      "signature": "export declare namespace MyFunctionWithNamespace ",
+      "tsdoc": "/**\n * @public\n */\n",
+      "summaryMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
+      "deprecatedMarkup": null,
+      "members": [
+        "(myfunctionwithnamespace:namespace).(myfunctionwithnamespacefunction:function)"
       ]
     }
   },
@@ -548,7 +713,7 @@ export default {
               "id": "(myinterface:interface).(:new,0).(param1:parameter)",
               "parentId": "(myinterface:interface).(:new,0)",
               "name": "param1",
-              "fullname": "MyInterface.(construct signature)().param1",
+              "fullname": "MyInterface.(new).param1",
               "kind": "Parameter",
               "releaseTag": "public",
               "visibility": "public",
@@ -556,6 +721,8 @@ export default {
               "tsdoc": "/**\n * @public\n */\n",
               "summaryMarkup": null,
               "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
               "deprecatedMarkup": null,
               "type": "string"
             }
@@ -565,14 +732,16 @@ export default {
           "id": "(myinterface:interface).(:new,0)",
           "parentId": "(myinterface:interface)",
           "name": "MyInterface",
-          "fullname": "MyInterface.(construct signature)()",
+          "fullname": "MyInterface.(new)",
           "kind": "ConstructSignature",
           "releaseTag": "public",
           "visibility": "public",
           "signature": "MyInterface(param1)",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "MyInterface",
           "returnMarkup": null,
@@ -600,6 +769,8 @@ export default {
               "tsdoc": "/**\n * @public\n */\n",
               "summaryMarkup": null,
               "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
               "deprecatedMarkup": null,
               "type": "string"
             }
@@ -616,7 +787,9 @@ export default {
           "signature": "myMethodSignature(param1): string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "string",
           "returnMarkup": null,
@@ -641,7 +814,9 @@ export default {
           "signature": "myPropertySignature: string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
         }
@@ -658,7 +833,9 @@ export default {
       "signature": "export declare interface MyInterface ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "constructor": "(myinterface:interface).(:new,0)",
       "properties": [
@@ -687,6 +864,8 @@ export default {
               "tsdoc": "/**\n * @public\n */\n",
               "summaryMarkup": null,
               "remarksMarkup": null,
+              "prototypeMarkup": null,
+              "productionMarkup": null,
               "deprecatedMarkup": null,
               "type": "string"
             }
@@ -703,7 +882,9 @@ export default {
           "signature": "MyNamespace.myNamespaceFunction(param1): string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "returnType": "string",
           "returnMarkup": null,
@@ -728,7 +909,9 @@ export default {
           "signature": "export interface MyNamespaceInterface ",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "constructor": null,
           "properties": [],
@@ -748,7 +931,9 @@ export default {
           "signature": "export type myNamespaceType = string;",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null
         }
       },
@@ -765,7 +950,9 @@ export default {
           "signature": "myNamespaceVariable: string",
           "tsdoc": "/**\n * @public\n */\n",
           "summaryMarkup": null,
-          "remarksMarkup": null,
+          "remarksMarkup": "",
+          "prototypeMarkup": null,
+          "productionMarkup": null,
           "deprecatedMarkup": null,
           "type": "string"
         }
@@ -782,7 +969,9 @@ export default {
       "signature": "export declare namespace MyNamespace ",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "members": [
         "(mynamespace:namespace).(mynamespacefunction:function)",
@@ -805,7 +994,9 @@ export default {
       "signature": "MY_VARIABLE: string",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null,
       "type": "string"
     }
@@ -823,7 +1014,9 @@ export default {
       "signature": "export declare type MyType = string;",
       "tsdoc": "/**\n * @public\n */\n",
       "summaryMarkup": null,
-      "remarksMarkup": null,
+      "remarksMarkup": "",
+      "prototypeMarkup": null,
+      "productionMarkup": null,
       "deprecatedMarkup": null
     }
   }

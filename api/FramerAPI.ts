@@ -31,8 +31,20 @@ export class FramerAPI {
             let current = this.data
 
             while (keys.length) {
-                const key = keys.shift()
-                if (!key || !current[key]) return null
+                let key = keys.shift()
+                if (!key) return null
+
+                // Legacy support for (foo:function) ids that were
+                // migrated to (foo:1) in more recent api-extractor
+                // versions.
+                if (!current[key] && key.endsWith(":function)")) {
+                    key = key.replace(":function)", ":1)")
+                }
+                if (!current[key] && key.endsWith(":instance)")) {
+                    key = key.replace(":instance)", ":instance,1)")
+                }
+
+                if (!current[key]) return null
 
                 if (keys.length === 0) {
                     return current[key].model
@@ -206,8 +218,11 @@ function potentialKeys(name: string): string[] {
     return [
         `${name}`, // Potential variable, enum field or property
         `(${name}:0)`, // Potential function
+        `(${name}:1)`, // Potential function when extending a namespace
         `(${name}:instance)`, // Potential method with no overload
+        `(${name}:instance,1)`, // Potential method with overload
         `(${name}:static)`, // Potential static method with no overload
+        `(${name}:static,1)`, // Potential static method with overload
         `(${name}:class)`,
         `(${name}:interface)`,
         `(${name}:enum)`,
@@ -234,7 +249,13 @@ function keysForKind(name: string, kind: Kind): string[] {
             return [`(${name}:function)`, `(${name}:0)`, `(${name}:1)`]
         case Kind.Method:
         case Kind.MethodSignature:
-            return [`(${name}:instance)`, `(${name}:0)`]
+            return [
+                `(${name}:instance)`,
+                `(${name}:instance,1)`,
+                `(${name}:static)`,
+                `(${name}:static,1)`,
+                `(${name}:0)`,
+            ]
         case Kind.Enum:
             return [`(${name}:enum)`]
         case Kind.Namespace:
