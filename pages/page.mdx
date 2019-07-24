@@ -4,6 +4,7 @@ import {
   Template,
   APIReactComponent,
   APIMergedInterface,
+  APIInterface,
   APIProperty,
   APIMethod,
   APIEnumField,
@@ -70,6 +71,8 @@ export function MyComponent() {
 
 ## Effects
 
+The `Page` component comes with a set of pagination effects that change how pages look as animate as you scroll through them. You can also create custom effects of your own.
+
 ### None
 
 No custom effect is applied. This is the default.
@@ -109,3 +112,10 @@ Each page is stacked behind the current page.
 ```tsx
 <Page defaultEffect={"pile"} />
 ```
+
+### Custom
+
+<APIProperty name="PageProperties.effect" />
+<APIInterface name="PageEffectInfo" />
+
+<!-- TODO: Add link to Ben's tutorial when it becomes available -->
