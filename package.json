@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@microsoft/api-extractor-model": "^7.3.0",
-    "@microsoft/tsdoc": "^0.12.11",
+    "@microsoft/tsdoc": "0.12.10",
     "@types/chalk": "^2.2.0",
     "@types/cheerio": "^0.22.11",
     "@types/classnames": "^2.2.7",

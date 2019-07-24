@@ -22,6 +22,9 @@ import {
     ApiDeclaredItem,
     ApiDocumentedItem,
     ReleaseTag as ApiReleaseTag,
+    ApiCallSignature,
+    ApiIndexSignature,
+    ApiTypeAlias,
 } from "@microsoft/api-extractor-model"
 import {
     RawBaseModel,
@@ -142,7 +145,7 @@ function toMethod(item: ApiFunctionLike): RawMethodModel {
     let overloads: string[] = []
     if (item.parent && (item.parent.kind === ApiItemKind.Class || item.parent.kind === ApiItemKind.Interface)) {
         overloads = item.parent.members
-            .filter(m => m.canonicalReference !== item.canonicalReference && m.displayName === item.displayName)
+            .filter(m => toId(m) !== toId(item) && m.displayName === item.displayName)
             .map(toId)
     }
 
@@ -344,12 +347,6 @@ function toKind(item: ApiItem): Kind {
 
 /**
  * Returns a unique identifier for the item based on TSDoc references
- * NOTE: The canonicalReference provided by api-extractor does not 1:1 map
- * to TSDoc so we try and work around this when possible there are still
- * many cases (especially around overloads) where TSDoc does not specify
- * the id. In these cases we go with api-extractor but TSDoc will not be
- * able to parse the @link tag due to unknown syntax.
- * See: https://github.com/Microsoft/tsdoc/blob/master/spec/code-snippets/DeclarationReferences.ts#L40-L60
  */
 function toId(item: ApiItem): string {
     // Exclude items above module level for the moment.
@@ -361,43 +358,11 @@ function toId(item: ApiItem): string {
     const references: string[] = []
     let current: ApiItem | undefined = item
     do {
-        let reference: string | undefined
-        if (current.kind === ApiItemKind.Variable) {
-            // TSDoc expects variables to have :variable selector by default
-            // api-extractor just uses the name.
-            const variable = current as ApiVariable
-            reference = `(${variable.name}:variable)`
-        } else if (current.kind === ApiItemKind.Function) {
-            // For some reason TSDoc expects functions with no overload
-            // to be (funcName:function) and with overload (funcName:1)
-            const func = current as ApiFunction
-            if (func.overloadIndex === 0) {
-                reference = `(${func.name}:function)`
-            }
-        } else if (current.kind === ApiItemKind.Method) {
-            // For some reason TSDoc expects methods with no overload
-            // to be (funcName:instance) and it does not define a spec for
-            // overloaded methods.
-            const func = current as ApiMethod
-            if (func.overloadIndex === 0) {
-                reference = `(${func.name}:${func.isStatic ? "static" : "instance"})`
-            }
-        } else if (current.kind === ApiItemKind.Constructor) {
-            // constructors also have a completely different syntax with no
-            // documented support for overloads
-            const func = current as ApiConstructor
-            const klass = func.parent as ApiClass
-            if (func.overloadIndex === 0) {
-                reference = `(${klass.name}:constructor)`
-                // Skip the class from the keypath
-                current = current.parent!
-            }
+        references.push(toTSDocRef(current))
+        if (current.kind === ApiItemKind.Constructor) {
+            // Skip the class from the keypath
+            current = current.parent!
         }
-
-        if (!reference) {
-            reference = current.canonicalReference
-        }
-        references.push(reference)
     } while ((current = current.parent) && !unsupported.has(current.kind))
 
     // Use canonical reference because many things e.g have multiple definitions
@@ -406,6 +371,119 @@ function toId(item: ApiItem): string {
         .reverse()
         .join(".")
         .toLowerCase()
+}
+
+/* Returns a TSDoc key for the APIItem provided.
+ *
+ * NOTE: There are still many cases (especially around overloads) where TSDoc does not specify
+ * the id. In these cases we go with api-extractor but TSDoc will not be
+ * able to parse the @link tag due to unknown syntax.
+ * See: https://github.com/Microsoft/tsdoc/blob/master/spec/code-snippets/DeclarationReferences.ts#L40-L60
+ *
+ * NOTE: We used to use the `canonicalReference` provided by api-extractor on
+ * the ApiItem but this was removed in:
+ * See: https://github.com/microsoft/web-build-tools/commit/4e02075ec2f93efca1dacc83a6fb9e6de7db46d8
+ */
+function toTSDocRef(item: ApiItem): string {
+    switch (item.kind) {
+        case ApiItemKind.CallSignature: {
+            // TODO: Returns old canonicalReference may need to be updated for TSDoc
+            const { overloadIndex } = item as ApiCallSignature
+            return `(:call,${overloadIndex})`
+        }
+        case ApiItemKind.Class: {
+            const { name } = item as ApiClass
+            return `(${name}:class)`
+        }
+        case ApiItemKind.Constructor: {
+            // constructors also have a completely different syntax with no
+            // documented support for overloads
+            const func = item as ApiConstructor
+            const { name } = func.parent as ApiClass
+            if (func.overloadIndex === 0) {
+                return `(${name}:constructor)`
+            } else {
+                return `(${name}:constructor,${func.overloadIndex})`
+            }
+        }
+        case ApiItemKind.ConstructSignature: {
+            // TODO: Returns old canonicalReference may need to be updated for TSDoc
+            const { overloadIndex } = item as ApiConstructSignature
+            return `(:new,${overloadIndex})`
+        }
+        case ApiItemKind.EntryPoint:
+            throw new Error("ApiItemKind.EntryPoint is unsupported")
+        case ApiItemKind.Enum: {
+            const { name } = item as ApiEnum
+            return `(${name}:enum)`
+        }
+        case ApiItemKind.EnumMember: {
+            const { name } = item as ApiEnumMember
+            return name
+        }
+        case ApiItemKind.Function: {
+            // For some reason TSDoc expects functions with no overload
+            // to be (funcName:function) and with overload (funcName:1)
+            const { name, overloadIndex } = item as ApiFunction
+            if (overloadIndex === 0) {
+                return `(${name}:function)`
+            } else {
+                return `(${name}:${overloadIndex})`
+            }
+        }
+        case ApiItemKind.IndexSignature: {
+            // TODO: Returns old canonicalReference may need to be updated for TSDoc
+            const { overloadIndex } = item as ApiIndexSignature
+            return `(:index,${overloadIndex})`
+        }
+        case ApiItemKind.Interface: {
+            const { name } = item as ApiInterface
+            return `(${name}:interface)`
+        }
+        case ApiItemKind.Method: {
+            // For some reason TSDoc expects methods with no overload
+            // to be (funcName:instance) and it does not define a spec for
+            // overloaded methods.
+            const { name, overloadIndex, isStatic } = item as ApiMethod
+            if (overloadIndex === 0) {
+                return `(${name}:${isStatic ? "static" : "instance"})`
+            } else {
+                return `(${name}:${isStatic ? "static" : "instance"},${overloadIndex})`
+            }
+        }
+        case ApiItemKind.MethodSignature: {
+            const { name, overloadIndex } = item as ApiMethodSignature
+            return `(${name}:${overloadIndex})`
+        }
+        case ApiItemKind.Model:
+            throw new Error("ApiItemKind.Model is unsupported")
+        case ApiItemKind.Namespace: {
+            const { name } = item as ApiNamespace
+            return `(${name}:namespace)`
+        }
+        case ApiItemKind.Package:
+            throw new Error("ApiItemKind.Package is unsupported")
+        case ApiItemKind.Property: {
+            const { name, isStatic } = item as ApiProperty
+            return `(${name}:${isStatic ? "static" : "instance"})`
+        }
+        case ApiItemKind.PropertySignature: {
+            const { name } = item as ApiPropertySignature
+            return name
+        }
+        case ApiItemKind.TypeAlias: {
+            const { name } = item as ApiTypeAlias
+            return name
+        }
+        case ApiItemKind.Variable: {
+            const variable = item as ApiVariable
+            return `(${variable.name}:variable)`
+        }
+        case ApiItemKind.None:
+            throw new Error("ApiItemKind.None is unsupported")
+        default:
+            return assertNever(item.kind)
+    }
 }
 
 function toParameterId(method: ApiFunctionLike, param: Parameter): string {
