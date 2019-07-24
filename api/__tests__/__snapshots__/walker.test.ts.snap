@@ -2,9 +2,8 @@
 
 exports[`walk should generate ids 1`] = `
 Array [
+  "(my_variable:variable)",
   "(myclass:class)",
-  "(myclass:constructor)",
-  "(myclass:constructor).(param1:parameter)",
   "(myclass:class).(mymethod:instance,1)",
   "(myclass:class).(mymethod:instance,1).(param1:parameter)",
   "(myclass:class).(mymethod:instance,2)",
@@ -15,6 +14,8 @@ Array [
   "(myclass:class).(mystaticmethod:static,2)",
   "(myclass:class).(mystaticmethod:static,2).(overloaded1:parameter)",
   "(myclass:class).(mystaticproperty:static)",
+  "(myclass:constructor)",
+  "(myclass:constructor).(param1:parameter)",
   "(myenum:enum)",
   "(myenum:enum).myfield1",
   "(myenum:enum).myfield2",
@@ -42,9 +43,8 @@ Array [
   "(mynamespace:namespace).(mynamespacefunction:function)",
   "(mynamespace:namespace).(mynamespacefunction:function).(param1:parameter)",
   "(mynamespace:namespace).(mynamespaceinterface:interface)",
-  "(mynamespace:namespace).mynamespacetype",
   "(mynamespace:namespace).(mynamespacevariable:variable)",
-  "(my_variable:variable)",
+  "(mynamespace:namespace).mynamespacetype",
   "mytype",
 ]
 `;
