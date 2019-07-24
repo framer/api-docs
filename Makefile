@@ -41,6 +41,10 @@ node_modules/.yarn-integrity: yarn.lock package.json
 .PHONY: bootstrap
 bootstrap: node_modules/.yarn-integrity
 
+.PHONY: test
+test: bootstrap
+	yarn jest
+
 .PHONY: dev
 dev: bootstrap data changelog
 	@$(monobase) serve --project=. --prefix=/api
