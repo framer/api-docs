@@ -1051,13 +1051,13 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-1.0.27.tgz#7461e39f8880eceff8f48b0240e6cdc0f01cc8db"
   integrity sha512-sCv3ItE5L6rdpnZR0s69C8KFgz4pmhGsH4de0ZiO+fiCC/L6asuKLubf9QZk3oG3vjebym/V593CE15vRXvvwQ==
 
-"@microsoft/api-extractor-model@^7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor-model/-/api-extractor-model-7.1.1.tgz#17aa30fe641db7efbcfb779f4a87b8461d6a2322"
-  integrity sha512-RiQJA8JpBbRxqUfro8SxZGLjeCFH8HUUJvD5VTUrDrgdt13omx7d0bsGN0lf+AT63yF+RX4R2+Jd2b0SaAO/sQ==
+"@microsoft/api-extractor-model@^7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor-model/-/api-extractor-model-7.3.0.tgz#2eab0a3272f40821f1b81deffdca5f6e311b2451"
+  integrity sha512-GfRaGz6d8fPhMOG70l2zS1s6Z8rCxcTHnwfVjb+6ln25eB4fN/jeDRlLKot+HOsVcbxvVseoeB0ZQL9nIsfbXw==
   dependencies:
     "@microsoft/node-core-library" "3.13.0"
-    "@microsoft/tsdoc" "0.12.9"
+    "@microsoft/tsdoc" "0.12.10"
     "@types/node" "8.5.8"
 
 "@microsoft/node-core-library@3.13.0":
@@ -1074,7 +1074,12 @@
     jju "~1.4.0"
     z-schema "~3.18.3"
 
-"@microsoft/tsdoc@0.12.9", "@microsoft/tsdoc@^0.12.9":
+"@microsoft/tsdoc@0.12.10":
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.10.tgz#c0e2c875c24a21da6d345d09189f5df4a1801d82"
+  integrity sha512-tsog/HTdM88/WyR0Jz7XWTI0ghbJkt9soFXnQJrINDyaTGzbCoJjRttaW/IY5eAp4eqDyfg++jq6o+byEDOkIQ==
+
+"@microsoft/tsdoc@^0.12.9":
   version "0.12.9"
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.9.tgz#f92538bebf649b1b9d00bdd34a9c9971aef17d01"
   integrity sha512-sDhulvuVk65eMppYOE6fr6mMI6RUqs53KUg9deYzNCBpP+2FhR0OFB5innEfdtSedk0LK+1Ppu6MxkfiNjS/Cw==
