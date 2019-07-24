@@ -11,10 +11,6 @@ jobs:
           command: |
             make build
       - run:
-          name: test
-          command: |
-            yarn jest
-      - run:
           name: verify-api-references
           command: |
             make verify-api-references
@@ -24,8 +20,19 @@ jobs:
             find ~/repo/build -name '*.html' | xargs yarn ts-node ./test/stylecheck.ts
       - store_artifacts:
           path: ~/repo/build
+  test:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run:
+          name: test
+          command: |
+            yarn jest
 workflows:
   version: 2
-  "Build":
+  "Build & Test":
     jobs:
       - build
+      - test
