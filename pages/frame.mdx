@@ -324,11 +324,11 @@ Variants are an advanced way to organize your animation states by name.
 
 ## Tap
 
-A tap is a convenience alternative to the native browser click event. The main differences are:
+The tap gesture detects when a pointer presses down and releases on the same component.
 
-- It works on both mobile and desktop, leveraging `click` and `touch` events based on the platform.
-- It only fires if `up` was received on the same Frame that got the initial `down` to mimic interface button behaviour.
-- It does not fire if any of the parents were `Scroll` components and were scrolled after `onTapStart`.
+It fires an `tap` event when tapping successfully completes on an component, and a `tapCancel` event when tapping ends outside the component.
+
+If the tappable component is a child of a draggable component, it'll automatically cancel the tap gesture if the pointer moves further than 3 pixels during the gesture.
 
 ---
 
@@ -339,17 +339,25 @@ A tap is a convenience alternative to the native browser click event. The main d
 
 ## Hover
 
+The hover gesture detects when a pointer hovers over or leaves a component.
+
+It differs from `onMouseEnter` and `onMouseLeave` in that hover is guaranteed to only fire as a result of actual mouse events (as opposed to browser-generated mice events emulated from touch input).
+
 <APIProperty name="HoverHandlers.whileHover" />
 <APIMethod name="HoverHandlers.onHoverStart()" />
 <APIMethod name="HoverHandlers.onHoverEnd()" />
 
 ## Pan
 
+The pan gesture recognises when a pointer presses down on a component and moves further than 3 pixels. The pan gesture is ended when the pointer is released.
+
 <APIMethod name="PanHandlers.onPan()" />
 <APIMethod name="PanHandlers.onPanStart()" />
 <APIMethod name="PanHandlers.onPanEnd()" />
 
 ## Drag
+
+The drag gesture follows the rules of the pan gesture but applies pointer movement to the x and/or y axis of the component.
 
 <APIMethod name="DragHandlers.onDrag()" />
 <APIMethod name="DragHandlers.onDragStart()" />
