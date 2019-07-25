@@ -177,29 +177,25 @@ const MyComponent = ({ isVisible }) => (
 
 <div>
 
-The children of `AnimatePresence` can be a custom component. The way `AnimatePresence` works is by taking the `exit` prop and providing it to `animate`. It also provides an `onAnimationComplete` that lets it know when it's safe to unmount the child.
-
-So to use a custom component you just have to make sure that:
-
-1. The custom component is defined with an `exit` prop.
-2. The `animate` and `onAnimationComplete` props are forwarded to an underlying `motion` component.
-
-This is a temporary API restriction that will be removed in a future release.
+The children of `AnimatePresence` can also be custom components. The only requirement is that the first `motion` component within the custom component has an `exit` property defined.
 
 </div>
 
 ```jsx
-const Item = ({ animate, onAnimationComplete }) => (
-  <motion.div
-    animate={animate}
-    onAnimationComplete={onAnimationComplete}
-  />
+const Item = () => (
+  <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    />
+  </div>
 )
 
 export const MyComponent = ({ items }) => (
   <AnimatePresence>
     {items.map(({ id }) => (
-      <Item key={id} exit={{ opacity: 0 }} />
+      <Item key={id} />
     ))}
   </AnimatePresence>
 )
