@@ -288,6 +288,85 @@ export function MyComponent() {
 
 ---
 
+## Animation controls
+
+Declarative animations are ideal for most UI interactions. But sometimes we need to orchestrate more complex sequences.
+
+The `useAnimation` hook can be used to create a set of <Link href="animation/#animationcontrols">imperative `AnimationControls`</Link> with a `start` and `stop` method. These controls can be passed to **one or more** `motion` components via the `animate` prop.
+
+```jsx
+import { Frame, useAnimation } from "framer"
+
+function MyComponent() {
+  const controls = useAnimation()
+
+  return <Frame animate={controls} />
+}
+```
+
+### Starting an animation
+
+<div>
+
+Animations can be started with the `controls.start` method.
+
+</div>
+
+```jsx
+controls.start({
+  x: "100%",
+  backgroundColor: "#f00",
+  transition: { duration: 3 },
+})
+```
+
+`start` accepts either a `TargetAndTransition` or, if the component(s) it's provided to has a `variants` property set, a variant label.
+
+```jsx
+controls.start("hidden")
+```
+
+### Sequencing
+
+`start` returns a `Promise`, so it can be used to sequence animations using `await` or `then`.
+
+Different controls can be sequenced together, and these sequences can be composed into functions that themselves can then be sequenced.
+
+```jsx
+async function sequence() {
+  await menuControls.start({ x: 0 })
+  return await itemControls.start({ opacity: 1 })
+}
+```
+
+### Dynamic `start`
+
+`start` can also accept a function that can dynamically start each component the controls are bound to with a different animation definition.
+
+Custom data can be sent to this function via the component's `custom` prop.
+
+```jsx
+const controls = useAnimation()
+
+useEffect(() => {
+  controls.start(i => ({
+    opacity: 0,
+    x: 100,
+    transition: { delay: i * 0.3 },
+  }))
+}, [])
+
+return (
+  <>
+    <Frame custom={0} animate={controls} />
+    <Frame custom={1} animate={controls} />
+    <Frame custom={2} animate={controls} />
+  </>
+)
+```
+
+---
+
 ### Supported Value Types
 
 <div>
