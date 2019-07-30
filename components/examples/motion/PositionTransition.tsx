@@ -33,6 +33,7 @@ ul.position-container {
   position: relative;
   display: flex;
   width: 220px;
+  height: 220px;
   flex-wrap: wrap;
 }
 
