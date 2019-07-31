@@ -3244,10 +3244,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.4.0.tgz#d424f9020a7359ea0711f14bb2b4d69520630d29"
-  integrity sha512-cDyg0nb8A9pSS2kQT2aZXoRWzuRUU6hgfzgEwj4QvGj+qYaz1PRIuokEDpdDm/HGvC2BeI6XzEPi4N6VQTyYoQ==
+framer-motion@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.4.2.tgz#c6b413a0ef10c5817a79e19f6c67ba9f7d601007"
+  integrity sha512-kqM2+LK0V177HMvcR1BUnreXkxxkSJV1H00vbcv3AEYrE2KUuu8a6fFjIAVORg2nMsXiEjgEyTVQt5RdmdRYSw==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
@@ -3258,10 +3258,10 @@ framer-motion@^1.4.0:
     stylefire "^6.0.7"
     tslib "^1.10.0"
 
-framer@^1.0.15:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.0.15.tgz#cd9afa540b41a882f8e11300bfb79f7aaaf94046"
-  integrity sha512-nX1Oay2ZviLssKmes/6Fxbp4AKZ4i25tq/5ibRkXabMdHlQ+IM6ndfhLFeUmdAml2BeiTR/W/Qzytta2c0QsKg==
+framer@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.0.16.tgz#cc043f17782bef82c12b46541929b6675d7615e0"
+  integrity sha512-khJxzMff3UeWGbw0a1rKSwGyDquY1ttMn+XtzSJVMWDAGXzuVuqEv7K2bO2WfKC62uG1CmvgvEjXnPmHFqPitA==
 
 framesync@^4.0.0, framesync@^4.0.1, framesync@^4.0.4:
   version "4.0.4"
