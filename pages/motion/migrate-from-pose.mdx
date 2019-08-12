@@ -27,34 +27,6 @@ Framer Motion is the successor to the [Pose](https://popmotion.io/pose) animatio
 
 In this guide we'll explain how to migrate a Pose project to Motion.
 
-## What's missing?
-
-First, it's important to outline what is missing from this new API, as this might be a blocker for you to upgrade your project.
-
-The good news is that the only missing feature is the FLIP animation option. This allowed you to define an expensive, layout-changing prop like `height` or `top` and automatically convert it to a performant animation like `scaleY` or `y`.
-
-```jsx
-const Component = posed.div({
-  visible: {
-    height: 100,
-    flip: true,
-  },
-})
-```
-
-In some cases, this was very useful. But it was the single biggest source of bugs in Pose, and the visual results often weren't what you expected.
-
-Framer Motion does use FLIP techniques in its API, for instance its `positionTransition` feature, or its ability to animate values like `x` between different value types.
-
-```jsx
-<motion.div
-  initial={{ x: 0 }}
-  animate={{ x: "calc(80vh - 50%)" }}
-/>
-```
-
-But if we ever re-introduce this specific functionality, it'll be considered, and thoroughly tested.
-
 ## `posed` vs `motion`
 
 The primary API change is that in Pose, components had to be pre-made outside the render function.
@@ -357,6 +329,58 @@ export const Box = () => {
 }
 ```
 
+## FLIP
+
+In Pose, expensive layout-affecting animations like `height` and `top` could be automatically converted to performant animations using transforms like `scaleY` and `y`.
+
+```jsx
+const Menu = posed.div({
+  open: {
+    height: "auto",
+    flip: true,
+  },
+  closed: {
+    height: 0,
+    flip: true,
+  },
+})
+```
+
+This had a number of problems and limitations. As we re-introduce this feature into Framer Motion we're trying to ensure these don't exist going forward.
+
+With the new `layoutTransition` prop, a component will automatically detect when it changes layout as the result of a re-render.
+
+```jsx
+<motion.div layoutTransition />
+```
+
+This layout change can be instigated by any CSS application or DOM change, for instance:
+
+- Being adjacent to a resized component
+- Adding/removing a CSS class
+- Changing position in the DOM
+- Changing children
+
+So not only does the layout transition capability work in a wider variety of use-cases, it also offers more freedom in how you affect the layout. It's also a much clearer name!
+
+### Scaled content
+
+One of the key limitations of the `flip` option in Pose was distorted content within components that didn't retain their aspect ratio throughout the layout animation.
+
+This occured because FLIP animations immediately switch to the new layout and then "undo" the layout change using transforms. It then animates to the new layout by animating the transform to `none`. So any content within here will look stretched and squashed.
+
+In Motion we can maintain the size and shape of children components with the `useInvertedScale` hook. This provides a `scaleX` and `scaleY` `MotionValue` that automatically compensates for the scale of the parent component.
+
+```jsx
+const Text = () => {
+  const inverted = useInvertedScale()
+
+  return <motion.p style={inverted}>No distortion</motion.p>
+}
+```
+
+Depending on your layout you'll need to anchor the origin of this scale by choosing `originX` and `originY` points as the default transform origin of every component is `0.5`. For the effect to work you'll also need to ensure the component is in the same position for both layouts.
+
 ## PoseGroup
 
 The final difference between the two libraries is the `PoseGroup` component. It provided three main functionalities:
@@ -365,7 +389,7 @@ The final difference between the two libraries is the `PoseGroup` component. It 
 - Reorder animations
 - FLIP-powered unmount
 
-This FLIP animation to unmount has been removed, again as it often lead to unexpected or weird results. It also wasn't often needed. However the other two have been split into specific functionalities.
+This FLIP animation to unmount has been removed, as it often lead to unexpected or weird results. We may introduce a similar feature in the future. It also wasn't often needed. However the other two have been split into specific functionalities.
 
 ### Unmount animations
 
