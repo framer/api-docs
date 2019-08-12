@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
-    "@microsoft/api-extractor-model": "^7.3.0",
+    "@microsoft/api-extractor-model": "7.3.0",
     "@microsoft/tsdoc": "0.12.10",
     "@types/chalk": "^2.2.0",
     "@types/cheerio": "^0.22.11",
@@ -16,7 +16,7 @@
     "@types/react-test-renderer": "^16.8.1",
     "chalk": "^2.4.2",
     "cheerio": "^1.0.0-rc.2",
-    "chokidar-cli": "^1.2.1",
+    "chokidar-cli": "^2.0.0",
     "classnames": "^2.2.6",
     "framer": "^1.0.17",
     "framer-motion": "^1.5.0",

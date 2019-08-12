@@ -4,7 +4,6 @@ import {
     DocNode,
     DocNodeKind,
     DocBlock,
-    DocBlockTag,
     DocCodeSpan,
     DocComment,
     DocDeclarationReference,
@@ -35,7 +34,7 @@ type LikeReact<T> = { createElement: CreateElementFn<T>; Fragment: FragmentId }
 // https://github.com/Microsoft/tsdoc/tree/6034bee/tsdoc/src/emitters
 // https://microsoft.github.io/tsdoc/#
 export function renderTSDocToHTML(node: DocNode | undefined): string {
-    const element = render(node, React)
+    const element: React.ReactElement | null = render(node, React)
     if (!element) return ""
     if (!React.isValidElement(element)) throw new Error(`render() returned non-ReactElement: ${typeof element}`)
     return renderToStaticMarkup(element)
