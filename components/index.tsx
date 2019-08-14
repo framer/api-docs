@@ -2,6 +2,7 @@
 // it will pull in the entire App including API data into the client build.
 export * from "./Navigation"
 export * from "./Template"
+export * from "./404"
 export * from "./documentation/APIClass"
 export * from "./documentation/APIEnum"
 export * from "./documentation/APIFunction"
