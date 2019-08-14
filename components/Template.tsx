@@ -10,6 +10,10 @@ import { GoogleTag } from "./GoogleTag"
 import { isMotion } from "./utils/env"
 
 const Body = styled.body`
+    --accent: ${() => (isMotion() ? "#70f" : "#05f")};
+    --accent-selection: ${() => (isMotion() ? "rgba(119, 0, 255, 0.9)" : "rgba(0, 85, 255, 0.9)")};
+    --accent-backdrop: ${() => (isMotion() ? "rgba(119, 0, 255, 0.1)" : "rgba(0, 85, 255, 0.1)")};
+
     font-family: Colfax, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
         Droid Sans, Helvetica Neue, sans-serif;
     font-feature-settings: "liga", "kern";
@@ -19,8 +23,8 @@ const Body = styled.body`
     overscroll-behavior: none;
 
     /* Selection */
-    ::selection {
-        background: rgba(0, 85, 255, 0.99);
+    *::selection {
+        background: var(--accent-selection);
         color: #fff;
     }
 

@@ -32,7 +32,7 @@ const PermalinkSpan = styled.span`
         color: #999;
     }
     .copy:hover {
-        color: #05f;
+        color: var(--accent);
     }
     .copy:active {
         color: #000;

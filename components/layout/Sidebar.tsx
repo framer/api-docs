@@ -35,7 +35,7 @@ const Home = styled.a`
     transition: color 0.2s ease;
 
     &:hover {
-        color: #05f;
+        color: var(--accent);
     }
 
     span {
@@ -69,7 +69,7 @@ const APISwitch = styled.a`
     }
 
     &:hover {
-        background: #05f;
+        background: var(--accent);
         color: #fff;
     }
 

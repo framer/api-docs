@@ -43,14 +43,18 @@ const ListItem = styled.li`
     transition: color 0.2s ease;
     list-style: none;
 
+    .theme-motion & {
+        background: red !important;
+    }
+
     a {
         color: ${menuTextColor};
     }
     &.active > a {
-        color: #05f;
+        color: var(--accent);
     }
     a:hover {
-        color: #05f;
+        color: var(--accent);
     }
 
     @media (max-width: ${tablet}) {
@@ -67,6 +71,7 @@ const ListItem = styled.li`
 interface MenuItemProps {
     title: string
     href: string
+
     external?: boolean
     className?: string
 }
@@ -98,4 +103,3 @@ export const MenuItem: React.FunctionComponent<MenuItemProps> = props => {
         </ListItem>
     )
 }
-

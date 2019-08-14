@@ -29,7 +29,7 @@ const ProgressIcon = styled.svg`
 function StaticMotionValueSVG() {
     const x = useMotionValue(0)
     const xInput = [-100, 0, 100]
-    const color = useTransform(x, xInput, ["#f08", "#05f", "#2dd"])
+    const color = useTransform(x, xInput, ["#f08", "#70f", "#2dd"])
     const tickPath = useTransform(x, [10, 100], [0, 1])
     const crossPathA = useTransform(x, [-10, -55], [0, 1])
     const crossPathB = useTransform(x, [-50, -100], [0, 1])

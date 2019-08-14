@@ -242,7 +242,7 @@ export const MarkdownStyles = styled.div`
     }
     a,
     ol a {
-        color: #05f;
+        color: var(--accent);
         transition: opacity 0.2s ease;
     }
     ol li,

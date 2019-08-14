@@ -2,7 +2,6 @@ import * as React from "react"
 import { createContext } from "react"
 import styled from "styled-components"
 import { desktop, tablet, widescreen } from "./Breakpoints"
-import { baseHeadingColor } from "../theme"
 
 const GridContext = createContext(false)
 

@@ -42,7 +42,7 @@ const SubSection = styled.ul`
         display: none;
     }
     li a:hover {
-        color: #05f;
+        color: var(--accent);
     }
     li + li {
         margin-top: 5px;

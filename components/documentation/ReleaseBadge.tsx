@@ -23,8 +23,8 @@ const AlphaBadge = styled.span`
 `
 
 const BetaBadge = styled.span`
-    background: rgba(0, 85, 255, 0.1);
-    color: #05f !important;
+    background: var(--accent-backdrop);
+    color: var(--accent) !important;
     font-size: 13px;
     font-weight: 600 !important;
     letter-spacing: 0;

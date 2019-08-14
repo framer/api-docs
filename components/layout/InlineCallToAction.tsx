@@ -10,7 +10,7 @@ interface CTAProps {
 const InlineLink = styled.a`
     display: inline-block;
     font-weight: 500;
-    color: #05f;
+    color: var(--accent);
 
     &:hover {
         opacity: 0.7;
@@ -28,8 +28,8 @@ const InlineLink = styled.a`
 export const InlineButton = styled.a`
     display: inline-block;
     font-weight: 500;
-    color: #05f;
-    background: rgba(0, 85, 255, 0.1);
+    color: var(--accent);
+    background: var(--accent-backdrop);
     padding: 7px 12px 5px;
     border-radius: 5px;
     font-size: 15px;
