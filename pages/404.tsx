@@ -18,19 +18,19 @@ export default function render() {
                 </Center>
                 <Center className="error-graphic">
                     <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60">
-                        <path d="M45.111 0v45H0z" fill="#09f" />
-                        <path d="M22.556 45h22.555v15H22.556z" fill="#09f" opacity=".5" />
+                        <path d="M45.111 0v45H0z" fill="var(--animation-left)" />
+                        <path d="M22.556 45h22.555v15H22.556z" fill="var(--animation-left)" opacity=".5" />
                         <path
                             d="M105.259 0v60C88.65 60 75.185 46.569 75.185 30c0-16.569 13.465-30 30.074-30z"
-                            fill="#adf"
+                            fill="var(--animation-middle)"
                         />
                         <path
                             d="M105.259 0v60c16.61 0 30.074-13.431 30.074-30 0-16.569-13.464-30-30.074-30z"
-                            fill="#adf"
+                            fill="var(--animation-middle)"
                             opacity=".5"
                         />
-                        <path d="M200 0v45h-45.111z" fill="#fff" />
-                        <path d="M177.444 45H200v15h-22.556z" fill="#fff" opacity=".5" />
+                        <path d="M200 0v45h-45.111z" fill="var(--animation-right)" />
+                        <path d="M177.444 45H200v15h-22.556z" fill="var(--animation-right)" opacity=".5" />
                     </svg>
                 </Center>
             </Grid>

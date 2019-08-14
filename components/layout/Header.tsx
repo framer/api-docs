@@ -139,8 +139,8 @@ export const Header: React.FunctionComponent = () => {
                 <IconWrapper>
                     <svg xmlns="http://www.w3.org/2000/svg" width="72" height="60">
                         <g>
-                            <path d="M 72 60 L 36 60 L 36 0 Z" fill="#09f" opacity="0.5" />
-                            <path d="M 36 60 L 0 60 L 36 0 Z" fill="#09f" />
+                            <path d="M 72 60 L 36 60 L 36 0 Z" fill="var(--animation-left)" opacity="0.5" />
+                            <path d="M 36 60 L 0 60 L 36 0 Z" fill="var(--animation-left)" />
                         </g>
                     </svg>
                 </IconWrapper>
@@ -148,10 +148,10 @@ export const Header: React.FunctionComponent = () => {
                 <IconWrapperTwo>
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="60">
                         <g>
-                            <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="#adf" opacity="0.5" />
+                            <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="var(--animation-middle)" opacity="0.5" />
                             <path
                                 d="M 0 0 L 30 0 C 41.046 0 50 8.954 50 20 L 50 20 C 50 31.046 41.046 40 30 40 L 0 40 Z"
-                                fill="#adf"
+                                fill="var(--animation-middle)"
                             />
                         </g>
                     </svg>
@@ -159,7 +159,7 @@ export const Header: React.FunctionComponent = () => {
 
                 <IconWrapperThree>
                     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="60">
-                        <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="#fff" />
+                        <path d="M 0 0 L 30 0 L 30 60 L 0 60 Z" fill="var(--animation-right)" />
                     </svg>
                 </IconWrapperThree>
             </Stack>
