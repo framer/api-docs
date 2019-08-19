@@ -29,7 +29,7 @@ const Background = styled.div<{ height?: number; internal?: boolean }>`
         margin-left: 0;
         margin-top: ${props => (props.internal ? "0px !important" : "0px !important")};
         left: 0;
-        margin-bottom: 60px;
+        margin-bottom: 58px;
         background: ${props => (props.height ? "#242424" : "#151515")};
     }
 `

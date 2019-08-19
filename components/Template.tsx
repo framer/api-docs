@@ -10,7 +10,10 @@ import { GoogleTag } from "./GoogleTag"
 import { isMotion } from "./utils/env"
 
 const Body = styled.body`
-    --accent: ${() => (isMotion() ? "#60f" : "#05f")};
+    --library: #05f;
+    --motion: #60f;
+
+    --accent: ${() => (isMotion() ? "var(--motion)" : "var(--library)")};
     --accent-selection: ${() => (isMotion() ? "rgba(119, 0, 255, 0.9)" : "rgba(0, 85, 255, 0.9)")};
     --accent-backdrop: ${() => (isMotion() ? "rgba(119, 0, 255, 0.1)" : "rgba(0, 85, 255, 0.1)")};
 
