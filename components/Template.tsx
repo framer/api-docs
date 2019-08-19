@@ -147,7 +147,9 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
             usePath() !== "" &&
             usePath() !== "/api/tutorial/" &&
             usePath() !== "/" &&
-            usePath() !== "/tutorial"
+            usePath() !== "/tutorial" &&
+            usePath() !== "/api/motion/" &&
+            usePath() !== "/motion"
     }
 
     // All page UI must go in this variable for <StyledSheet> to pick them up.
