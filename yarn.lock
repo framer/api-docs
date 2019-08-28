@@ -748,7 +748,7 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@emotion/is-prop-valid@^0.8.1":
+"@emotion/is-prop-valid@^0.8.1", "@emotion/is-prop-valid@^0.8.2":
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-0.8.2.tgz#b9692080da79041683021fcc32f96b40c54c59dc"
   integrity sha512-ZQIMAA2kLUWiUeMZNJDTeCwYRx1l8SQL0kHktze4COT22occKpDML1GDUXP5/sxhOMrZO8vZw773ni4H5Snrsg==
@@ -3445,10 +3445,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^1.6.3:
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.6.3.tgz#85307951ca420aceb8edc0852f5bf1e0513f9f77"
-  integrity sha512-1iwnEp/JxrGM+w1AJTIqjnLb35pCqWICaoDyFbkVKXWWKHs+pmSmflp9L+hy+E/1TSX0DKwB/9lYbqG9w7BB7A==
+framer-motion@^1.6.7:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.6.7.tgz#faba70c1654e95f825052ea20c506c5d8138a1c4"
+  integrity sha512-1tAqvyf70jj1b7ue86iDYEQ5ShwH4Ge6y+slAmkGrxPn9y+BgdZDP3pG10Gs6GgpNalNglKH9hRb8Uw75SwHog==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
@@ -3456,13 +3456,15 @@ framer-motion@^1.6.3:
     hey-listen "^1.0.8"
     popmotion "9.0.0-beta-8"
     style-value-types "^3.1.6"
-    stylefire "^6.0.9"
+    stylefire "^6.0.10"
     tslib "^1.10.0"
+  optionalDependencies:
+    "@emotion/is-prop-valid" "^0.8.2"
 
-framer@^1.0.18:
-  version "1.0.18"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.0.18.tgz#45af0901611db34094e895ebdc5e07457961f7d6"
-  integrity sha512-t9MJbXclUxSlMz670UIMrPxQhJukiPGGE3HMwWd+BILpst4QLy7b3X6QgEGrv/80hSwYBC0+NcnOyqPWpMagng==
+framer@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.1.2.tgz#79eca1a4553d3018d07e3e1105812e2a4eb47c51"
+  integrity sha512-e3jeSujt6a8/ApGR5fVz+l4wQBx/l0euCofoxTFNsCShPND1VPSeRrXCwdOgmVIkK85cz8eCjcsbub3B5r2aIg==
 
 framesync@^4.0.0, framesync@^4.0.1, framesync@^4.0.4:
   version "4.0.4"
@@ -7282,10 +7284,10 @@ styled-components@^4.3.2:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-stylefire@^6.0.9:
-  version "6.0.9"
-  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.9.tgz#4c9ab1d2a68e99a2e5a83e11333495824e494632"
-  integrity sha512-HGpTvXAtXbQplESMSvhzFsBtpLNIqMf9hZrdsfoZrJCD0RrF7wyRDc1mhYJym5EL2KQKFAEz+AH6YPOv++VxOQ==
+stylefire@^6.0.10:
+  version "6.0.10"
+  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.10.tgz#1100c63cf01b922f0db92e38a46297f3f1c2663d"
+  integrity sha512-SAJnUk4L9EKt/WSliztk1iZCzcNOJDR69xO8gblRjQwjybgMWONsY7KpcMBt65xU1UZaiyPDK5CoLf9wXLJldQ==
   dependencies:
     "@popmotion/popcorn" "^0.4.2"
     framesync "^4.0.0"
