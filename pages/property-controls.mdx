@@ -16,10 +16,20 @@ export default Template("Property Controls")
 </span>
 
 <div>
+Property Controls allow users to pass properties (or props) to a code component through the Framer X interface. When a user selects a code component on the canvas, its Property Controls are visible on the properties panel. As a component author, it’s up to you to decide which Property Controls to add and what options they should present to the user.
+</div>
 
-Property Controls allow code components to add interface elements to Framer X that are accessible from within your components via properties. This allows you to create customizable settings for anyone that uses it. Custom controls can be added via the `addPropertyControls` function.
+## Adding Controls
 
-First, pass along the name of your component (here it’s `MyComponent`), then an object with all control definitions. In this example, we’re only adding a single custom property: `text`. If you drag the component on the Canvas in Framer X, you’ll be able to override the text contents of the component.
+<div>
+    
+To give your component Property Controls, import both the `addPropertyControls` function and the `ControlType` type from the `framer` library. 
+
+Below your component, call the `addPropertyControls` function with two arguments: first, the name of your component; and second, an object that defines controls for different properties. You have several types of controls to choose from, each of which are documented on this page.
+
+Property Controls only effect components on the canvas. For this reason, you'll still want to use `defaultProps` for your component's props, both to prevent errors as you code the component and when a designer creates an instance of your component from code.
+
+In this example, we’re adding a Property Control for our component's `text` prop. On the canvas, selecting the component will now display a control that allows us to set this property.
 
 </div>
 
@@ -40,7 +50,7 @@ MyComponent.defaultProps = {
 }
 
 addPropertyControls(MyComponent, {
-  text: { type: ControlType.String, title: "Text" },
+  text: { type: ControlType.String, title: "Hello World" },
 })
 ```
 
