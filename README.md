@@ -19,7 +19,7 @@ website at [framer.com/api/][#website]
 
 ## Contributing
 
-If you're interested in contributing documentation check [Contributing](./Contributing.md) for
+If you're interested in contributing documentation check [Contributing](./CONTRIBUTING.md) for
 more details on adding and updating content. For hacking on the api-docs project itself
 read on.
 
