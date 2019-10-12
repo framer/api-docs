@@ -50,7 +50,7 @@ export function MyComponent() {
 
 Internally, the Scroll Component wraps all your `children` in a Frame and offsets the position based on your scrolling. For that to work, it needs to be able to calculate the total size of your scroll contents.
 
-It attempts to do so automatically by measuring your added children in the dom using a [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). If that is unavailable, it will use a polyfill. If you use `contentWidth` and `contentHeight` it will opt out of this behaviour. You can use this if you need to performantly animate your scroll content size.
+It attempts to do so automatically by measuring your added children in the `DOM` using a [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). If that is unavailable, it will use a polyfill. If you use `contentWidth` and `contentHeight` it will opt out of this behaviour. You can use this if you need to performantly animate your scroll content size.
 
 ---
 
