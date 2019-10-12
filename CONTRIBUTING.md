@@ -82,7 +82,7 @@ To toggle this on/off just press <kbd>ctrl-d</kbd>.
 
 We provide a number of React components that can document variables, functions
 and other entities from the codebase. Each component takes a `name` prop that
-refers to it's contents. The [/debug](https://0.0.0.0:1234/api/debug/) page has a
+refers to its contents. The [/debug](https://0.0.0.0:1234/api/debug/) page has a
 list of all the available API entities.
 
 The identifier should be compatible with the [TSDoc reference][#ref] format.
@@ -110,7 +110,7 @@ The `Color()` function allows you to work with and manipulate colors:
 
 #### &lt;APIClass>
 
-Displays a summary of the class including details of it's constructor,
+Displays a summary of the class including details of its constructor,
 methods and properties.
 
 ```tsx

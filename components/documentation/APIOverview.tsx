@@ -76,7 +76,7 @@ export const APIOverview: React.FunctionComponent<{ name: string; highlight: str
 }
 
 /**
- * Matches a data-link-ref data attribute in HTML markup and captures it's
+ * Matches a data-link-ref data attribute in HTML markup and captures its
  * value. Used for find/replace of @link tokens.
  */
 const LinkRefRegex = /data-link-ref="([^"]+)"/g
