@@ -1,11 +1,11 @@
 <h1 align="center">
-    <img src="http://static.framer.com/repos/logo-dark.png" width="40"/>
+    <img src="https://static.framer.com/repos/logo-dark.png" width="40"/>
     <br>
     API Docs
 </h1>
 
-The official [Framer Library][#framer-library]& [Framer Motion](#framer-motion) documentation. It’s 
-a curated site that can pull in documentation from the [TSDoc][#tsdoc] comments in the project source. 
+The official [Framer Library][#framer-library]& [Framer Motion](#framer-motion) documentation. It’s
+a curated site that can pull in documentation from the [TSDoc][#tsdoc] comments in the project source.
 The foundation of the site is built on top of [Monobase][#monobase]. You can see the published
 website at [framer.com/api/][#website]
 
@@ -15,7 +15,7 @@ website at [framer.com/api/][#website]
 [#monobase]: https://github.com/koenbok/monobase/
 [#website]: https://framer.com/api/
 
-<img src="http://static.framer.com/repos/api.png" />
+<img src="https://static.framer.com/repos/api.png" />
 
 ## Contributing
 

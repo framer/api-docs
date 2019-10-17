@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="http://static.framer.com/repos/api-logo.png" width="40"/>
+    <img src="https://static.framer.com/repos/api-logo.png" width="40"/>
     <br>
     Contributing
 </h1>
