@@ -3445,10 +3445,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^1.6.8:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.6.8.tgz#27cc80193a36476c6063dbfc2470cc4ff9fb00d6"
-  integrity sha512-v3pSuxKJMT/Qoe6HuebVM15R3BK04ms76jNmwnm9SbUE4MnPFxODCSztjCxxPJ9/Ydd+DxqfDI4R/v+GeQ/OuQ==
+framer-motion@^1.6.14:
+  version "1.6.14"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-1.6.14.tgz#c95bbdf9001ac49a7675bc8b0944b840d94e0229"
+  integrity sha512-hQrj2uGjP1zYgbBZ3EvnronSamxSKfGKHejR6bVTuOxnMBvG3Ey5l4Cb4q2hmA8ZOJ+QGMcjGN/OZDe/SXKPcA==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
@@ -3456,15 +3456,15 @@ framer-motion@^1.6.8:
     hey-listen "^1.0.8"
     popmotion "9.0.0-beta-8"
     style-value-types "^3.1.6"
-    stylefire "^6.0.10"
+    stylefire "^7.0.0"
     tslib "^1.10.0"
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framer@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.1.3.tgz#80c6133e3805159fc9aa2fdde31e73bd429b761d"
-  integrity sha512-FdBywO25ZN+zZWPB3S07Wq83qfO7CNlq5uhkF0QV66qM8KDdqmdRW3N+xWuIW7M0eq8EUqgRaAQzfkaC8LFuHg==
+framer@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.1.5.tgz#5660df48438b404788f59991159057add3d0192a"
+  integrity sha512-o6dIB6KGF8M63LAfmqggoTjqBtM2Z1T30+nPCZO7AR/6zS191ze2/uGttnrtpEihNzN+6GvFJ3QJLClk0ObDxA==
 
 framesync@^4.0.0, framesync@^4.0.1, framesync@^4.0.4:
   version "4.0.4"
@@ -7284,10 +7284,10 @@ styled-components@^4.3.2:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-stylefire@^6.0.10:
-  version "6.0.10"
-  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-6.0.10.tgz#1100c63cf01b922f0db92e38a46297f3f1c2663d"
-  integrity sha512-SAJnUk4L9EKt/WSliztk1iZCzcNOJDR69xO8gblRjQwjybgMWONsY7KpcMBt65xU1UZaiyPDK5CoLf9wXLJldQ==
+stylefire@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/stylefire/-/stylefire-7.0.0.tgz#2ae16a97f41b8664f2501252ee40c19baba0ea22"
+  integrity sha512-Ea1knZTN5KmbUKSilTsjFEtHcGs+Vl+cQWNnvWQwqRVG+W6J/WgkWjo620hf4II/PTH8uSIF17vGrkpHC41nAA==
   dependencies:
     "@popmotion/popcorn" "^0.4.2"
     framesync "^4.0.0"
