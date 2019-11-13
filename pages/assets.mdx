@@ -21,6 +21,8 @@ Components can use the `url()` function to create a URL that will reference any
 file within your Framer project. This is particularly useful for including
 images and other media from code.
 
+For Framer Web, only files placed in the `./assets` folder of your project will work.
+
 ---
 
 ## Functions
@@ -56,7 +58,7 @@ import { url } from "framer/resource"
 
 export function MyComponent() {
   return (
-    <Frame image={url("./code/test.png")} size={"100%"} />
+    <Frame image={url("./assets/test.png")} size={"100%"} />
   )
 }
 ```
@@ -68,7 +70,7 @@ value in a custom property control.
 
 ```jsx highlight=1-2,5
 // GOOD: Use a relative path. Call url() within component.
-const image = "./code/test.png"
+const image = "./assets/test.png"
 
 export function MyComponent() {
   return <Frame image={url(image)} size={"100%"} />
@@ -77,7 +79,7 @@ export function MyComponent() {
 
 ```jsx highlight=1-2,5
 // BAD: Avoid this. The returned url may change over time.
-const image = url("./code/test.png")
+const image = url("./assets/test.png")
 
 export function MyComponent() {
   return <Frame image={image} size={"100%"} />
