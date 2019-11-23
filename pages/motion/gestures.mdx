@@ -67,7 +67,7 @@ Both props can be set either as a target of values to animate to, or the name of
 </motion.button>
 ```
 
-`motion` components automatically manage the interplay between the these `while` props. So for instance, if hovering starts and stops while the tap gesture is active, the tap gesture receives priority and any properties defined on both will remain in their tapped state.
+`motion` components automatically manage the interplay between these `while` props. So for instance, if hovering starts and stops while the tap gesture is active, the tap gesture receives priority and any properties defined on both will remain in their tapped state.
 
 Likewise, if both gestures are defined and tapping ends, the component will know to animate either to the state defined in `whileHover`, or the component's original state, depending on whether tapping ends inside or outside of the component.
 
