@@ -2,6 +2,7 @@ import * as React from "react"
 import styled from "styled-components"
 import { urlFor, usePath, Development, StyledSheet, useContext } from "monobase"
 import { FramerAPIDefaultProvider } from "./contexts/FramerAPIContext"
+import { Search } from "./layout/dynamic/Search"
 import { Sidebar } from "./layout/Sidebar"
 import { Codebar } from "./layout/Codebar"
 import { tablet, mobile } from "./layout/Breakpoints"
@@ -78,17 +79,17 @@ const Body = styled.body`
 const Main = styled.main`
     max-width: 100%;
     padding-left: 310px;
-    padding-top: 50px;
+    padding-top: 108px;
     padding-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
 
     @media (max-width: ${tablet}) {
-        padding: 100px 40px;
+        padding: 156px 40px 40px;
         overflow-x: hidden;
     }
     @media (max-width: ${mobile}) {
-        padding: 100px 20px;
+        padding: 136px 20px 20px;
     }
 `
 
@@ -100,6 +101,7 @@ const EditButton = styled.a`
     right: 10px;
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     border-radius: 6px;
     padding: 8px 12px 6px;
     transition: background 0.2s ease;
@@ -157,6 +159,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
         <Body>
             <Main className="wrapper">
                 <Sidebar />
+                <Search />
 
                 {showEdit ? (
                     <EditButton target="_blank" rel="noopener" href={path}>

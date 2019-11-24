@@ -110,7 +110,7 @@ const SideBarWrapper = styled.aside`
         width: 100%;
         border-right: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        z-index: 2000;
+        z-index: 3000;
         user-select: none;
         height: 58px;
         overflow: hidden;
