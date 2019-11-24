@@ -39,7 +39,15 @@ const SearchInput = styled.input`
     appearance: none;
     width: 100%;
     height: 100%;
-    padding: 15px 20px;
+    padding: 16px 20px 14px 46px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M7 13A6 6 0 107 1a6 6 0 000 12z' fill='transparent' stroke-width='2' stroke='%23ccc' /%3E%3Cpath d='M11.5 11.5L15 15' fill='transparent' stroke-width='2' stroke='%23ccc' stroke-linecap='round' /%3E%3C/svg%3E");
+    background-size: 16px;
+    background-position: 18px 20px;
+    background-repeat: no-repeat;
+
+    &::placeholder {
+        color: #999;
+    }
 `
 
 const SearchResults = styled.div`
