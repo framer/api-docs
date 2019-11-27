@@ -50,19 +50,140 @@ const SearchInput = styled.input`
     }
 `
 
-const SearchResults = styled.div`
+const SearchResults = styled.ul`
     background: #fff;
     position: absolute;
     overflow-y: auto;
     top: 58px;
     width: 100%;
     height: calc(100vh - 58px);
+    padding: 20px 26px;
+    list-style: none;
     visibility: hidden;
+`
+
+const SearchGroup = styled.li`
+    &:not(:last-child) {
+        margin-bottom: 30px;
+    }
+
+    h5 {
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 500;
+        color: #aaa;
+        letter-spacing: 0.5px;
+        margin-bottom: 15px;
+    }
+`
+
+const SearchGroupResults = styled.ul`
+    list-style: none;
+`
+
+const SearchResult = styled.li`
+    a {
+        color: #111;
+        transition: color 0.12s ease-in-out;
+
+        &:hover {
+            color: var(--accent);
+        }
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 20px;
+    }
+
+    h6 {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 5px;
+
+        span {
+            font-weight: 400;
+            opacity: 0.5;
+        }
+    }
+
+    p {
+        font-size: 15px;
+        opacity: 0.7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 `
 
 export const Search: React.FunctionComponent = () => (
     <SearchWrapper className="search">
         <SearchInput type="search" placeholder="Search..." />
-        <SearchResults className="search-results"></SearchResults>
+        <SearchResults className="search-results">
+            <SearchGroup>
+                <h5>Recently viewed</h5>
+                <SearchGroupResults>
+                    <SearchResult>
+                        <a href="#">
+                            <h6>
+                                Width: <span>number | string | MotionValue</span>
+                            </h6>
+                            <p>
+                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
+                                (including pixels, percentages, keywords and more).
+                            </p>
+                        </a>
+                    </SearchResult>
+                    <SearchResult>
+                        <a href="#">
+                            <h6>
+                                Width: <span>number | string | MotionValue</span>
+                            </h6>
+                            <p>
+                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
+                                (including pixels, percentages, keywords and more).
+                            </p>
+                        </a>
+                    </SearchResult>
+                </SearchGroupResults>
+            </SearchGroup>
+            <SearchGroup>
+                <h5>Frame</h5>
+                <SearchGroupResults>
+                    <SearchResult>
+                        <a href="#">
+                            <h6>
+                                Width: <span>number | string | MotionValue</span>
+                            </h6>
+                            <p>
+                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
+                                (including pixels, percentages, keywords and more).
+                            </p>
+                        </a>
+                    </SearchResult>
+                    <SearchResult>
+                        <a href="#">
+                            <h6>
+                                Width: <span>number | string | MotionValue</span>
+                            </h6>
+                            <p>
+                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
+                                (including pixels, percentages, keywords and more).
+                            </p>
+                        </a>
+                    </SearchResult>
+                    <SearchResult>
+                        <a href="#">
+                            <h6>
+                                Width: <span>number | string | MotionValue</span>
+                            </h6>
+                            <p>
+                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
+                                (including pixels, percentages, keywords and more).
+                            </p>
+                        </a>
+                    </SearchResult>
+                </SearchGroupResults>
+            </SearchGroup>
+        </SearchResults>
     </SearchWrapper>
 )
