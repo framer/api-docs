@@ -3,9 +3,14 @@ import { useState, FunctionComponent, FormEvent } from "react"
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
+import { motion, useInvertedScale } from "framer-motion"
 
 interface Search {
-    maxNumberOfResults?: number
+    maxNumberOfResults: number
+}
+
+interface SearchResults extends Search {
+    value: string
 }
 
 interface SearchResult {
@@ -20,6 +25,17 @@ interface SearchResultRecent extends SearchResult {
     lastViewed: number
 }
 
+const dropdownVariants = {
+    closed: {
+        opacity: 0,
+        pointerEvents: "none" as "none",
+    },
+    open: {
+        opacity: 1,
+        pointerEvents: "all" as "all",
+    },
+}
+
 const SearchWrapper = styled.div`
     position: absolute;
     top: 58px;
@@ -30,12 +46,9 @@ const SearchWrapper = styled.div`
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     z-index: 2000;
 
-    &:focus-within {
+    &:focus-within,
+    &.focus {
         position: fixed;
-
-        .search-results {
-            visibility: visible;
-        }
     }
 
     @media (min-width: ${tablet}) {
@@ -53,6 +66,7 @@ const SearchWrapper = styled.div`
 
 const SearchInput = styled.input`
     all: unset;
+    z-index: 3000;
     box-sizing: border-box;
     appearance: none;
     width: 100%;
@@ -68,20 +82,54 @@ const SearchInput = styled.input`
     }
 `
 
-const SearchResults = styled.ul`
-    background: #fff;
+const SearchResultsBackdrop = styled(motion.div)`
     position: absolute;
-    overflow-y: auto;
     top: 58px;
     width: 100%;
     height: calc(100vh - 58px);
-    padding: 20px 26px;
-    list-style: none;
-    visibility: hidden;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+        background: rgba(255, 255, 255, 0.9);
+        transition: opacity 0.16s ease-in-out;
+    }
+
+    .focus &:before {
+        opacity: 1;
+        pointer-events: all;
+    }
 `
 
-const SearchGroup = styled.li`
-    &:not(:last-child) {
+const SearchResultsDropdown = styled(motion.div)`
+    position: relative;
+    transform-origin: top center;
+    overflow-y: auto;
+    width: 100%;
+    max-height: 100%;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+`
+
+const SearchResults = styled(motion.ul)`
+    transform-origin: top center;
+    list-style: none;
+
+    * {
+        position: relative;
+    }
+`
+
+const SearchGroup = styled(motion.li)`
+    margin: 30px 30px 0;
+
+    &:last-child {
         margin-bottom: 30px;
     }
 
@@ -95,16 +143,17 @@ const SearchGroup = styled.li`
     }
 `
 
-const SearchGroupResults = styled.ul`
+const SearchGroupResults = styled(motion.ul)`
     list-style: none;
 `
 
-const SearchResult = styled.li`
+const SearchResult = styled(motion.li)`
     a {
         color: #111;
         transition: color 0.12s ease-in-out;
 
-        &:hover {
+        &:hover,
+        &.selected {
             color: var(--accent);
         }
     }
@@ -188,70 +237,103 @@ const predictionResults: SearchResult[] = [
     },
 ]
 
+const InvertedSearchResults: FunctionComponent<SearchResults> = ({ value, maxNumberOfResults }) => {
+    const { scaleY } = useInvertedScale()
+
+    return (
+        <SearchResults style={{ scaleY }}>
+            {value ? (
+                Array.from(
+                    predictionResults
+                        .filter((_, i) => i < maxNumberOfResults)
+                        .filter(result =>
+                            [result.name, result.page, result.section]
+                                .map(name => name.toLowerCase())
+                                .some(name => name.includes(value.toLowerCase()))
+                        )
+                        .reduce(
+                            (map: Map<string, SearchResult[]>, result) =>
+                                map.set(result.page, [...(map.get(result.page) || []), result]),
+                            new Map()
+                        )
+                ).map(([name, results]) => (
+                    <SearchGroup key={name}>
+                        <h5>{name}</h5>
+                        <SearchGroupResults>
+                            {results.map(result => (
+                                <SearchResult key={result.name}>
+                                    <a href="#">
+                                        <h6>
+                                            {result.name}: <span>{result.type}</span>
+                                        </h6>
+                                        <p>{result.description}</p>
+                                    </a>
+                                </SearchResult>
+                            ))}
+                        </SearchGroupResults>
+                    </SearchGroup>
+                ))
+            ) : (
+                <SearchGroup>
+                    <h5>Recently viewed</h5>
+                    <SearchGroupResults>
+                        {recentlyViewedResults
+                            .sort((a, b) => a.lastViewed - b.lastViewed)
+                            .filter((_, i) => i < maxNumberOfResults)
+                            .map(result => (
+                                <SearchResult key={result.name}>
+                                    <a href="#">
+                                        <h6>
+                                            {result.name}: <span>{result.type}</span>
+                                        </h6>
+                                        <p>{result.description}</p>
+                                    </a>
+                                </SearchResult>
+                            ))}
+                    </SearchGroupResults>
+                </SearchGroup>
+            )}
+        </SearchResults>
+    )
+}
+
 const StaticSearch: FunctionComponent<Search> = ({ maxNumberOfResults = 8 }) => {
     const [value, setValue] = useState("")
+    const [focus, setFocus] = useState(false)
     const [index, setIndex] = useState(0)
 
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value)
     }
 
+    const handleFocus = () => {
+        setFocus(true)
+    }
+
+    const handleBlur = () => {
+        setFocus(false)
+    }
+
     return (
-        <SearchWrapper className="search">
-            <SearchInput value={value} onChange={handleChange} type="search" placeholder="Search..." />
-            <SearchResults className="search-results">
-                {value ? (
-                    Array.from(
-                        predictionResults
-                            .filter((_, i) => i < maxNumberOfResults)
-                            .filter(result =>
-                                [result.name, result.page, result.section]
-                                    .map(name => name.toLowerCase())
-                                    .some(name => name.includes(value.toLowerCase()))
-                            )
-                            .reduce(
-                                (map: Map<string, SearchResult[]>, result) =>
-                                    map.set(result.page, [...(map.get(result.page) || []), result]),
-                                new Map()
-                            )
-                    ).map(([name, results]) => (
-                        <SearchGroup key={name}>
-                            <h5>{name}</h5>
-                            <SearchGroupResults>
-                                {results.map((result, i) => (
-                                    <SearchResult key={`${result.name}.${i}`}>
-                                        <a href="#">
-                                            <h6>
-                                                {result.name}: <span>{result.type}</span>
-                                            </h6>
-                                            <p>{result.description}</p>
-                                        </a>
-                                    </SearchResult>
-                                ))}
-                            </SearchGroupResults>
-                        </SearchGroup>
-                    ))
-                ) : (
-                    <SearchGroup>
-                        <h5>Recently viewed</h5>
-                        <SearchGroupResults>
-                            {recentlyViewedResults
-                                .sort((a, b) => a.lastViewed - b.lastViewed)
-                                .filter((_, i) => i < maxNumberOfResults)
-                                .map((result, i) => (
-                                    <SearchResult key={`${result.name}.${i}`}>
-                                        <a href="#">
-                                            <h6>
-                                                {result.name}: <span>{result.type}</span>
-                                            </h6>
-                                            <p>{result.description}</p>
-                                        </a>
-                                    </SearchResult>
-                                ))}
-                        </SearchGroupResults>
-                    </SearchGroup>
-                )}
-            </SearchResults>
+        <SearchWrapper className={`search ${focus ? "focus" : ""}`}>
+            <SearchInput
+                value={value}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                type="search"
+                placeholder="Search..."
+            />
+            <SearchResultsBackdrop>
+                <SearchResultsDropdown
+                    variants={dropdownVariants}
+                    initial="closed"
+                    animate={focus ? "open" : "closed"}
+                    layoutTransition
+                >
+                    <InvertedSearchResults value={value} maxNumberOfResults={8} />
+                </SearchResultsDropdown>
+            </SearchResultsBackdrop>
         </SearchWrapper>
     )
 }
