@@ -1,6 +1,24 @@
 import * as React from "react"
+import { useState, FunctionComponent, FormEvent } from "react"
 import styled from "styled-components"
-import { desktop, tablet, mobile } from "../Breakpoints"
+import { desktop, tablet } from "../Breakpoints"
+import { Dynamic } from "monobase"
+
+interface Search {
+    maxNumberOfResults?: number
+}
+
+interface SearchResult {
+    name: string
+    type: string
+    description: string
+    page: string
+    section: string
+}
+
+interface SearchResultRecent extends SearchResult {
+    lastViewed: number
+}
 
 const SearchWrapper = styled.div`
     position: absolute;
@@ -115,75 +133,127 @@ const SearchResult = styled.li`
     }
 `
 
-export const Search: React.FunctionComponent = () => (
-    <SearchWrapper className="search">
-        <SearchInput type="search" placeholder="Search..." />
-        <SearchResults className="search-results">
-            <SearchGroup>
-                <h5>Recently viewed</h5>
-                <SearchGroupResults>
-                    <SearchResult>
-                        <a href="#">
-                            <h6>
-                                Width: <span>number | string | MotionValue</span>
-                            </h6>
-                            <p>
-                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
-                                (including pixels, percentages, keywords and more).
-                            </p>
-                        </a>
-                    </SearchResult>
-                    <SearchResult>
-                        <a href="#">
-                            <h6>
-                                Width: <span>number | string | MotionValue</span>
-                            </h6>
-                            <p>
-                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
-                                (including pixels, percentages, keywords and more).
-                            </p>
-                        </a>
-                    </SearchResult>
-                </SearchGroupResults>
-            </SearchGroup>
-            <SearchGroup>
-                <h5>Frame</h5>
-                <SearchGroupResults>
-                    <SearchResult>
-                        <a href="#">
-                            <h6>
-                                Width: <span>number | string | MotionValue</span>
-                            </h6>
-                            <p>
-                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
-                                (including pixels, percentages, keywords and more).
-                            </p>
-                        </a>
-                    </SearchResult>
-                    <SearchResult>
-                        <a href="#">
-                            <h6>
-                                Width: <span>number | string | MotionValue</span>
-                            </h6>
-                            <p>
-                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
-                                (including pixels, percentages, keywords and more).
-                            </p>
-                        </a>
-                    </SearchResult>
-                    <SearchResult>
-                        <a href="#">
-                            <h6>
-                                Width: <span>number | string | MotionValue</span>
-                            </h6>
-                            <p>
-                                Set the CSS width property. Set to 200 by default. Accepts all CSS value types
-                                (including pixels, percentages, keywords and more).
-                            </p>
-                        </a>
-                    </SearchResult>
-                </SearchGroupResults>
-            </SearchGroup>
-        </SearchResults>
-    </SearchWrapper>
-)
+const recentlyViewedResults: SearchResultRecent[] = [
+    {
+        name: "width",
+        type: "number | string | MotionValue<number | string>",
+        description:
+            "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
+        page: "Frame",
+        section: "Layout",
+        lastViewed: 1574849637,
+    },
+    {
+        name: "opacity",
+        type: "number | MotionValue<number>",
+        description:
+            "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
+        page: "Frame",
+        section: "Visual",
+        lastViewed: 1574850002,
+    },
+]
+
+const predictionResults: SearchResult[] = [
+    {
+        name: "width",
+        type: "number | string | MotionValue<number | string>",
+        description:
+            "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
+        page: "Frame",
+        section: "Layout",
+    },
+    {
+        name: "opacity",
+        type: "number | MotionValue<number>",
+        description:
+            "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
+        page: "Frame",
+        section: "Visual",
+    },
+    {
+        name: "damping",
+        type: "number",
+        description:
+            "Strength of opposing force. If set to 0, spring will oscillate indefinitely. Set to 10 by default.",
+        page: "Animation",
+        section: "Spring",
+    },
+    {
+        name: "stiffness",
+        type: "number",
+        description: "Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.",
+        page: "Animation",
+        section: "Spring",
+    },
+]
+
+const StaticSearch: FunctionComponent<Search> = ({ maxNumberOfResults = 8 }) => {
+    const [value, setValue] = useState("")
+    const [index, setIndex] = useState(0)
+
+    const handleChange = (event: FormEvent<HTMLInputElement>) => {
+        setValue(event.currentTarget.value)
+    }
+
+    return (
+        <SearchWrapper className="search">
+            <SearchInput value={value} onChange={handleChange} type="search" placeholder="Search..." />
+            <SearchResults className="search-results">
+                {value ? (
+                    Array.from(
+                        predictionResults
+                            .filter((_, i) => i < maxNumberOfResults)
+                            .filter(result =>
+                                [result.name, result.page, result.section]
+                                    .map(name => name.toLowerCase())
+                                    .some(name => name.includes(value.toLowerCase()))
+                            )
+                            .reduce(
+                                (map: Map<string, SearchResult[]>, result) =>
+                                    map.set(result.page, [...(map.get(result.page) || []), result]),
+                                new Map()
+                            )
+                    ).map(([name, results]) => (
+                        <SearchGroup key={name}>
+                            <h5>{name}</h5>
+                            <SearchGroupResults>
+                                {results.map((result, i) => (
+                                    <SearchResult key={`${result.name}.${i}`}>
+                                        <a href="#">
+                                            <h6>
+                                                {result.name}: <span>{result.type}</span>
+                                            </h6>
+                                            <p>{result.description}</p>
+                                        </a>
+                                    </SearchResult>
+                                ))}
+                            </SearchGroupResults>
+                        </SearchGroup>
+                    ))
+                ) : (
+                    <SearchGroup>
+                        <h5>Recently viewed</h5>
+                        <SearchGroupResults>
+                            {recentlyViewedResults
+                                .sort((a, b) => a.lastViewed - b.lastViewed)
+                                .filter((_, i) => i < maxNumberOfResults)
+                                .map((result, i) => (
+                                    <SearchResult key={`${result.name}.${i}`}>
+                                        <a href="#">
+                                            <h6>
+                                                {result.name}: <span>{result.type}</span>
+                                            </h6>
+                                            <p>{result.description}</p>
+                                        </a>
+                                    </SearchResult>
+                                ))}
+                        </SearchGroupResults>
+                    </SearchGroup>
+                )}
+            </SearchResults>
+        </SearchWrapper>
+    )
+}
+
+export const Search = Dynamic(StaticSearch)
