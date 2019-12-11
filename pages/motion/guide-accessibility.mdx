@@ -29,7 +29,7 @@ Framer Motion provides the <Ref name="usereducedmotion">the useReducedMotion hoo
 import { useReducedMotion } from "framer-motion"
 
 // In your component...
-const isReducedMotion = useReducedMotion()
+const shouldReduceMotion = useReducedMotion()
 ```
 
 There are alreadt some excellent guides about _why_ and _how_ we should design accessible animations, like the ones at [A List Apart](https://alistapart.com/blog/post/more-resources-for-accessible-animations/) and [Smashing Magazine](https://www.smashingmagazine.com/2018/04/designing-accessibility-inclusion/). So in this guide we're briefly going to cover the practicalities of some basic implementations.
@@ -40,13 +40,13 @@ In most cases, you’ll still want to show a transition between two states, but 
 
 ```jsx
 function Component({ isOpen }) {
-  const isReducedMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
   let animate
 
   if (isOpen) {
-    animate = isReducedMotion ? { opacity: 1 } : { x: 0 }
+    animate = shouldReduceMotion ? { opacity: 1 } : { x: 0 }
   } else {
-    animate = isReducedMotion
+    animate = shouldReduceMotion
       ? { opacity: 0 }
       : { x: "-100%" }
   }
@@ -65,13 +65,13 @@ To disable this for reduced motion devices, we can conditionally pass a target r
 
 ```jsx
 function Component() {
-  const isReducedMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
   const { scrollY } = useViewportScroll()
 
   const y = useTransform(
     scrollY,
     [0, 1],
-    isReducedMotion ? [0, 0] : [0, -0.2],
+    shouldReduceMotion ? [0, 0] : [0, -0.2],
     { clamp: false }
   )
 
@@ -85,8 +85,8 @@ function Component() {
 
 ```jsx
 function BackgroundVideo() {
-  const isReducedMotion = useReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
-  return <video autoplay={!isReducedMotion} />
+  return <video autoplay={!shouldReduceMotion} />
 }
 ```
