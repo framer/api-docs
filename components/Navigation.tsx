@@ -21,6 +21,11 @@ const MotionMenu = () => {
             <MenuItem className="animate-presence" href="/pages/motion/animate-presence.mdx" title="AnimatePresence" />
 
             <SubTitle name="Guides" />
+            <MenuItem
+                className="guide-accessibility"
+                href="/pages/motion/guide-accessibility.mdx"
+                title="Accessibility"
+            />
             <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer X" />
             <MenuItem
                 className="migrate-from-pose"
@@ -38,7 +43,12 @@ const LibraryMenu = () => {
             <MenuItem className="home" href="/pages/index.mdx" title="Introduction" />
             <MenuItem className="guide" href="/pages/tutorial.mdx" title="Tutorial" />
             <MenuItem className="examples" href="/pages/examples.mdx" title="Examples" />
-            <MenuItem className="guide" href="https://www.framer.com/books/framer-guide-to-react/" title="ES6 and React" external />
+            <MenuItem
+                className="guide"
+                href="https://www.framer.com/books/framer-guide-to-react/"
+                title="ES6 and React"
+                external
+            />
 
             <SubTitle name="Library" />
             <MenuItem className="frame" href="/pages/frame.mdx" title="Frame" />

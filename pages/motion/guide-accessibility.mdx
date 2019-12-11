@@ -1,0 +1,89 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template("Accessibility")
+
+# Accessibility
+
+<span className="lead">
+  How to design accessible animations with Framer Motion.
+</span>
+
+Framer Motion provides the [the useReducedMotion hook](/api/motion/motionvalue/#usereducedmotion) to let you deal with devices that have the Reduced Motion setting enabled.
+
+```jsx
+const isReducedMotion = useReducedMotion()
+```
+
+Plenty of excellent guides about _why_ we should design accessible animations, in this guide we're just going to cover the practicalities of some of the basics.
+
+## Using opacity instead of position
+
+In most cases, you'll still want to show a transition between two states, but reduce motion sickness. A good way to do this is to replace show/hide animations that use positional animations with ones that use opacity.
+
+```jsx
+function Component({ isOpen }) {
+  const isReducedMotion = useReducedMotion()
+  let animate
+
+  if (isOpen) {
+    animate = isReducedMotion ? { opacity: 1 } : { x: 0 }
+  } else {
+    animate = isReducedMotion
+      ? { opacity: 0 }
+      : { x: "-100%" }
+  }
+
+  return <motion.div animate={animate} />
+}
+```
+
+## Disable parallax
+
+Parallax animations can be very unpleasant for people pre-disposed to motion sickness.
+
+To build parallax, we usually get `scrollY` from `useViewportScroll`, and create a new `MotionValue` via passing that to `useTransform` which will update's a `motion` component's `y` position as the scroll value changes.
+
+To disable this for reduced motion devices, we can conditionally pass a target range `[0, 0]`, so scroll changes have no effect.
+
+```jsx
+function Component() {
+  const isReducedMotion = useReducedMotion()
+  const { scrollY } = useViewportScroll()
+
+  const y = useTransform(
+    scrollY,
+    [0, 1],
+    isReducedMotion ? [0, 0] : [0, -0.2],
+    { clamp: false }
+  )
+
+  return <motion.div style={{ y }} />
+}
+```
+
+## Disable auto-playing videos
+
+`useReducedMotion` isn't only compatible with Framer Motion's API. It returns a simple boolean, so you can use it for any purpose, like disabling the autoplay of a background `video` element.
+
+```jsx
+function BackgroundVideo() {
+  const isReducedMotion = useReducedMotion()
+
+  return <video autoplay={!isReducedMotion} />
+}
+```
