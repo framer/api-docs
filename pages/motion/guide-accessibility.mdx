@@ -40,9 +40,13 @@ In this guide we'll briefly take a look at how we can use the `useReducedMotion`
 
 ## Replace position transitions with opacity
 
+<div>
+
 When Reduced Motion is enabled on iOS, the operating system still animates between states to help users transition between each context. But instead of the default scale and position animations, it fades content in and out.
 
 We can achieve this in Framer Motion by passing different values to `animate` based on whether `useReducedMotion` returns `true` or not.
+
+</div>
 
 ```jsx
 function Sidebar({ isOpen }) {
@@ -75,14 +79,18 @@ function BackgroundVideo() {
 
 ## Disable parallax animations
 
+<div>
+
 Parallax animations can be very unpleasant for people pre-disposed to motion sickness.
 
 To build parallax, we usually get `scrollY` from `useViewportScroll`, and create a new `MotionValue` via passing that to `useTransform` which will update's a `motion` component's `y` position as the scroll value changes.
 
 To disable this for reduced motion devices, we can conditionally pass this `MotionValue` to the animating element.
 
+</div>
+
 ```jsx
-function Component() {
+function Parallax() {
   const shouldReduceMotion = useReducedMotion()
   const { scrollY } = useViewportScroll()
 
