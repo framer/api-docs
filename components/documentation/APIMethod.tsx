@@ -60,7 +60,6 @@ export const APIMethod: React.FunctionComponent<APIEntity<MethodModel>> = props 
     const api = React.useContext(FramerAPIContext)
 
     const model = api.resolve(name, Kind.Method)
-
     if (!model) return <MissingModelWarning name={name} kind={Kind.Method} />
 
     return (
