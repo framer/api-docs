@@ -41,7 +41,7 @@ export function renderTSDocToHTML(node: DocNode | undefined): string {
 }
 
 // Converts a TSDoc DocNode into a tree, usually React but allows custom createElement and Fragment methods.
-export function renderTSDoc<T>(node: DocNode | undefined, opts: LikeReact<T>) {
+export function renderTSDoc<T>(node: DocNode | undefined, opts: LikeReact<T>): T | null {
     return render(node, opts)
 }
 

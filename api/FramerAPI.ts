@@ -129,7 +129,7 @@ export class FramerAPI {
         }
 
         const json = walk(this.data, id.toLowerCase())
-        return json ? this.process(json) : null
+        return json ? (this.process(json) as ModelByKind[K]) : null
     }
 
     /**

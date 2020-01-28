@@ -47,10 +47,10 @@ describe("TSDocReactEmitter", () => {
         const component = createTestComponent(`
         /**
          * Hello World
-         * 
+         *
          * @library
          * Hello prototype
-         * 
+         *
          * @motion
          * Hello production
          */`)
