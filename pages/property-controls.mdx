@@ -157,15 +157,19 @@ A control that exposes events in the prototyping panel within the Framer UI. Whe
 
 ```jsx
 export function MyComponent(props) {
-  return <input onSubmit={props.onSubmit()}/>
+  return (
+    <button onClick={() => props.onClick()}>
+      Click Me
+    </button>
+  )
 }
 
 addPropertyControls(MyComponent, {
-  onSubmit: {
+  onClick: {
     type: ControlType.EventHandler,
-    title: "Submit"
+    title: "Click",
   },
-}
+})
 ```
 
 <Callout>
@@ -185,15 +189,20 @@ A control that exposes [animation controls](/api/animation/#animation-controls) 
 
 ```jsx
 export function MyComponent(props) {
-  return <Frame animate={{ scale: 2 }} transition={props.transition} />
+  return (
+    <Frame
+      animate={{ scale: 2 }}
+      transition={props.transition}
+    />
+  )
 }
 
 addPropertyControls(MyComponent, {
   transition: {
     type: ControlType.Transition,
-    title: "Transition"
+    title: "Transition",
   },
-}
+})
 ```
 
 <Callout>
