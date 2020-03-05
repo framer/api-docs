@@ -4,7 +4,9 @@ import {
   APIEnum,
   APIEnumField,
   Template,
+  Callout,
 } from "../components"
+import { ReleaseBadge } from "../components/documentation/ReleaseBadge"
 
 export default Template("Property Controls")
 
@@ -16,7 +18,13 @@ export default Template("Property Controls")
 </span>
 
 <div>
-Property Controls allow users to pass properties (or props) to a code component through the Framer X interface. When a user selects a code component on the canvas, its Property Controls are visible on the properties panel. As a component author, it’s up to you to decide which Property Controls to add and what options they should present to the user.
+  Property Controls allow users to pass properties (or
+  props) to a code component through the Framer X interface.
+  When a user selects a code component on the canvas, its
+  Property Controls are visible on the properties panel. As
+  a component author, it’s up to you to decide which
+  Property Controls to add and what options they should
+  present to the user.
 </div>
 
 ## Adding Controls
@@ -138,3 +146,59 @@ addPropertyControls(MyComponent, {
 ## String
 
 <APIEnumField name="ControlType.String" />
+
+---
+
+## Event Handler
+
+<h3>ControlType.EventHandler <ReleaseBadge releaseTag="beta" /></h3>
+
+A control that exposes events in the prototyping panel within the Framer UI. When choosing an event from the prototyping panel, you’ll have the option to navigate to a new Frame, open a URL, or log something in the console.
+
+```jsx
+export function MyComponent(props) {
+  return <input onSubmit={props.onSubmit()}/>
+}
+
+addPropertyControls(MyComponent, {
+  onSubmit: {
+    type: ControlType.EventHandler,
+    title: "Submit"
+  },
+}
+```
+
+<Callout>
+  ControlType.EventHandler is a feature that is currently
+  only available in{" "}
+  <a href={"https://framer.com/beta"}>Framer X Beta</a> and{" "}
+  <a href={"https://framer.com/web"}>Framer Web</a>.
+</Callout>
+
+---
+
+## Transition
+
+<h3>ControlType.Transition <ReleaseBadge releaseTag="beta" /></h3>
+
+A control that exposes [animation controls](/api/animation/#animation-controls) in the prototyping panel within the Framer UI.
+
+```jsx
+export function MyComponent(props) {
+  return <Frame animate={{ scale: 2 }} transition={props.transition} />
+}
+
+addPropertyControls(MyComponent, {
+  transition: {
+    type: ControlType.Transition,
+    title: "Transition"
+  },
+}
+```
+
+<Callout>
+  ControlType.Transition is a feature that is currently only
+  available in{" "}
+  <a href={"https://framer.com/beta"}>Framer X Beta</a> and{" "}
+  <a href={"https://framer.com/web"}>Framer Web</a>.
+</Callout>
