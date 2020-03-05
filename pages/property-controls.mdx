@@ -157,17 +157,12 @@ A control that exposes events in the prototyping panel within the Framer UI. Whe
 
 ```jsx
 export function MyComponent(props) {
-  return (
-    <button onClick={() => props.onClick()}>
-      Click Me
-    </button>
-  )
+  return <button onClick={props.onClick}>Click Me</button>
 }
 
 addPropertyControls(MyComponent, {
   onClick: {
     type: ControlType.EventHandler,
-    title: "Click",
   },
 })
 ```
