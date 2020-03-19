@@ -23,14 +23,18 @@ export default Template("AnimatePresence")
 # AnimatePresence
 
 <span className="lead">
-  Animate components as they're removed from the React tree.
+  Animate components when they're removed from the React
+  tree.
 </span>
 
 <div>
 
-Wrapping one or more `motion` components in `AnimatePresence` enables the use of an `exit` prop, which can define an animation to use when a component is unmounted.
+`AnimatePresence` allows components to animate out when they're removed from the React tree.
 
-It can also be used to suppress initial animations on components that are present when `AnimatePresence` first mounts.
+It's required to enable exit animations because React lacks a lifecycle method that:
+
+1. Notifies components when they're going to be unmounted and
+2. Allows them to defer that unmounting until after an operation is complete (for instance an animation).
 
 </div>
 
@@ -55,13 +59,6 @@ export const MyComponent = ({ isVisible }) => (
 ## Usage
 
 ### Unmount animations
-
-`AnimatePresence` allows components to animate out when they're removed from the React tree.
-
-The reason a seperate component is required for this is that React lacks a lifecycle method that:
-
-1. Notifies components when they're going to be unmounted and
-2. Allows them to defer that unmounting until after an operation is complete (for instance an animation).
 
 <div>
 
@@ -141,12 +138,6 @@ export const Notifications = ({ messages }) => (
 )
 ```
 
-Add a [`positionTransition` prop](/api/motion/component/#animationprops.positiontransition) to the child components to allow them to smoothly animate into their new positions when an item is removed.
-
-```jsx
-<motion.li positionTransition exit={{ opacity: 0 }} />
-```
-
 ### Suppressing initial animations
 
 <div>
@@ -177,7 +168,7 @@ const MyComponent = ({ isVisible }) => (
 
 <div>
 
-The children of `AnimatePresence` can also be custom components. The only requirement is that the first `motion` component within the custom component has an `exit` property defined.
+The children of `AnimatePresence` can also be custom components. The only requirement is that somewhere within this component is at least one `motion` component with an `exit` prop.
 
 </div>
 
@@ -209,3 +200,9 @@ export const MyComponent = ({ items }) => (
 <APIProperty name="AnimatePresenceProps.custom" />
 <APIProperty name="AnimatePresenceProps.exitBeforeEnter" />
 <APIProperty name="AnimatePresenceProps.onExitComplete" />
+
+---
+
+## usePresence
+
+<APIFunction name="usePresence" />
