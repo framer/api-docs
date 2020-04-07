@@ -18,6 +18,11 @@ const MotionMenu = () => {
 
             <SubTitle name="Components" />
             <MenuItem className="motion" href="/pages/motion/component.mdx" title="motion" />
+            <MenuItem
+                className="animate-shared-layout"
+                href="/pages/motion/animate-shared-layout.mdx"
+                title="AnimateSharedLayout"
+            />
             <MenuItem className="animate-presence" href="/pages/motion/animate-presence.mdx" title="AnimatePresence" />
 
             <SubTitle name="Guides" />

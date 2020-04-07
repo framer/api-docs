@@ -1,0 +1,159 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+  Button,
+  EmbeddedExample,
+} from "../../components"
+import { AnimatePresenceExample } from "../../components/examples/motion"
+
+export default Template("AnimateSharedLayout")
+
+# AnimateSharedLayout
+
+<span className="lead">
+  Animate between different components that share a layout
+  ID.
+</span>
+
+<Callout>
+  <strong>Note:</strong> This feature is currently in beta.
+  You can install the latest Framer Motion 2 beta using{" "}
+  <code>npm install framer-motion@beta</code>.
+</Callout>
+
+<div>
+
+`AnimateSharedLayout` allows new components to animate out from other components that share the same `layoutId`.
+
+This can be used to create a variety of effects, like this underline selection:
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-magic-motion-underline-menu-demo-y6tl3?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion: Magic Motion underline menu demo"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
+Or fully route-driven shared element transitions:
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-magic-motion-app-store-demo-su6mx?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion: Magic Motion App Store demo"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
+</div>
+
+---
+
+## Usage
+
+### Shared layout animations
+
+When a new component is added with an existing `layoutId`, on mount it will visually animate out from the previous component that had that `layoutId`.
+
+```jsx
+import { motion, AnimateSharedLayout } from "framer-motion"
+
+export const MyComponent = ({ items, selectedId }) => (
+  <AnimateSharedLayout>
+    {items.map(item => (
+      <li>
+        {item.title}
+        {item.id === selectedId && (
+          <motion.div layoutId="underline" />
+        )}
+      </li>
+    ))}
+  </AnimateSharedLayout>
+)
+```
+
+If the previous component still exists in the tree, it'll automatically be hidden using `opacity: 0`, but still occupy space in the layout.
+
+### Exit animations
+
+When a component that's expected to enter and exit the tree is wrapped in `AnimatePresence`, it'll automatically animate back to the original component with its `layoutId` when it's removed.
+
+```jsx
+<AnimateSharedLayout>
+  {images.map((img) => <motion.img layoutId={img.id} />)}
+  <AnimatePresence>
+    {selectedId && <motion.img layoutId={selectedId} />)}
+  </AnimatePresence>
+</AnimateSharedLayout>
+```
+
+### Crossfade
+
+Sometimes, the components that you're animating from/to might look different enough that when an entering/exiting component is added or removed there's an obvious visual switch. For instance, a text box might be wrapped differently in one layout than another.
+
+By setting `type="crossfade"`, both the exiting and previous components will animate together. The root components in each stack that has either `animate={true}` or a `layoutId` will crossfade, so one gets hidden as the other is revealed.
+
+```jsx
+<AnimateSharedLayout type="crossfade">
+  {images.map((img) => <motion.img layoutId={img.id} />)}
+  <AnimatePresence>
+    {selectedId && <motion.img layoutId={selectedId} />)}
+  </AnimatePresence>
+</AnimateSharedLayout>
+```
+
+### Transition customisation
+
+<div>
+
+The transition used for the shared layout animation is defined in the component's `transition` prop.
+
+This accepts all the same `Transition` settings as usual, with the exceptions that you can only set a single transition for all child components and individual values aren't supported. These limitations will be removed in a future release.
+
+</div>
+
+```jsx
+<AnimateSharedLayout transition={{ duration: 2 }}>
+```
+
+### Correcting visual distortion
+
+For maximum performance, layouts are animated using the `transform` property. Animating `width` and `height` using `scaleX` and `scaleY` can introduce visual distortion on children.
+
+This can be automatically corrected by making those children `motion` components with `animate={true}`.
+
+```jsx
+<motion.div animate />
+```
+
+<!--
+TODO:
+Add a Props section once this repo is upgraded to 2.0.0
+Which we can't do until it's on `latest`.
+-->

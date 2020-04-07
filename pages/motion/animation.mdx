@@ -20,15 +20,16 @@ export default Template("Animation")
 # Animation
 
 <span className="lead">
-  A set of properties and helpers for high-performance,
-  declarative animations.
+  How to animate in Framer Motion.
 </span>
 
 <div>
 
-Animations in Motion are primarily controlled via the `motion` component's `animate` property.
+Animations in Framer Motion are controlled via the `motion` component's flexible `animate` property.
 
-It can accept a target object, variant label(s), or imperative animation controls. We'll explore each on this page.
+It can be used in a number of ways, scaling to the complexity of your needs.
+
+In this guide, we'll explore each of them.
 
 </div>
 
@@ -43,11 +44,28 @@ export const MyComponent = () => (
 )
 ```
 
+<Callout>
+  <ul>
+    <li>
+      <a href="#target-object">Target object</a>
+    </li>
+    <li>
+      <a href="#variants">Variants</a>
+    </li>
+    <li>
+      <a href="#animation-controls">Controls</a>
+    </li>
+    <li>
+      <a href="#automatic-(beta)">Automatic (beta)</a>
+    </li>
+  </ul>
+</Callout>
+
 ---
 
 ## Target object
 
-The simplest way to make a component animate is to pass a target object to a component's `animate` prop.
+For simple animations, we can set values directly on the `animate` prop.
 
 ```jsx
 <motion.div animate={{ x: 100 }} />
@@ -315,3 +333,88 @@ return (
   </ul>
 )
 ```
+
+---
+
+## Automatic (beta)
+
+<Callout>
+  <strong>Note:</strong> This feature is currently in beta.
+  You can install the latest Framer Motion 2 beta using{" "}
+  <code>npm install framer-motion@beta</code>.
+</Callout>
+
+<div>
+
+A `motion` component can automatically animate layout and style changes that occur as a result of a re-render by setting `animate` to `true`.
+
+These layout and style changes can be set via CSS applied via `className`, `style`, or inherited from a stylesheet.
+
+</div>
+
+```jsx
+<motion.div animate />
+```
+
+### Layout animations
+
+When a component is in automatic animation mode, any changes to its layout will animate automatically.
+
+These layout changes can be anything: A change in the component's parent's flexbox, CSS grid, switching between `position: absolute` and `position: fixed`.
+
+For example, this component is animated by switching `justify-content` between `flex-start` and `flex-end`:
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-magic-motion-switch-demo-0d68e?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+  title="Framer Motion: Magic Motion switch demo"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
+For maximum performance, all layout animations are performed using the `transform` property rather than expensive layout-triggering properties like `width` or `top`.
+
+Animating `width` and `height` with `scaleX` and `scaleY` can sometimes visually distort children. This can be corrected by setting `animate` on those, too:
+
+```jsx
+<motion.div animate>
+  <motion.div animate />
+</motion.div>
+```
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-magic-motion-accordion-demo-tqzul?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+  }}
+  title="Framer Motion: Magic Motion accordion demo"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
+### Style animations
+
+The styles that will automatically animate are:
+
+- `backgroundColor`
+- `borderRadius` (and individual corners)
+- `boxShadow` (currently single shadow only)
+- `color`
+- `opacity`
+
+### Limitations
+
+- **Transform:** `animate` **doesn't** currently automatically animate `transform`, because the `transform` prop is currently reserved for performing layout animations.
+- **Drag:** The `layoutTransition` prop that `animate={true}` replaces used to have a hacky way to integrate it with `drag` that powered the drag-to-reorder demos. The plan is to properly fix integration with `drag` rather than re-expose this kind of API.
+- **Inline components:** Components that are set to `display: inline` aren't compatible with layout animations as they don't accept the CSS `transform` property. Try `display: inline-block` instead.
+- **SVG:** SVGs aren't currently supported, but they will be soon.
