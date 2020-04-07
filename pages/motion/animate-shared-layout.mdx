@@ -79,7 +79,7 @@ Or fully route-driven shared element transitions:
 
 ### Shared layout animations
 
-When a new component is added with an existing `layoutId`, on mount it will visually animate out from the previous component that had that `layoutId`.
+When a new component is added with an existing `layoutId`, on mount it will visually animate out from the previous component that had or has the same `layoutId`.
 
 ```jsx
 import { motion, AnimateSharedLayout } from "framer-motion"
@@ -102,7 +102,16 @@ If the previous component still exists in the tree, it'll automatically be hidde
 
 ### Exit animations
 
+<div>
+
 When a component that's expected to enter and exit the tree is wrapped in `AnimatePresence`, it'll automatically animate back to the original component with its `layoutId` when it's removed.
+
+<Button
+  name="Open example in CodeSandbox"
+  link="https://codesandbox.io/s/framer-motion-magic-motion-gallery-demo-pknk7"
+/>
+
+</div>
 
 ```jsx
 <AnimateSharedLayout>
@@ -115,9 +124,18 @@ When a component that's expected to enter and exit the tree is wrapped in `Anima
 
 ### Crossfade
 
+<div>
+
 Sometimes, the components that you're animating from/to might look different enough that when an entering/exiting component is added or removed there's an obvious visual switch. For instance, a text box might be wrapped differently in one layout than another.
 
 By setting `type="crossfade"`, both the exiting and previous components will animate together. The root components in each stack that has either `animate={true}` or a `layoutId` will crossfade, so one gets hidden as the other is revealed.
+
+<Button
+  name="Open example in CodeSandbox"
+  link="https://codesandbox.io/s/framer-motion-magic-motion-app-store-demo-su6mx"
+/>
+
+</div>
 
 ```jsx
 <AnimateSharedLayout type="crossfade">
