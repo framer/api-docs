@@ -398,5 +398,5 @@ The styles that will automatically animate are:
 
 - **Transform:** `animate` **doesn't** currently automatically animate `transform`, because the `transform` prop is currently reserved for performing layout animations.
 - **Drag:** The `layoutTransition` prop that `animate={true}` replaces used to have a hacky way to integrate it with `drag` that powered the drag-to-reorder demos. The plan is to properly fix integration with `drag` rather than re-expose this kind of API.
-- **Inline components:** Components that are set to `display: inline` aren't compatible with layout animations as they don't accept the CSS `transform` property. Try `display: inline-block` instead.
+- **Inline components:** Components that are set to `display: inline` aren't compatible with layout animations as they don't accept the CSS `transform` property. Try using `display: inline-block` instead.
 - **SVG:** SVGs are currently not supported, but they will be soon.
