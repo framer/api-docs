@@ -150,7 +150,7 @@ By setting `type="crossfade"`, both the exiting and previous components will ani
 
 <div>
 
-The transition used for the shared layout animation is defined in the component's `transition` prop.
+The transition used for the shared layout animation is defined in the [component's `transition` prop](/api/motion/types#transition).
 
 This accepts all the same `Transition` settings as usual. Currently it is only possible to set a single transition for all child components. Using individual values per child component is not supported. This limitation will be removed in a future release.
 
@@ -164,10 +164,12 @@ This accepts all the same `Transition` settings as usual. Currently it is only p
 
 For maximum performance, layouts are animated using the `transform` property. Animating `width` and `height` using `scaleX` and `scaleY` can introduce visual distortion on children.
 
-This can be automatically corrected by making those children `motion` components with `animate={true}`.
+This can be automatically corrected by applying `animate` to those children.
 
 ```jsx
-<motion.div animate />
+<motion.div sharedId="container">
+  <motion.div animate />
+</motion.div>
 ```
 
 <!--
