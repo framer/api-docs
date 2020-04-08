@@ -35,7 +35,9 @@ export default Template("AnimateSharedLayout")
 
 <div>
 
-`AnimateSharedLayout` allows new components to animate out from other components that share the same `layoutId`.
+`AnimateSharedLayout` allows animation between seperate components.
+
+These components do not need to be rendered in the same hierarchy, as long as they share the same `layoutId`, and are wrapped within the same `AnimateSharedLayout` component.
 
 This can be used to create a variety of effects, like this underline selection:
 
