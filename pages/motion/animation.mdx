@@ -361,7 +361,7 @@ For example, this component is animated by switching `justify-content` between `
 
 For maximum performance, all layout animations are performed using the `transform` property rather than expensive layout-triggering properties like `width` or `top`.
 
-Animating `width` and `height` with `scaleX` and `scaleY` can sometimes visually distort children. This can be corrected by setting `animate` on those, too:
+Animating `width` and `height` with `scaleX` and `scaleY` can sometimes visually distort children. You can correct this by also applying `animate` to those children if they are motion elements:
 
 ```jsx
 <motion.div animate>
