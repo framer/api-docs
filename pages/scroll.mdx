@@ -27,7 +27,7 @@ The Scroll Component is based on a `Frame`, which means that it supports **all F
 - Use touch wheels for desktop scrolling
 - Advanced control with momentum and overdrag
 
-The Scroll Component is **not** just a `div` with `overflow: scroll`, but uses custom real physics (friction and spring) to mimic iOS-like scrolling. It works on all platforms and you have full control over the inputs and all events. This allows you to explore new and custom scroll based interactions.
+The Scroll Component uses custom real physics (friction and spring) to mimic iOS-like scrolling. It works on all platforms and you have full control over the inputs and all events. This allows you to explore new and custom scroll based interactions.
 
 </div>
 
@@ -48,9 +48,7 @@ export function MyComponent() {
 
 ## Sizing
 
-Internally, the Scroll Component wraps all your `children` in a Frame and offsets the position based on your scrolling. For that to work, it needs to be able to calculate the total size of your scroll contents.
-
-It attempts to do so automatically by measuring your added children in the DOM using a [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver). If that is unavailable, it will use a polyfill. If you use `contentWidth` and `contentHeight` it will opt out of this behaviour. You can use this if you need to performantly animate your scroll content size.
+Internally, the Scroll Component wraps all your `children` in a Frame and offsets the scroll content based on your pan gesture. The rubber banding effect is achieved by applying a transform.
 
 ---
 
