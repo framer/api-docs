@@ -255,6 +255,7 @@ function keysForKind(name: string, kind: Kind): string[] {
                 `(${name}:static)`,
                 `(${name}:static,1)`,
                 `(${name}:0)`,
+                `(${name}:1)`, // This is an ugly hack to support api-exporter 7.7.8
             ]
         case Kind.Enum:
             return [`(${name}:enum)`]
