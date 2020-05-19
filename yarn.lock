@@ -3482,10 +3482,10 @@ framer-motion@^1.11.0:
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framer@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.1.tgz#d4a65b6ffeb0b0ad879e5a79d284b5a227a849c5"
-  integrity sha512-AOzv8JvVc+JpqB5LqlOR4A7E6ARHOL5puhyOlIKb0JCKZfDcIWSmwIv2hj1Yj+VcVd3YXvzdeGLmVgXtjhaJrA==
+framer@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.2.tgz#0bff1394215f36f11b4857c212da2ad54d42439a"
+  integrity sha512-ezFadvUm3mXao4J7BRIJSZwWbYjz0JoLB5l1oS7fBsnfDOw24clnVUCYT8e6K7iacaTXH1BVTEs0/sKQS7c/dA==
 
 framesync@^4.0.0, framesync@^4.0.1, framesync@^4.0.4:
   version "4.0.4"
