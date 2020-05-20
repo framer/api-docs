@@ -4,9 +4,7 @@ import {
   APIEnum,
   APIEnumField,
   Template,
-  Callout,
 } from "../components"
-import { ReleaseBadge } from "../components/documentation/ReleaseBadge"
 
 export default Template("Property Controls")
 
@@ -151,7 +149,7 @@ addPropertyControls(MyComponent, {
 
 ## Event Handler
 
-<h3>ControlType.EventHandler <ReleaseBadge releaseTag="beta" /></h3>
+<h3>ControlType.EventHandler</h3>
 
 A control that exposes events in the prototyping panel within the Framer UI. When choosing an event from the prototyping panel, you’ll have the option to navigate to a new Frame, open a URL, or log a message in the console.
 
@@ -167,18 +165,11 @@ addPropertyControls(MyComponent, {
 })
 ```
 
-<Callout>
-  ControlType.EventHandler is a feature that is currently
-  only available in{" "}
-  <a href={"https://framer.com/beta"}>Framer X Beta</a> and{" "}
-  <a href={"https://framer.com/web"}>Framer Web</a>.
-</Callout>
-
 ---
 
 ## Transition
 
-<h3>ControlType.Transition <ReleaseBadge releaseTag="beta" /></h3>
+<h3>ControlType.Transition</h3>
 
 A control that allows for editing animation transition options within the Framer UI.
 
@@ -199,10 +190,3 @@ addPropertyControls(MyComponent, {
   },
 })
 ```
-
-<Callout>
-  ControlType.Transition is a feature that is currently only
-  available in{" "}
-  <a href={"https://framer.com/beta"}>Framer X Beta</a> and{" "}
-  <a href={"https://framer.com/web"}>Framer Web</a>.
-</Callout>
