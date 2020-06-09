@@ -4,7 +4,7 @@
     API Docs
 </h1>
 
-The official [Framer Library][#framer-library]& [Framer Motion](#framer-motion) documentation. It’s
+The official [Framer Library][#framer-library] & [Framer Motion](#framer-motion) documentation. It’s
 a curated site that can pull in documentation from the [TSDoc][#tsdoc] comments in the project source.
 The foundation of the site is built on top of [Monobase][#monobase]. You can see the published
 website at [framer.com/api/][#website]
