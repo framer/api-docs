@@ -15,16 +15,16 @@ import {
   Todo,
 } from "../../components"
 
-export default Template("Handoff from Framer X")
+export default Template("Handoff from Framer")
 
-# Handoff from Framer X
+# Handoff from Framer
 
 <span className="lead">
-  How to convert interactive Framer X prototypes into
+  How to convert interactive Framer prototypes into
   production.
 </span>
 
-Motion is the library driving Framer X's animation and gesture capabilities, so converting prototypes into production-level code is usually straightforward.
+Motion is the library driving Framer's animation and gesture capabilities, so converting prototypes into production-level code is usually straightforward.
 
 In this guide we'll cover the main differences between the libraries.
 
@@ -102,7 +102,7 @@ For this reason Motion only supports animating colors between RGBA/Hex, **or** H
 
 ## Scroll
 
-In Framer X, scrollable areas are created with the `Scroll` component. On the web, the entire viewport is scrollable. So instead Motion offers [the `useViewportScroll` hook](/api/motion/motionvalue/#useviewportscroll) which returns four read-only `MotionValue`s that can be used to power scroll-driven animations.
+In Framer, scrollable areas are created with the `Scroll` component. On the web, the entire viewport is scrollable. So instead Motion offers [the `useViewportScroll` hook](/api/motion/motionvalue/#useviewportscroll) which returns four read-only `MotionValue`s that can be used to power scroll-driven animations.
 
 There isn't currently an equivalent for scrollable elements (via `overflow: scroll`), but it is possible to set up an equivalent system with `useMotionValue` and `onScroll`.
 

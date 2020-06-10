@@ -31,7 +31,7 @@ const MotionMenu = () => {
                 href="/pages/motion/guide-accessibility.mdx"
                 title="Accessibility"
             />
-            <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer X" />
+            <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer" />
             <MenuItem
                 className="migrate-from-pose"
                 href="/pages/motion/migrate-from-pose.mdx"
@@ -65,7 +65,7 @@ const LibraryMenu = () => {
             <MenuItem className="stack" href="/pages/stack.mdx" title="Stack" />
             <MenuItem className="stack" href="/pages/utilities.mdx" title="Utilities" />
 
-            <SubTitle name="Framer X" />
+            <SubTitle name="Framer" />
             <MenuItem className="assets" href="/pages/assets.mdx" title="Assets" />
             <MenuItem className="data" href="/pages/data.mdx" title="Data &amp; Overrides" />
             <MenuItem className="canvas-components" href="/pages/canvas-components.mdx" title="CanvasComponents" />
