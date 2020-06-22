@@ -134,7 +134,7 @@ export const MyComponent = () => {
       animate={isOpen ? "open" : "closed"}
       variants={variants}
     >
-      <Toggle onClick={() => setIsOpen(!isOpen)} />
+      <Toggle onClick={() => setIsOpen(currValue => !currValue)} />
       <Items />
     </motion.nav>
   )
