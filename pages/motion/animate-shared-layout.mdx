@@ -23,23 +23,83 @@ export default Template("AnimateSharedLayout")
 # AnimateSharedLayout
 
 <span className="lead">
-  Animate between different components that share a layout
-  ID.
+  Animate layout changes across, and between, multiple
+  components.
 </span>
-
-<Callout>
-  <strong>Note:</strong> This feature is currently in beta.
-  You can install the latest Framer Motion 2 beta using{" "}
-  <code>npm install framer-motion@beta</code>.
-</Callout>
 
 <div>
 
-`AnimateSharedLayout` allows animation between seperate components.
+The `AnimateSharedLayout` component enables you to perform <Link href="/pages/motion/animation/#layout-animations">layout animations</Link>:
 
-These components do not need to be rendered in the same hierarchy, as long as they share the same `layoutId`, and are wrapped within the same `AnimateSharedLayout` component.
+- Across a set of components that don't otherwise share state
+- Between different components that share a `layoutId` as they're added/removed.
 
-This can be used to create a variety of effects, like this underline selection:
+</div>
+
+```jsx
+import { AnimateSharedLayout } from "framer-motion"
+```
+
+---
+
+## Syncing layout animations
+
+`motion` components with a `layout` prop will automatically <Link href="/pages/motion/animation/#layout-animations">animate layout changes</Link> that occur when they re-render.
+
+```jsx
+<motion.div layout />
+```
+
+However, if a `layout` component changes layout due to local state change, surrounding components need a way to know they should animate their layout, too.
+
+```jsx
+function Item({ content }) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return <motion.div layout>{isOpen && content}</motion.div>
+}
+
+function List({ items }) {
+  /**
+   * This wrapping motion.ul, and sibling
+   * Item components won't animate layout
+   * when an Item opens/closes
+   */
+  return (
+    <motion.ul layout>
+      {items.map(item => (
+        <Item content={item.content} />
+      ))}
+    </motion.ul>
+  )
+}
+```
+
+By wrapping components with `AnimateSharedLayout`, all `layout` components within will inform each other when their layout changes, and animate accordingly.
+
+```jsx
+function List({ items, selectedId }) {
+  return (
+    <AnimateSharedLayout>
+      <motion.ul layout>
+        {items.map(item => (
+          <Item content={item.content} />
+        ))}
+      </motion.ul>
+    </AnimateSharedLayout>
+  )
+}
+```
+
+**Add example**
+
+## Animate between components
+
+`AnimateSharedLayout` can be used to animate between completely different `motion` components that share the same `layoutId` prop.
+
+<div>
+
+In this example, each item contains a `motion` component with a `layoutId="underline"` prop that gets rendered only if the item is selected.
 
 <iframe
   src="https://codesandbox.io/embed/framer-motion-magic-motion-underline-menu-demo-y6tl3?fontsize=14&hidenavigation=1&hidedevtools=1&theme=dark"
@@ -56,62 +116,66 @@ This can be used to create a variety of effects, like this underline selection:
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
-Or fully route-driven shared element transitions (try pressing back from the overlay):
-
-<iframe
-  src="https://codesandbox.io/embed/framer-motion-magic-motion-app-store-demo-su6mx?fontsize=14&hidenavigation=0&hidedevtools=1&theme=dark"
-  style={{
-    width: "100%",
-    height: "500px",
-    border: 0,
-    borderRadius: 4,
-    overflow: "hidden",
-    marginBottom: 40,
-  }}
-  title="Framer Motion: Magic Motion App Store demo"
-  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
-  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
-></iframe>
-
 </div>
 
----
-
-## Usage
-
-### Shared layout animations
-
-When a new component is added with an existing `layoutId`, on mount it will visually animate out from the previous component that had or has the same `layoutId`.
-
 ```jsx
-import { motion, AnimateSharedLayout } from "framer-motion"
-
-export const MyComponent = ({ items, selectedId }) => (
-  <AnimateSharedLayout>
-    {items.map(item => (
-      <li>
-        {item.title}
-        {item.id === selectedId && (
-          <motion.div layoutId="underline" />
-        )}
-      </li>
-    ))}
-  </AnimateSharedLayout>
-)
+isSelected && <motion.div layoutId="underline" />
 ```
 
-If the previous component still exists in the tree, it'll automatically be hidden using `opacity: 0`, but still occupy space in the layout.
+When a new component with a `layoutId` gets added as another gets removed, the component will perform a <Link href="/pages/motion/animation/#layout-animations">layout animation</Link> from previous component.
 
-### Exit animations
+The new component will also any animating values from the old component as its `initial` state. So visually it'll be treated as one continuous component.
+
+```jsx
+<motion.div
+  layoutId="underline"
+  initial={false}
+  animate={{ backgroundColor: "#ff0000" }}
+/>
+```
+
+**Note:** If the previous component remains in the tree, it'll automatically be hidden using `visibility: hidden`. If the new component is subsequently removed, the previous component will be set back to visible.
+
+## Experimental
+
+<Callout>
+  The following features are considered{" "}
+  <strong>experimental</strong>. Their API is stable, but
+  due to the number of implementation permutations it's
+  possible we haven't caught every bug or addressed every
+  use-case. If you run into bugs or unexpected behaviours,
+  please{" "}
+  <a href="https://github.com/framer/motion/issues">
+    open an issue
+  </a>
+  .
+</Callout>
+
+### Shared drag session
 
 <div>
 
-When a component that's expected to enter and exit the tree is wrapped in `AnimatePresence`, it'll automatically animate back to the original component with its `layoutId` when it's removed.
+A `motion` component can be provided both a `drag` and a `layoutId` prop.
 
-<Button
-  name="Open example in CodeSandbox"
-  link="https://codesandbox.io/s/framer-motion-magic-motion-gallery-demo-pknk7"
-/>
+If a component is currently being dragged when it's removed, and a new component with the same `layoutId` is added elsewhere, rather than perform a layout animation, the drag gesture will continue on the new component.
+
+</div>
+
+```jsx
+<motion.div drag layoutId="box" />
+```
+
+In a future release, the component will perform a layout animation to its new size.
+
+**Add example**
+
+### AnimatePresence
+
+<div>
+
+When a `layoutId` component is added, and an existing component with that same `layoutId` remains, the older component will automatically be hidden. The new component will animate out from its position.
+
+By wrapping the new component in `AnimatePresence`, when its removed from the tree it'll automatically animate back to the original component's position.
 
 </div>
 
@@ -124,20 +188,11 @@ When a component that's expected to enter and exit the tree is wrapped in `Anima
 </AnimateSharedLayout>
 ```
 
+**Add example**
+
 ### Crossfade
 
-<div>
-
-Sometimes, the components that you are animating from/to might look different enough that when an entering/exiting component is added or removed there is an obvious visual switch. For instance, a text box might be wrapped differently in one layout than another.
-
-By setting `type="crossfade"`, both the exiting and previous components will animate together. The root components in each stack that has either `animate={true}` or a `layoutId` will crossfade, so one gets hidden as the other is revealed.
-
-<Button
-  name="Open example in CodeSandbox"
-  link="https://codesandbox.io/s/framer-motion-magic-motion-app-store-demo-su6mx"
-/>
-
-</div>
+Two components with the same `layoutId` might look quite different to each other. For instance, a text box might have different line wrapping in one layout than the other.
 
 ```jsx
 <AnimateSharedLayout type="crossfade">
@@ -148,34 +203,4 @@ By setting `type="crossfade"`, both the exiting and previous components will ani
 </AnimateSharedLayout>
 ```
 
-### Transition customisation
-
-<div>
-
-The transition used for the shared layout animation is defined in the [component's `transition` prop](/api/motion/types#transition).
-
-This accepts all the same `Transition` settings as usual. Currently it is only possible to set a single transition for all child components. Using individual values per child component is not supported. This limitation will be removed in a future release.
-
-</div>
-
-```jsx
-<AnimateSharedLayout transition={{ duration: 2 }}>
-```
-
-### Correcting visual distortion
-
-For maximum performance, layouts are animated using the `transform` property. Animating `width` and `height` using `scaleX` and `scaleY` can introduce visual distortion on children.
-
-This can be automatically corrected by applying `animate` to those children.
-
-```jsx
-<motion.div sharedId="container">
-  <motion.div animate />
-</motion.div>
-```
-
-<!--
-TODO:
-Add a Props section once this repo is upgraded to 2.0.0
-Which we can't do until it's on `latest`.
--->
+**Add example**

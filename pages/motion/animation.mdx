@@ -319,29 +319,20 @@ return (
 
 ---
 
-## Automatic (beta)
+## Layout animations
 
-<Callout>
-  <strong>Note:</strong> This feature is currently in beta.
-  You can install the latest Framer Motion 2 beta using{" "}
-  <code>npm install framer-motion@beta</code>.
-</Callout>
-
-<div>
-
-A `motion` component can automatically animate layout and style changes that occur as a result of a re-render by setting `animate` to `true`.
-
-These layout and style changes can be set via CSS applied via `className`, `style`, or inherited from a stylesheet.
-
-</div>
+A `motion` component can automatically animate between different layouts that occur as result of a re-render by setting the `layout` prop to `true`.
 
 ```jsx
-<motion.div animate />
+<motion.div layout />
 ```
 
-### Layout animations
+Any layout change will be animated. That could be any combination of:
 
-Auto-animating components will animate any changes to their layout. These layout changes can be anything: a change in the component's parent's flexbox, CSS grid, or switching between `position: absolute` and `position: fixed`.
+- Reordering of a list.
+- A style set on the component itself, for example a change in `width` or `position`.
+- A change in the parent's layout, e.g. flexbox or grid.
+- Or any other change in the component's layout.
 
 For example, this component is animated by switching `justify-content` between `flex-start` and `flex-end`:
 
@@ -360,13 +351,15 @@ For example, this component is animated by switching `justify-content` between `
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
-All layout animations are performed using the `transform` property rather than properties like `width` or `top`. This results in smoother animations, because it does not trigger expensive layouts during the animation.
+### Scale correction
 
-Animating `width` and `height` with `scaleX` and `scaleY` can sometimes visually distort children. You can correct this by also applying `animate` to those children if they are motion elements:
+All layout animations are performed using the `transform` property, resulting in smooth framerates.
+
+Animating layout using transforms can sometimes visually distort children. To correct this distortion, the first child elements of the element can also be given `layout` property:
 
 ```jsx
-<motion.div animate>
-  <motion.div animate />
+<motion.div layout>
+  <motion.div layout />
 </motion.div>
 ```
 
@@ -378,25 +371,130 @@ Animating `width` and `height` with `scaleX` and `scaleY` can sometimes visually
     border: 0,
     borderRadius: 4,
     overflow: "hidden",
+    marginBottom: 40,
   }}
   title="Framer Motion: Magic Motion accordion demo"
   allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
-### Style animations
+Transforms can also distort `boxShadow` and `borderRadius`. The `motion` component will automatically correct this distortion on both props, as long as they're set as motion values.
 
-The styles that will automatically animate are:
+If you're not animating these values, the easiest way to do this is to set them via `initial`.
 
-- `backgroundColor`
-- `borderRadius` (and individual corners)
-- `boxShadow` (currently single shadow only)
-- `color`
-- `opacity`
+```jsx
+<motion.div initial={{ borderRadius: 20 }} />
+```
 
-### Current limitations
+<Callout>
+  <strong>Note:</strong> In a future release it'll also be
+  possible to set these styles via `style` and they'll be
+  automatically corrected.
+</Callout>
 
-- **Transform:** `animate` **doesn't** currently automatically animate `transform`, because the `transform` prop is currently reserved for performing layout animations.
-- **Drag:** The `layoutTransition` prop that `animate={true}` replaces used to have a hacky way to integrate it with `drag` that powered the drag-to-reorder demos. The plan is to properly fix integration with `drag` rather than re-expose this kind of API.
-- **Inline components:** Components that are set to `display: inline` aren't compatible with layout animations as they don't accept the CSS `transform` property. Try using `display: inline-block` instead.
-- **SVG:** SVGs are currently not supported, but they will be soon.
+### Customising layout animations
+
+Layout animations can be customised using the `transition` property.
+
+```jsx
+<motion.div layout transition={{ duration: 0.3 }} />
+```
+
+<div>
+
+Each axis can be animated seperately by naming `layoutX` and `layoutY` transitions.
+
+Currently, `layoutX` and `layoutY` will animate the position **and** size of an axis simultaneously. In a future release it'll be possible to configure these separately.
+
+</div>
+
+```jsx
+<motion.div
+  layout
+  transition={{
+    layoutX: { duration: 0.3 },
+    layoutY: { delay: 0.2, duration: 0.3 },
+  }}
+/>
+```
+
+### Troubleshooting
+
+#### The component's layout isn't animating
+
+Ensure the component is set to `display: block` or `display: inline-block`, as `transform` has no effect on `display: inline` components.
+
+#### SVG layout animations are broken
+
+SVG components aren't currently supported with layout animations. This will be fixed in a future release.
+
+#### I'm getting a warning about rotate and skew
+
+`rotate` and `skew` transforms are not currently compatible with layout animations.
+
+## Shared layout animations
+
+<div>
+
+Wrapping components with <Link href="/pages/motion/animate-shared-layout.mdx">the `AnimateSharedLayout` component</Link> enables you to perform layout animations:
+
+- Synced across a set of components that don't otherwise share state.
+- Between different components with a common `layoutId` as they're added/removed.
+
+</div>
+
+```jsx
+import { AnimateSharedLayout } from "framer-motion"
+```
+
+When one `layout` component in an `AnimateSharedLayout` changes layout, all other `layout` components check their own layouts and animate accordingly.
+
+```jsx
+import { motion, AnimateSharedLayout } from "framer-motion"
+
+export function List({ items, selectedId }) {
+  /**
+   * Local state changes in Item that affect layout will
+   * also affect the parent motion.ul
+   */
+  return (
+    <AnimateSharedLayout>
+      <motion.ul layout>
+        {items.map(item => (
+          <Item {...item} />
+        ))}
+      </motion.ul>
+    </AnimateSharedLayout>
+  )
+}
+```
+
+When a component with a `layoutId` prop is removed from one part of the tree and a new component with the same `layoutId` is added elsewhere, the new component will automatically animate from the old component's position.
+
+```jsx
+import { motion, AnimateSharedLayout } from "framer-motion"
+
+export const MyComponent = ({ items, selectedId }) => (
+  <AnimateSharedLayout>
+    {items.map(item => (
+      <li>
+        {item.title}
+        {item.id === selectedId && (
+          <motion.div layoutId="underline" />
+        )}
+      </li>
+    ))}
+  </AnimateSharedLayout>
+)
+```
+
+The new component will also automatically inherit the current state of any animating values on the old component, and animate from those on entry.
+
+```jsx
+<motion.div
+  layoutId="underline"
+  animate={{ backgroundColor: item.color }}
+/>
+```
+
+All `AnimateSharedLayout` options can be found in <Link href="/pages/motion/animate-shared-layout.mdx">the `AnimateSharedLayout` docs.</Link>
