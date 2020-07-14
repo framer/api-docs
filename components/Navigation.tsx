@@ -37,6 +37,11 @@ const MotionMenu = () => {
                 href="/pages/motion/migrate-from-pose.mdx"
                 title="Migrate from Pose"
             />
+            <MenuItem
+                className="guide-upgrade-to-framer-motion-2"
+                href="/pages/motion/guide-upgrade-to-framer-motion-2.mdx"
+                title="Upgrade to Motion 2"
+            />
         </Menu>
     )
 }

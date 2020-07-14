@@ -339,43 +339,12 @@ export const Slideshow = ({ image }) => (
 
 ---
 
-## Position transitions
-
-<div>
-
-By setting `positionTransition`, a `motion` component will smoothly animate to its new layout when it moves relative to its parent as a result of a render.
-
-It can be set to `true` to use the default x/y transitions, or set as a `Transition` for full control over the animation.
-
-It's great for smoothly reordering lists, and becomes super-powerful when paired with `AnimatePresence`.
-
-<Button
-  name="Open sandbox"
-  link="https://codesandbox.io/s/framer-motion-reorder-animation-bviz6?fontsize=14&module=%2Fsrc%2FExample.tsx"
-/>
-
-</div>
-
-<EmbeddedExample background="#151515">
-  <PositionTransition />
-</EmbeddedExample>
-
-```jsx highlight=4
-import { motion } from "framer-motion"
-
-export const List = ({ items }) =>
-  items.map(item => <motion.li positionTransition />)
-```
-
----
-
 ## More
 
 ### UI patterns
 
 - [Accordion](https://codesandbox.io/s/framer-motion-accordion-qx958)
 - [App Store-style card expansion](https://codesandbox.io/s/app-store-ui-using-react-and-framer-motion-ecgc2)
-- [Drag and drop list reordering](https://codesandbox.io/s/framer-motion-drag-to-reorder-pkm1k)
 - [Image slideshow](https://codesandbox.io/s/framer-motion-image-gallery-pqvx3)
 - [Notifications](https://codesandbox.io/s/framer-motion-notifications-5cvo9)
 

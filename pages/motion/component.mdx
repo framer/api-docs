@@ -278,40 +278,23 @@ The following SVG values are not currently compatible with server-side rendering
 
 `motion` components accept the following props:
 
-<APIProperty name="MotionProps.style" />
+### Animation
+
 <APIProperty name="MotionProps.initial" />
 <APIProperty name="AnimationProps.animate" />
 <APIProperty name="AnimationProps.exit" />
 <APIProperty name="AnimationProps.transition" />
 <APIProperty name="AnimationProps.variants" />
+<APIProperty name="MotionProps.style" />
+
+## Layout animation
+
 <APIProperty name="MotionProps.layout" />
 <APIProperty name="MotionProps.layoutId" />
-<APIProperty name="MotionAdvancedProps.inherit" />
-<APIProperty name="MotionAdvancedProps.custom" />
-<APIFunction name="MotionProps.transformTemplate()" />
+<APIFunction name="MotionProps.onLayoutAnimationComplete()" />
+<APIFunction name="MotionProps.onViewportBoxUpdate()" />
 
-<APIFunction name="MotionCallbacks.onUpdate()" />
-<APIFunction name="MotionCallbacks.onAnimationStart()" />
-<APIFunction name="MotionCallbacks.onAnimationComplete()" />
-
-<APIProperty name="HoverHandlers.whileHover" />
-<APIProperty name="TapHandlers.whileTap" />
-
-<APIMethod name="HoverHandlers.onHoverStart()" />
-<APIMethod name="HoverHandlers.onHoverEnd()" />
-
-<APIMethod name="TapHandlers.onTap()" />
-<APIMethod name="TapHandlers.onTapStart()" />
-<APIMethod name="TapHandlers.onTapCancel()" />
-
-<APIMethod name="PanHandlers.onPan()" />
-<APIMethod name="PanHandlers.onPanStart()" />
-<APIMethod name="PanHandlers.onPanEnd()" />
-
-<APIMethod name="DragHandlers.onDrag()" />
-<APIMethod name="DragHandlers.onDragStart()" />
-<APIMethod name="DragHandlers.onDragEnd()" />
-<APIMethod name="DragHandlers.onDirectionLock()" />
+### Drag
 
 <APIProperty name="DraggableProps.drag" />
 <APIProperty name="DraggableProps.dragConstraints" />
@@ -319,3 +302,44 @@ The following SVG values are not currently compatible with server-side rendering
 <APIProperty name="DraggableProps.dragMomentum" />
 <APIProperty name="DraggableProps.dragTransition" />
 <APIProperty name="DraggableProps.dragPropagation" />
+
+### Gesture animations
+
+<APIProperty name="HoverHandlers.whileHover" />
+<APIProperty name="TapHandlers.whileTap" />
+
+### Animation events
+
+<APIFunction name="MotionCallbacks.onUpdate()" />
+<APIFunction name="MotionCallbacks.onAnimationStart()" />
+<APIFunction name="MotionCallbacks.onAnimationComplete()" />
+
+### Hover events
+
+<APIMethod name="HoverHandlers.onHoverStart()" />
+<APIMethod name="HoverHandlers.onHoverEnd()" />
+
+### Tap events
+
+<APIMethod name="TapHandlers.onTap()" />
+<APIMethod name="TapHandlers.onTapStart()" />
+<APIMethod name="TapHandlers.onTapCancel()" />
+
+### Pan events
+
+<APIMethod name="PanHandlers.onPan()" />
+<APIMethod name="PanHandlers.onPanStart()" />
+<APIMethod name="PanHandlers.onPanEnd()" />
+
+### Drag events
+
+<APIMethod name="DragHandlers.onDrag()" />
+<APIMethod name="DragHandlers.onDragStart()" />
+<APIMethod name="DragHandlers.onDragEnd()" />
+<APIMethod name="DragHandlers.onDirectionLock()" />
+
+## Advanced
+
+<APIProperty name="MotionAdvancedProps.inherit" />
+<APIProperty name="MotionAdvancedProps.custom" />
+<APIFunction name="MotionProps.transformTemplate()" />

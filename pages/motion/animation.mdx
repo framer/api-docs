@@ -8,6 +8,7 @@ import {
   APIInterface,
   APIProperty,
   APIMergedInterface,
+  Button,
   Template,
   Link,
   Ref,
@@ -334,19 +335,28 @@ Any layout change will be animated. That could be any combination of:
 - A change in the parent's layout, e.g. flexbox or grid.
 - Or any other change in the component's layout.
 
+<div>
+
 For example, this component is animated by switching `justify-content` between `flex-start` and `flex-end`:
 
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-2-layout-animations-kij8p"
+/>
+
+</div>
+
 <iframe
-  src="https://codesandbox.io/embed/framer-motion-magic-motion-switch-demo-0d68e?fontsize=14&hidenavigation=1&theme=dark"
+  src="https://codesandbox.io/embed/framer-motion-2-layout-animations-kij8p?fontsize=14&hidenavigation=1&theme=dark"
   style={{
     width: "100%",
-    height: "500px",
+    height: "400px",
     border: 0,
     borderRadius: 4,
     overflow: "hidden",
     marginBottom: 40,
   }}
-  title="Framer Motion: Magic Motion switch demo"
+  title="Framer Motion 2: Layout animations"
   allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
@@ -363,8 +373,15 @@ Animating layout using transforms can sometimes visually distort children. To co
 </motion.div>
 ```
 
+<div>
+  <Button
+    name="Open sandbox"
+    link="https://codesandbox.io/s/framer-motion-2-scale-correction-z4tgr"
+  />
+</div>
+
 <iframe
-  src="https://codesandbox.io/embed/framer-motion-magic-motion-accordion-demo-tqzul?fontsize=14&hidenavigation=1&theme=dark"
+  src="https://codesandbox.io/embed/framer-motion-2-scale-correction-z4tgr?fontsize=14&hidenavigation=1&theme=dark"
   style={{
     width: "100%",
     height: "500px",
@@ -373,7 +390,7 @@ Animating layout using transforms can sometimes visually distort children. To co
     overflow: "hidden",
     marginBottom: 40,
   }}
-  title="Framer Motion: Magic Motion accordion demo"
+  title="Framer Motion 2: Scale correction"
   allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
   sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
@@ -428,7 +445,7 @@ Ensure the component is set to `display: block` or `display: inline-block`, as `
 
 SVG components aren't currently supported with layout animations. This will be fixed in a future release.
 
-#### I'm getting a warning about rotate and skew
+#### Rotation and skew transforms aren't taking effect
 
 `rotate` and `skew` transforms are not currently compatible with layout animations.
 
@@ -449,10 +466,30 @@ import { AnimateSharedLayout } from "framer-motion"
 
 When one `layout` component in an `AnimateSharedLayout` changes layout, all other `layout` components check their own layouts and animate accordingly.
 
-```jsx
-import { motion, AnimateSharedLayout } from "framer-motion"
+<div>
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-2-animating-shared-layouts-1cpd0"
+/>
 
-export function List({ items, selectedId }) {
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-2-animating-shared-layouts-1cpd0?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion 2: Shared layout animations"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+</div>
+
+```jsx
+function List({ items, selectedId }) {
   /**
    * Local state changes in Item that affect layout will
    * also affect the parent motion.ul
@@ -469,23 +506,46 @@ export function List({ items, selectedId }) {
 }
 ```
 
+<div>
+
 When a component with a `layoutId` prop is removed from one part of the tree and a new component with the same `layoutId` is added elsewhere, the new component will automatically animate from the old component's position.
 
-```jsx
-import { motion, AnimateSharedLayout } from "framer-motion"
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-2-animatesharedlayout-animate-between-different-components-dy0bv"
+/>
 
-export const MyComponent = ({ items, selectedId }) => (
-  <AnimateSharedLayout>
-    {items.map(item => (
-      <li>
-        {item.title}
-        {item.id === selectedId && (
-          <motion.div layoutId="underline" />
-        )}
-      </li>
-    ))}
-  </AnimateSharedLayout>
-)
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-2-animatesharedlayout-animate-between-different-components-dy0bv?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion 2: Shared layout animations"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+</div>
+
+```jsx
+function List({ items, selectedId }) {
+  return (
+    <AnimateSharedLayout>
+      {items.map(item => (
+        <li>
+          {item.title}
+          {item.id === selectedId && (
+            <motion.div layoutId="underline" />
+          )}
+        </li>
+      ))}
+    </AnimateSharedLayout>
+  )
+}
 ```
 
 The new component will also automatically inherit the current state of any animating values on the old component, and animate from those on entry.
