@@ -162,10 +162,6 @@ The new component will also any animating values from the old component as its `
 
 **Note:** If the previous component remains in the tree when the new one is added, it'll automatically be hidden using `visibility: hidden`. If the new component is subsequently removed, the previous component will be set back to visible.
 
-## Props
-
-<APIProperty name="SharedLayoutProps.type" />
-
 ## Experimental
 
 <Callout>
@@ -189,6 +185,26 @@ A `motion` component can be provided both a `drag` and a `layoutId` prop.
 
 If a component is being dragged when it's removed, and a new component with the same `layoutId` is added elsewhere within the same `AnimateSharedLayout` component, the drag gesture will continue on the new component.
 
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-2-shared-drag-gesture-5trtt"
+/>
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-2-shared-drag-gesture-5trtt?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion 2: Shared drag gesture"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
 </div>
 
 ```jsx
@@ -196,8 +212,6 @@ If a component is being dragged when it's removed, and a new component with the 
 ```
 
 In a future release, the component will perform a layout animation to its new size.
-
-**Add example**
 
 ### AnimatePresence
 
@@ -218,13 +232,6 @@ By wrapping the new component in `AnimatePresence`, when it's removed it'll auto
 </AnimateSharedLayout>
 ```
 
-**Add example**
-
-<Button
-  name="Open sandbox"
-  link="https://codesandbox.io/s/framer-motion-simple-animation-fz7cz?fontsize=14&module=%2Fsrc%2FExample.tsx"
-/>
-
 ### Crossfade
 
 When animating between two components using `AnimatePresence`, they might look quite different to each other.
@@ -237,6 +244,26 @@ Switching instantly between the two components at the start and end of the anima
 
 By adding `type="crossfade"` to `AnimateSharedLayout`, immediate children of `AnimatePresence` will crossfade with their old component, smoothing this transition.
 
+<Button
+  name="Open sandbox"
+  link="https://codesandbox.io/s/framer-motion-animatesharedlayout-app-store-demo-i1kct"
+/>
+
+<iframe
+  src="https://codesandbox.io/embed/framer-motion-animatesharedlayout-app-store-demo-i1kct?fontsize=14&hidenavigation=1&theme=dark"
+  style={{
+    width: "100%",
+    height: "500px",
+    border: 0,
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 40,
+  }}
+  title="Framer Motion 2: Crossfade demo"
+  allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+  sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
 </div>
 
 ```jsx
@@ -248,4 +275,6 @@ By adding `type="crossfade"` to `AnimateSharedLayout`, immediate children of `An
 </AnimateSharedLayout>
 ```
 
-**Add example**
+## Props
+
+<APIProperty name="SharedLayoutProps.type" />
