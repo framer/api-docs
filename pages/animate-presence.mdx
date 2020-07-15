@@ -144,25 +144,6 @@ export function Notifications(props) {
 }
 ```
 
-Add a [`positionTransition` prop](/api/frame/#animationprops.positiontransition) to a `Frame` within a `Stack` to allow them to smoothly animate into their new positions when an item is removed.
-
-```jsx
-<Stack>
-  <AnimatePresence>
-    {messages.map(message => (
-      <Frame
-        key={message.id}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        positionTransition
-      >
-        {message.content}
-      </Frame>
-    ))}
-  </AnimatePresence>
-</Stack>
-```
-
 ### Suppressing initial animations
 
 <div>

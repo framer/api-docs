@@ -411,18 +411,10 @@ There's a <Link href="motion/animate-presence">new component</Link>, `AnimatePre
 
 With `PoseGroup`, when an item was removed all of the other items would animate smoothly into their new place.
 
-This has been evolved into a <Link href="motion/component/#animationprops.positiontransition">new prop called `positionTransition`</Link>, and it doesn't require the use of `AnimatePresence` to work (but they do work nicely together).
+This has been evolved into a <Link href="motion/component/#layoutprops.layout">new prop called `layout`</Link>, and it doesn't require the use of `AnimatePresence` to work (but they do work nicely together).
 
 ```jsx
-<motion.div positionTransition />
-```
-
-It can be set either as a boolean for a default animation, or as a `Transition`.
-
-```jsx
-<motion.div
-  positionTransition={{ type: "spring", stiffness: 500 }}
-/>
+<motion.div layout />
 ```
 
 If defined, when the `motion` component changes position on a page as a result of the component re-rendering, it'll use this transition to animate smoothly to its new layout.
@@ -432,11 +424,7 @@ Paired with `AnimatePresence`, you have all the previous functionality of `PoseG
 ```jsx
 <AnimatePresence>
   {items.map(item => (
-    <motion.li
-      key={item.id}
-      exit={{ opacity: 0 }}
-      positionTransition
-    />
+    <motion.li key={item.id} exit={{ opacity: 0 }} layout />
   ))}
 </AnimatePresence>
 ```
