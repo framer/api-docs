@@ -24,7 +24,7 @@ pre code {
     background: transparent;
     color: white;
     overflow-y: hidden;
-    overflow-x: scroll;
+    overflow-x: auto;
     padding-right: 40px;
     padding-bottom: 20px;
     position: relative;
