@@ -91,7 +91,7 @@ One way you can implement this is with the dynamic `import` function and a bundl
 Make a file with an array of features as its default export.
 
 ```jsx
-// inc/dynamic-features.js
+// motion-features.js
 import { AnimationFeature } from "framer-motion"
 
 export default [AnimationFeature]
@@ -100,11 +100,12 @@ export default [AnimationFeature]
 Then, in your component, you can use `import()`, `useState` and `useEffect` to import this file after the component has made an initial render.
 
 ```jsx
+// index.js
 function App() {
   const [features, setFeatures] = useState([])
 
   useEffect(() => {
-    import("./inc/dynamic-features").then(res => {
+    import("./motion-features").then(res => {
       setFeatures(res.default)
     })
   }, [])
