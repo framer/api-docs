@@ -40,7 +40,7 @@ import { motion } from "framer-motion" // 24kb
 
 Framer Motion's simple, props-driven API is the reason for this extra size. Unused features aren't code-split, as it isn't currently possible at build time to detect which features you're using.
 
-However, Motion offers APIs that allow you to create loading strategies so you only ever import what you need. In 2.2 this can enable you to reduce the `motion` import size down to **19kb**, but future versions will be able to reduce this even further.
+However, Motion offers APIs that allow you to create loading strategies so that you only ever import what you need. In 2.2, employing these strategies makes it possible to reduce the `motion` import size down to **19kb**, and future versions will be able to reduce this even further.
 
 ## How to reduce bundle size
 
