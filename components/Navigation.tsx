@@ -38,6 +38,11 @@ const MotionMenu = () => {
                 title="Migrate from Pose"
             />
             <MenuItem
+                className="guide-reduce-bundle-size"
+                href="/pages/motion/guide-reduce-bundle-size.mdx"
+                title="Reduce bundle size"
+            />
+            <MenuItem
                 className="guide-upgrade-to-framer-motion-2"
                 href="/pages/motion/guide-upgrade-to-framer-motion-2.mdx"
                 title="Upgrade to Motion 2"

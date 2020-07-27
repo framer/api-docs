@@ -3455,25 +3455,25 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.0.0.tgz#c274c437fb690792a802b066084f6ec20e5fb1f3"
-  integrity sha512-UyqXAWezOKzUqHCPrjrGuis6erhhoYb5iDT82GHgyEN2KYlXXCiP8WC6SfqbrK9SWL7FZoLf37LCpyQGapHH3A==
+framer-motion@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.2.0.tgz#4c8d5fb90f6040168f8259d07b7fd157af8ffec6"
+  integrity sha512-9Y5e3dXrUC8+rpgQ0gQulK7ru6Ri5jpjINc6RAwabWoYuwbPfI+WwOuVCQcK4IOM1+KWT/zFtt4qHaZKj4wGIg==
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
     framesync "^4.0.4"
     hey-listen "^1.0.8"
     popmotion "9.0.0-beta-8"
-    style-value-types "^3.1.6"
+    style-value-types "^3.1.9"
     tslib "^1.10.0"
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framer@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.4.tgz#3014388787700897d0799d65b920e9beb3180fc4"
-  integrity sha512-GplPHhTO/Vl8KElgoKdlUHM5nNmkoQ+1AX0Hya+xX3OUsz78ZXKRJWBqASjTQGZI2mTNAX4QkLRpPOQNZb1Epw==
+framer@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.5.tgz#70cf754e2450ca159cc06c267165ec8479ac30f4"
+  integrity sha512-q8aDopljyDjzK1yN5M96wZYQzZOx8BgY0O+Bm+3IM3YQw8SOfmt/ifdiwv52GIBKZZ+TT+WHH2gr/vcZiLNgLA==
 
 framesync@^4.0.1, framesync@^4.0.4:
   version "4.0.4"
@@ -7278,6 +7278,14 @@ style-value-types@^3.1.6:
   integrity sha512-AxcfUr/06AHyyyxkNB1O8ypvwa8/qK+sxwelxEN5x+jxW+RXutRE2TuHEQbFq9OBY7ym83CPKvVIsGd6lvKb0Q==
   dependencies:
     hey-listen "^1.0.8"
+
+style-value-types@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-3.1.9.tgz#faf7da660d3f284ed695cff61ea197d85b9122cc"
+  integrity sha512-050uqgB7WdvtgacoQKm+4EgKzJExVq0sieKBQQtJiU3Muh6MYcCp4T3M8+dfl6VOF2LR0NNwXBP1QYEed8DfIw==
+  dependencies:
+    hey-listen "^1.0.8"
+    tslib "^1.10.0"
 
 styled-components@^4.3.2:
   version "4.3.2"
