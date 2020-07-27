@@ -50,7 +50,7 @@ Instead of importing `motion`, import the slim `m` component. You can do this wi
 import { m as motion } from "framer-motion"
 ```
 
-By default, `m` has no knowledge of features like exit animations or drag. They can be loaded manually via the `MotionConfig` component. This will provide **only the features you use** to `m` components via React context.
+By default, `m` has no knowledge of features like exit animations or drag. They can be loaded manually via the `MotionConfig` component. This lets you define **only the features you use**, and provide them to `m` components via React context, ensuring unused motion features are not bundled into your code.
 
 ```jsx
 import {
