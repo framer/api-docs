@@ -157,6 +157,16 @@ The drag gesture follows the rules of the pan gesture but applies pointer moveme
 <motion.div drag />
 ```
 
+### Drag & Layout animations
+
+If the draggable component is also used in <Link href="/pages/motion/animation/#layout-animations">layout animations</Link>, the drag gesture is applied to the component's viewport box instead of its x/y transforms.
+
+```jsx
+<motion.div drag layout />
+```
+
+In this model, you can still animate and adjust `x` and `y`, but they will be **additive** to the gesture.
+
 <APIProperty name="DraggableProps.drag" />
 <APIProperty name="DraggableProps.dragConstraints" />
 <APIProperty name="DraggableProps.dragElastic" />
