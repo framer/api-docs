@@ -85,7 +85,6 @@ Drag has been refactored to use the same layout projection rendering methodology
 
 This has lead to some breaking changes:
 
-- `drag` no longer works directly on a component's `x` and `y` transform. This means any code that expects `x`/`y` motion values to update as a result of a drag gesture will no longer work. In a future version we'll reincorporate events and special motion values that will fix this.
 - Drag listeners (like `onDrag`) now report the `point` relative to the viewport, moving in line with other pointer gestures in Motion.
 - `dragOriginX` and `dragOriginY` have been removed. These were added to allow a hacky way to make `positionTransition` compatible with `drag`, but `layout` is compatible with `drag` by default.
 
