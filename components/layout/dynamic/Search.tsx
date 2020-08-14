@@ -108,6 +108,9 @@ const SearchInput = styled.input`
 const SearchResultsDropdown = styled(motion.div)`
     position: absolute;
     width: 100%;
+    height: auto;
+    max-height: calc(100vh - 58px);
+    overflow-y: auto;
     background: #fff;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 `
