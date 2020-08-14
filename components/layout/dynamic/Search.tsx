@@ -1,11 +1,12 @@
 import * as React from "react"
 import clsx from "classnames"
-import { useEffect, useCallback, useState, FC, FormEvent } from "react"
+import { useRef, useEffect, useCallback, useState, FC, FormEvent } from "react"
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
 import { motion, AnimatePresence, Variants } from "framer-motion"
 import groupBy from "lodash.groupby"
+import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
 
 interface SearchResults {
@@ -31,7 +32,7 @@ const SearchWrapper = styled(motion.div)`
     top: 58px;
     left: 0;
     width: 100vw;
-    height: 58px;
+    height: 100vh;
     z-index: 2000;
 
     &:focus-within {
@@ -59,6 +60,10 @@ const SearchBackdrop = styled(motion.div)`
     height: calc(100vh - 58px);
     background: rgba(255, 255, 255, 0.9);
     z-index: 0;
+`
+
+const SearchInputWrapper = styled.div`
+    height: 58px;
 `
 
 const SearchInput = styled.input`
@@ -272,8 +277,9 @@ const variants: Variants = {
 }
 
 const StaticSearch = () => {
+    const ref = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
-    const [focus, setFocus] = useState(false)
+    const [open, setOpen] = useState(false)
     const results = predictionResults.filter(result => result.name.includes(value))
     const [selectedResult, previousResult, nextResult] = useIndexItem(results)
 
@@ -282,11 +288,11 @@ const StaticSearch = () => {
     }
 
     const handleFocus = useCallback(() => {
-        setFocus(true)
+        setOpen(true)
     }, [])
 
-    const handleBlur = useCallback(() => {
-        setFocus(false)
+    const handleClickOutside = useCallback(() => {
+        setOpen(false)
     }, [])
 
     const handleKey = useCallback(
@@ -298,7 +304,11 @@ const StaticSearch = () => {
                 case "ArrowDown":
                     nextResult()
                     break
+                case "Escape":
+                    setOpen(false)
+                    break
                 case "Enter":
+                    setOpen(false)
                     window.location.href = selectedResult.href
                     break
             }
@@ -312,12 +322,14 @@ const StaticSearch = () => {
         return () => {
             window.removeEventListener("keydown", handleKey)
         }
-    }, [handleKey])
+    }, [selectedResult])
+
+    useClickOutside(ref, handleClickOutside)
 
     return (
         <SearchWrapper>
             <AnimatePresence>
-                {focus && (
+                {open && (
                     <SearchBackdrop
                         key="backdrop"
                         variants={variants}
@@ -331,19 +343,20 @@ const StaticSearch = () => {
                     />
                 )}
             </AnimatePresence>
-            <SearchInput
-                value={value}
-                onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                type="search"
-                placeholder="Search..."
-            />
-            {focus && (
-                <SearchResultsDropdown>
-                    <SearchResults results={results} selectedResult={selectedResult} />
-                </SearchResultsDropdown>
-            )}
+            <SearchInputWrapper ref={ref}>
+                <SearchInput
+                    value={value}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    type="search"
+                    placeholder="Search..."
+                />
+                {open && (
+                    <SearchResultsDropdown>
+                        <SearchResults results={results} selectedResult={selectedResult} />
+                    </SearchResultsDropdown>
+                )}
+            </SearchInputWrapper>
         </SearchWrapper>
     )
 }
