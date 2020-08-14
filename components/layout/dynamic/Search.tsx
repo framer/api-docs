@@ -1,9 +1,10 @@
 import * as React from "react"
-import { useState, FunctionComponent, FormEvent } from "react"
+import clsx from "classnames"
+import { useCallback, useState, FC, FormEvent } from "react"
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
-import { motion, useInvertedScale } from "framer-motion"
+import { motion, AnimatePresence, Variants } from "framer-motion"
 
 interface Search {
     maxNumberOfResults: number
@@ -25,29 +26,15 @@ interface SearchResultRecent extends SearchResult {
     lastViewed: number
 }
 
-const dropdownVariants = {
-    closed: {
-        opacity: 0,
-        pointerEvents: "none" as "none",
-    },
-    open: {
-        opacity: 1,
-        pointerEvents: "all" as "all",
-    },
-}
-
-const SearchWrapper = styled.div`
+const SearchWrapper = styled(motion.div)`
     position: absolute;
     top: 58px;
     left: 0;
     width: 100vw;
     height: 58px;
-    background: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     z-index: 2000;
 
-    &:focus-within,
-    &.focus {
+    &:focus-within {
         position: fixed;
     }
 
@@ -64,66 +51,64 @@ const SearchWrapper = styled.div`
     }
 `
 
+const SearchBackdrop = styled(motion.div)`
+    position: absolute;
+    top: 58px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 58px);
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 0;
+`
+
 const SearchInput = styled.input`
     all: unset;
-    z-index: 3000;
+    position: relative;
     box-sizing: border-box;
     appearance: none;
+    z-index: 3000;
     width: 100%;
     height: 100%;
     padding: 16px 20px 14px 46px;
+    background-color: #fff;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M7 13A6 6 0 107 1a6 6 0 000 12z' fill='transparent' stroke-width='2' stroke='%23ccc' /%3E%3Cpath d='M11.5 11.5L15 15' fill='transparent' stroke-width='2' stroke='%23ccc' stroke-linecap='round' /%3E%3C/svg%3E");
     background-size: 16px;
     background-position: 18px 20px;
     background-repeat: no-repeat;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+
+    &::-ms-clear {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+    &::-ms-reveal {
+        display: none;
+        width: 0;
+        height: 0;
+    }
+
+    &::-webkit-search-decoration,
+    &::-webkit-search-cancel-button,
+    &::-webkit-search-results-button,
+    &::-webkit-search-results-decoration {
+        display: none;
+    }
 
     &::placeholder {
         color: #999;
     }
 `
 
-const SearchResultsBackdrop = styled(motion.div)`
-    position: absolute;
-    top: 58px;
-    width: 100%;
-    height: calc(100vh - 58px);
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        pointer-events: none;
-        background: rgba(255, 255, 255, 0.9);
-        transition: opacity 0.16s ease-in-out;
-    }
-
-    .focus &:before {
-        opacity: 1;
-        pointer-events: all;
-    }
-`
-
 const SearchResultsDropdown = styled(motion.div)`
-    position: relative;
-    transform-origin: top center;
-    overflow-y: auto;
+    position: absolute;
     width: 100%;
-    max-height: 100%;
     background: #fff;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 `
 
-const SearchResults = styled(motion.ul)`
-    transform-origin: top center;
+const SearchResultsList = styled(motion.ul)`
     list-style: none;
-
-    * {
-        position: relative;
-    }
 `
 
 const SearchGroup = styled(motion.li)`
@@ -237,11 +222,9 @@ const predictionResults: SearchResult[] = [
     },
 ]
 
-const InvertedSearchResults: FunctionComponent<SearchResults> = ({ value, maxNumberOfResults }) => {
-    const { scaleY } = useInvertedScale()
-
+const SearchResults: FC<SearchResults> = ({ value, maxNumberOfResults }) => {
     return (
-        <SearchResults style={{ scaleY }}>
+        <SearchResultsList>
             {value ? (
                 Array.from(
                     predictionResults
@@ -293,29 +276,50 @@ const InvertedSearchResults: FunctionComponent<SearchResults> = ({ value, maxNum
                     </SearchGroupResults>
                 </SearchGroup>
             )}
-        </SearchResults>
+        </SearchResultsList>
     )
 }
 
-const StaticSearch: FunctionComponent<Search> = ({ maxNumberOfResults = 8 }) => {
+const variants: Variants = {
+    visible: { opacity: 1 },
+    hidden: {
+        opacity: 0,
+    },
+}
+
+const StaticSearch: FC<Search> = ({ maxNumberOfResults = 8 }) => {
     const [value, setValue] = useState("")
     const [focus, setFocus] = useState(false)
-    const [index, setIndex] = useState(0)
 
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value)
     }
 
-    const handleFocus = () => {
+    const handleFocus = useCallback(() => {
         setFocus(true)
-    }
+    }, [])
 
-    const handleBlur = () => {
+    const handleBlur = useCallback(() => {
         setFocus(false)
-    }
+    }, [])
 
     return (
-        <SearchWrapper className={`search ${focus ? "focus" : ""}`}>
+        <SearchWrapper>
+            <AnimatePresence>
+                {focus && (
+                    <SearchBackdrop
+                        key="backdrop"
+                        variants={variants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        transition={{
+                            ease: "easeInOut",
+                            duration: 0.2,
+                        }}
+                    />
+                )}
+            </AnimatePresence>
             <SearchInput
                 value={value}
                 onChange={handleChange}
@@ -324,16 +328,11 @@ const StaticSearch: FunctionComponent<Search> = ({ maxNumberOfResults = 8 }) => 
                 type="search"
                 placeholder="Search..."
             />
-            <SearchResultsBackdrop>
-                <SearchResultsDropdown
-                    variants={dropdownVariants}
-                    initial="closed"
-                    animate={focus ? "open" : "closed"}
-                    layoutTransition
-                >
-                    <InvertedSearchResults value={value} maxNumberOfResults={8} />
+            {focus && (
+                <SearchResultsDropdown>
+                    <SearchResults value={value} maxNumberOfResults={maxNumberOfResults} />
                 </SearchResultsDropdown>
-            </SearchResultsBackdrop>
+            )}
         </SearchWrapper>
     )
 }
