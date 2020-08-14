@@ -1,17 +1,16 @@
 import * as React from "react"
 import clsx from "classnames"
-import { useCallback, useState, FC, FormEvent } from "react"
+import { useEffect, useCallback, useState, FC, FormEvent } from "react"
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import groupBy from "lodash.groupby"
+import { useIndexItem } from "../../hooks/useIndex"
 
-interface Search {
-    maxNumberOfResults: number
-}
-
-interface SearchResults extends Search {
-    value: string
+interface SearchResults {
+    results: SearchResult[]
+    selectedResult: SearchResult
 }
 
 interface SearchResult {
@@ -20,6 +19,7 @@ interface SearchResult {
     description: string
     page: string
     section: string
+    href: string
 }
 
 interface SearchResultRecent extends SearchResult {
@@ -111,7 +111,7 @@ const SearchResultsList = styled(motion.ul)`
     list-style: none;
 `
 
-const SearchGroup = styled(motion.li)`
+const SearchCategory = styled(motion.li)`
     margin: 30px 30px 0;
 
     &:last-child {
@@ -128,19 +128,21 @@ const SearchGroup = styled(motion.li)`
     }
 `
 
-const SearchGroupResults = styled(motion.ul)`
+const SearchCategoryResults = styled(motion.ul)`
     list-style: none;
 `
 
 const SearchResult = styled(motion.li)`
     a {
         color: #111;
-        transition: color 0.12s ease-in-out;
 
-        &:hover,
-        &.selected {
+        &:hover {
             color: var(--accent);
         }
+    }
+
+    &.active a {
+        color: var(--accent);
     }
 
     &:not(:last-child) {
@@ -175,6 +177,7 @@ const recentlyViewedResults: SearchResultRecent[] = [
             "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
         page: "Frame",
         section: "Layout",
+        href: "/api/frame/#framelayoutproperties.width",
         lastViewed: 1574849637,
     },
     {
@@ -184,6 +187,7 @@ const recentlyViewedResults: SearchResultRecent[] = [
             "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
         page: "Frame",
         section: "Visual",
+        href: "/api/frame/#visualproperties.opacity",
         lastViewed: 1574850002,
     },
 ]
@@ -196,6 +200,7 @@ const predictionResults: SearchResult[] = [
             "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
         page: "Frame",
         section: "Layout",
+        href: "/api/frame/#framelayoutproperties.width",
     },
     {
         name: "opacity",
@@ -204,6 +209,7 @@ const predictionResults: SearchResult[] = [
             "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
         page: "Frame",
         section: "Visual",
+        href: "/api/frame/#visualproperties.opacity",
     },
     {
         name: "damping",
@@ -212,6 +218,7 @@ const predictionResults: SearchResult[] = [
             "Strength of opposing force. If set to 0, spring will oscillate indefinitely. Set to 10 by default.",
         page: "Animation",
         section: "Spring",
+        href: "/api/animation/#spring.damping",
     },
     {
         name: "stiffness",
@@ -219,33 +226,29 @@ const predictionResults: SearchResult[] = [
         description: "Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.",
         page: "Animation",
         section: "Spring",
+        href: "/api/animation/#spring.stiffness",
     },
 ]
 
-const SearchResults: FC<SearchResults> = ({ value, maxNumberOfResults }) => {
+const SearchResults: FC<SearchResults> = ({ results, selectedResult }) => {
+    const categorisedResults = groupBy(results, "page")
+    const categories = Object.keys(categorisedResults) || []
+
+    // TODO: State → Recently viewed
+    // TODO: State → No results
+
     return (
         <SearchResultsList>
-            {value ? (
-                Array.from(
-                    predictionResults
-                        .filter((_, i) => i < maxNumberOfResults)
-                        .filter(result =>
-                            [result.name, result.page, result.section]
-                                .map(name => name.toLowerCase())
-                                .some(name => name.includes(value.toLowerCase()))
-                        )
-                        .reduce(
-                            (map: Map<string, SearchResult[]>, result) =>
-                                map.set(result.page, [...(map.get(result.page) || []), result]),
-                            new Map()
-                        )
-                ).map(([name, results]) => (
-                    <SearchGroup key={name}>
-                        <h5>{name}</h5>
-                        <SearchGroupResults>
-                            {results.map(result => (
-                                <SearchResult key={result.name}>
-                                    <a href="#">
+            {categories.map(category => {
+                const categoryResults = categorisedResults[category]
+
+                return (
+                    <SearchCategory key={category}>
+                        <h5>{category}</h5>
+                        <SearchCategoryResults>
+                            {categoryResults.map(result => (
+                                <SearchResult key={result.name} className={clsx({ active: selectedResult === result })}>
+                                    <a href={result.href}>
                                         <h6>
                                             {result.name}: <span>{result.type}</span>
                                         </h6>
@@ -253,29 +256,10 @@ const SearchResults: FC<SearchResults> = ({ value, maxNumberOfResults }) => {
                                     </a>
                                 </SearchResult>
                             ))}
-                        </SearchGroupResults>
-                    </SearchGroup>
-                ))
-            ) : (
-                <SearchGroup>
-                    <h5>Recently viewed</h5>
-                    <SearchGroupResults>
-                        {recentlyViewedResults
-                            .sort((a, b) => a.lastViewed - b.lastViewed)
-                            .filter((_, i) => i < maxNumberOfResults)
-                            .map(result => (
-                                <SearchResult key={result.name}>
-                                    <a href="#">
-                                        <h6>
-                                            {result.name}: <span>{result.type}</span>
-                                        </h6>
-                                        <p>{result.description}</p>
-                                    </a>
-                                </SearchResult>
-                            ))}
-                    </SearchGroupResults>
-                </SearchGroup>
-            )}
+                        </SearchCategoryResults>
+                    </SearchCategory>
+                )
+            })}
         </SearchResultsList>
     )
 }
@@ -287,9 +271,11 @@ const variants: Variants = {
     },
 }
 
-const StaticSearch: FC<Search> = ({ maxNumberOfResults = 8 }) => {
+const StaticSearch = () => {
     const [value, setValue] = useState("")
     const [focus, setFocus] = useState(false)
+    const results = predictionResults.filter(result => result.name.includes(value))
+    const [selectedResult, previousResult, nextResult] = useIndexItem(results)
 
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value)
@@ -302,6 +288,31 @@ const StaticSearch: FC<Search> = ({ maxNumberOfResults = 8 }) => {
     const handleBlur = useCallback(() => {
         setFocus(false)
     }, [])
+
+    const handleKey = useCallback(
+        (event: KeyboardEvent) => {
+            switch (event.key) {
+                case "ArrowUp":
+                    previousResult()
+                    break
+                case "ArrowDown":
+                    nextResult()
+                    break
+                case "Enter":
+                    window.location.href = selectedResult.href
+                    break
+            }
+        },
+        [selectedResult]
+    )
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKey)
+
+        return () => {
+            window.removeEventListener("keydown", handleKey)
+        }
+    }, [handleKey])
 
     return (
         <SearchWrapper>
@@ -330,7 +341,7 @@ const StaticSearch: FC<Search> = ({ maxNumberOfResults = 8 }) => {
             />
             {focus && (
                 <SearchResultsDropdown>
-                    <SearchResults value={value} maxNumberOfResults={maxNumberOfResults} />
+                    <SearchResults results={results} selectedResult={selectedResult} />
                 </SearchResultsDropdown>
             )}
         </SearchWrapper>

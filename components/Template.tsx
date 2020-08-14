@@ -184,6 +184,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
                     <link rel="stylesheet" href={urlFor("/static/styles/fonts.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/highlight.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/reset.css")} />
+                    <link rel="stylesheet" href={urlFor("/static/styles/global.css")} />
                     <link rel="shortcut icon" href="https://static.framer.com/api/favicon.ico" />
 
                     <meta content="width=device-width, initial-scale=1" name="viewport" />
