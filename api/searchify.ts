@@ -24,6 +24,12 @@ const parseAPI = async (files: string[] = []) => {
                 return `/api/${page}`
             }
 
+            const getPageLibrary = (file: string) => {
+                const isMotion = file.includes("/motion")
+
+                return isMotion ? "motion" : "library"
+            }
+
             const getPreviousSibling = (element: Element, selector: string) => {
                 let sibling = element.previousElementSibling
                 if (!selector) return sibling
@@ -88,11 +94,13 @@ const parseAPI = async (files: string[] = []) => {
              * Pages
              */
             const pageURL = getPageURL(file)
+            const pageLibrary = getPageLibrary(file)
             const [pageTitle] = parsePermalink(document.querySelector("h1"))
             const pageDescription = document.querySelector("h1 + span")
 
             data.push({
                 type: "page",
+                library: pageLibrary,
                 page: pageTitle,
                 title: pageTitle,
                 description: pageDescription ? sanitizeInnerHTML(pageDescription.innerHTML) : undefined,
@@ -111,6 +119,7 @@ const parseAPI = async (files: string[] = []) => {
                 if (permalink) {
                     data.push({
                         type: "section",
+                        library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         description: description ? sanitizeInnerHTML(description.innerHTML) : undefined, // TODO: If no description paragraph, get all h3 until the next section
@@ -141,6 +150,7 @@ const parseAPI = async (files: string[] = []) => {
                 if (permalink) {
                     data.push({
                         type: "subsection",
+                        library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         secondaryTitle: parent,
@@ -162,6 +172,7 @@ const parseAPI = async (files: string[] = []) => {
                 if (permalink) {
                     data.push({
                         type: "property",
+                        library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         secondaryTitle: secondaryTitle,

@@ -17,8 +17,11 @@ interface SearchResults {
 
 type SearchResultType = "page" | "section" | "subsection" | "property"
 
-interface SearchResult<T = SearchResultType> {
-    type: T
+type SearchResultLibrary = "library" | "motion"
+
+interface SearchResult {
+    type: SearchResultType
+    library: SearchResultLibrary
     page: string
     title: string
     secondaryTitle?: string
@@ -242,6 +245,7 @@ const SearchResult = styled(motion.li)`
 const genericResults: SearchResult[] = [
     {
         type: "page",
+        library: "library",
         page: "Animation",
         title: "Animation",
         description: "A set of properties and helpers for high-performance, declarative animations.",
@@ -249,6 +253,7 @@ const genericResults: SearchResult[] = [
     },
     {
         type: "section",
+        library: "library",
         page: "Scroll",
         title: "Content",
         description: "dragEnabled, wheelEnabled, direction, contentOffsetX, contentOffsetY, scrollAnimate.",
@@ -256,6 +261,7 @@ const genericResults: SearchResult[] = [
     },
     {
         type: "subsection",
+        library: "library",
         page: "Animation",
         title: "Transitions",
         secondaryTitle: "Overview",
@@ -264,6 +270,7 @@ const genericResults: SearchResult[] = [
     },
     {
         type: "property",
+        library: "library",
         page: "Frame",
         title: "width",
         secondaryTitle: "number | string | MotionValue<number | string>",
