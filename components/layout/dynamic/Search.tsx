@@ -33,41 +33,6 @@ interface SearchResultRecent extends SearchResult {
     lastViewed: number
 }
 
-const SearchShortcut = styled.div`
-    position: absolute;
-    display: none;
-    place-content: center;
-    place-items: center;
-    top: 15px;
-    bottom: 15px;
-    padding-top: 4px;
-    right: 20px;
-    color: #999;
-    font-size: 1rem;
-    line-height: 1;
-    pointer-events: none;
-
-    @media screen and (min-width: ${tablet}) and (any-pointer: fine) {
-        display: inline-flex;
-    }
-`
-
-const SearchShortcutKey = styled.span`
-    display: inline-flex;
-    place-content: center;
-    place-items: center;
-    width: 24px;
-    height: 24px;
-    margin: 0 7px;
-    padding-top: 2px;
-    color: #888;
-    background: #f5f5f5;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1;
-`
-
 const SearchWrapper = styled(motion.div)`
     position: fixed;
     top: 0;
@@ -79,10 +44,6 @@ const SearchWrapper = styled(motion.div)`
 
     &:focus-within {
         position: fixed;
-
-        ${SearchShortcut} {
-            display: none;
-        }
     }
 
     @media (max-width: ${tablet}) {
@@ -370,9 +331,13 @@ const StaticSearch = () => {
     const results = genericResults.filter(result => result.title.includes(value))
     const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(results)
 
-    const handleChange = (event: FormEvent<HTMLInputElement>) => {
-        setValue(event.currentTarget.value)
-    }
+    const handleChange = useCallback((event: FormEvent<HTMLInputElement> | string) => {
+        if (event.hasOwnProperty("currentTarget")) {
+            setValue((event as FormEvent<HTMLInputElement>).currentTarget.value)
+        } else {
+            setValue(event as string)
+        }
+    }, [])
 
     const handleFocus = useCallback(() => {
         setOpen(true)
@@ -401,10 +366,11 @@ const StaticSearch = () => {
                         break
                 }
             } else {
-                switch (event.key) {
-                    case "/":
+                if (document.activeElement === document.body || document.activeElement === null) {
+                    if (event.key.length === 1) {
+                        handleChange(event.key)
                         setOpen(true)
-                        break
+                    }
                 }
             }
         },
@@ -453,13 +419,8 @@ const StaticSearch = () => {
                     onChange={handleChange}
                     onFocus={handleFocus}
                     type="search"
-                    placeholder="Search in Library or Motion…"
+                    placeholder="Start typing to search…"
                 />
-                <SearchShortcut>
-                    Press
-                    <SearchShortcutKey>/</SearchShortcutKey>
-                    to focus
-                </SearchShortcut>
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults results={results} selectedResult={selectedResult} onResultChange={setResult} />
