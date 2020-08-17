@@ -223,15 +223,7 @@ const SearchResult = styled(motion.li)`
 `
 /*
  * TODO: Library vs. Motion?
- *
- * Not indexable:
- *  - /frame-deprecated
- *  - /introduction
- *  - /tutorial
- *  - /examples
- *  - /motion/introduction
- *  - /motion/examples
- *
+
  * Result types:
  * - Page: Title (`h1`) and description (`span.lead`) → e.g. | Animation
  *                                                           | A set of properties and helpers for high-performance...
@@ -385,26 +377,31 @@ const StaticSearch = () => {
 
     const handleKey = useCallback(
         (event: KeyboardEvent) => {
-            switch (event.key) {
-                case "ArrowUp":
-                    previousResult()
-                    break
-                case "ArrowDown":
-                    nextResult()
-                    break
-                case "/":
-                    setOpen(true)
-                    break
-                case "Escape":
-                    setOpen(false)
-                    break
-                case "Enter":
-                    setOpen(false)
-                    window.location.href = selectedResult.href
-                    break
+            if (open) {
+                switch (event.key) {
+                    case "ArrowUp":
+                        previousResult()
+                        break
+                    case "ArrowDown":
+                        nextResult()
+                        break
+                    case "Escape":
+                        setOpen(false)
+                        break
+                    case "Enter":
+                        setOpen(false)
+                        window.location.href = selectedResult.href
+                        break
+                }
+            } else {
+                switch (event.key) {
+                    case "/":
+                        setOpen(true)
+                        break
+                }
             }
         },
-        [selectedResult]
+        [open, selectedResult]
     )
 
     useEffect(() => {
@@ -413,7 +410,7 @@ const StaticSearch = () => {
         return () => {
             window.removeEventListener("keydown", handleKey)
         }
-    }, [selectedResult])
+    }, [open, selectedResult])
 
     useEffect(() => {
         if (open) {
