@@ -15,7 +15,7 @@ interface SearchResults {
     onResultChange: (index: number) => void
 }
 
-type SearchResultType = "page" | "section" | "subsection" | "method"
+type SearchResultType = "page" | "section" | "subsection" | "property"
 
 interface SearchResult<T = SearchResultType> {
     type: T
@@ -243,7 +243,7 @@ const SearchResult = styled(motion.li)`
  * - Subsection: Title (`{Section} > h3`) and description (`h3 + p`) → e.g. | Overview > **Transitions**
  *                                                                          | The transition for the values in animate...
  *
- * - Method: Title (Name: `.framer-property > h3` + Type: `.framer-property > h3 span:nth-of-type(1)`)
+ * - Property: Title (Name: `.framer-property > h3` + Type: `.framer-property > h3 span:nth-of-type(1)`)
  *           and description (`.framer-property > p:nth-of-type(1)`) → e.g. | **ease:** Easing | Easing[]
  *                                                                          | The easing function to use. Set as one...
  */
@@ -271,7 +271,7 @@ const genericResults: SearchResult[] = [
         href: "/scroll/#content",
     },
     {
-        type: "method",
+        type: "property",
         page: "Frame",
         title: "width",
         secondaryTitle: "number | string | MotionValue<number | string>",
@@ -336,7 +336,7 @@ const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultCha
                                                     <p>{result.description}</p>
                                                 </>
                                             )}
-                                            {result.type === "method" && (
+                                            {result.type === "property" && (
                                                 <>
                                                     <h6>
                                                         {result.title}: <span>{result.secondaryTitle}</span>

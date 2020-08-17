@@ -20,6 +20,8 @@ usage:
 	@echo "    build [BUILD_DIR=<path>] - generates a static site in the build directory"
 	@echo "    verify-api-references [BUILD_DIR=<path>] - checks for missing API references in the HTML reports an error if found"
 	@echo "    publish - generates a build for publishing to production"
+	@echo "    publish-search - generates a build for publishing to production and indexes it"
+	@echo "    search - indexes the current build directory"
 	@echo "    upgrade - upgrades the monobase project to latest"
 	@echo "    data [FRAMER_LIBRARY_DIR=<path>] [FRAMER_MOTION_DIR=<path>] - regenerates framer.data.json file"
 	@echo "    data-update - updates framer & framer-motion to latest versions"
@@ -66,6 +68,15 @@ publish: bootstrap data changelog
 	# Using /api for framer.com
 	@$(monobase) build --project=. --path=build --prefix=/api
 	@$(node) ./api/linkify.ts build/api/**/*.html
+
+.PHONY: publish-search
+publish-search:
+	@make publish
+	@make search
+
+.PHONY: search
+search:
+	@$(node) -O '{ "downlevelIteration": false }' ./api/searchify.ts
 
 .PHONY: clean
 clean:
