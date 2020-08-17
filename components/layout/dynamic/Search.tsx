@@ -28,6 +28,41 @@ interface SearchResultRecent extends SearchResult {
     lastViewed: number
 }
 
+const SearchShortcut = styled.div`
+    position: absolute;
+    display: none;
+    place-content: center;
+    place-items: center;
+    top: 15px;
+    bottom: 15px;
+    padding-top: 4px;
+    right: 20px;
+    color: #999;
+    font-size: 1rem;
+    line-height: 1;
+    pointer-events: none;
+
+    @media screen and (min-width: ${tablet}) and (any-pointer: fine) {
+        display: inline-flex;
+    }
+`
+
+const SearchShortcutKey = styled.span`
+    display: inline-flex;
+    place-content: center;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    margin: 0 7px;
+    padding-top: 2px;
+    color: #888;
+    background: #f5f5f5;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1;
+`
+
 const SearchWrapper = styled(motion.div)`
     position: absolute;
     top: 58px;
@@ -39,6 +74,10 @@ const SearchWrapper = styled(motion.div)`
 
     &:focus-within {
         position: fixed;
+
+        ${SearchShortcut} {
+            display: none;
+        }
     }
 
     @media (min-width: ${tablet}) {
@@ -66,7 +105,9 @@ const SearchBackdrop = styled(motion.div)`
 `
 
 const SearchInputWrapper = styled.div`
+    position: relative;
     height: 58px;
+    z-index: 3000;
     pointer-events: all;
 `
 
@@ -75,7 +116,7 @@ const SearchInput = styled.input`
     position: relative;
     box-sizing: border-box;
     appearance: none;
-    z-index: 3000;
+    font-size: 1rem;
     width: 100%;
     height: 100%;
     padding: 16px 20px 14px 46px;
@@ -293,7 +334,8 @@ const variants: Variants = {
 }
 
 const StaticSearch = () => {
-    const ref = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
     const results = predictionResults.filter(result => result.name.includes(value))
@@ -320,6 +362,9 @@ const StaticSearch = () => {
                 case "ArrowDown":
                     nextResult()
                     break
+                case "/":
+                    setOpen(true)
+                    break
                 case "Escape":
                     setOpen(false)
                     break
@@ -340,7 +385,15 @@ const StaticSearch = () => {
         }
     }, [selectedResult])
 
-    useClickOutside(ref, handleClickOutside)
+    useEffect(() => {
+        if (open) {
+            inputRef.current && inputRef.current.focus()
+        } else {
+            inputRef.current && inputRef.current.blur()
+        }
+    }, [open])
+
+    useClickOutside(wrapperRef, handleClickOutside)
 
     return (
         <SearchWrapper>
@@ -359,14 +412,20 @@ const StaticSearch = () => {
                     />
                 )}
             </AnimatePresence>
-            <SearchInputWrapper ref={ref}>
+            <SearchInputWrapper ref={wrapperRef}>
                 <SearchInput
+                    ref={inputRef}
                     value={value}
                     onChange={handleChange}
                     onFocus={handleFocus}
                     type="search"
-                    placeholder="Search..."
+                    placeholder="Search in Library or Motion…"
                 />
+                <SearchShortcut>
+                    Press
+                    <SearchShortcutKey>/</SearchShortcutKey>
+                    to focus
+                </SearchShortcut>
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults results={results} selectedResult={selectedResult} onResultChange={setResult} />
