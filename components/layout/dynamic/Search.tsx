@@ -10,7 +10,9 @@ import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
 
 interface SearchResults {
-    results: SearchResult[]
+    categories: string[]
+    categorisedResults: Record<string, SearchResult[]>
+    indexedResults: SearchResult[]
     selectedResult: SearchResult
     onResultChange: (index: number) => void
 }
@@ -241,10 +243,13 @@ const genericResults: SearchResult[] = [
     },
 ]
 
-const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultChange }) => {
-    const categorisedResults = groupBy(results, "page")
-    const categories = Object.keys(categorisedResults) || []
-
+const SearchResults: FC<SearchResults> = ({
+    categories,
+    categorisedResults,
+    indexedResults,
+    selectedResult,
+    onResultChange,
+}) => {
     const handleResultHover = useCallback(event => {
         const index = event.currentTarget.dataset.index
 
@@ -256,7 +261,7 @@ const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultCha
 
     return (
         <SearchResultsList>
-            {categories.map(category => {
+            {categories.map((category: string) => {
                 const categoryResults = categorisedResults[category]
 
                 return (
@@ -269,7 +274,7 @@ const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultCha
                                         key={index}
                                         className={clsx(result.type, { active: selectedResult === result })}
                                         onPointerEnter={handleResultHover}
-                                        data-index={results.findIndex(flatResult => flatResult === result)}
+                                        data-index={indexedResults.findIndex(indexedResult => indexedResult === result)}
                                     >
                                         <a href={result.href}>
                                             {result.type === "page" && (
@@ -329,7 +334,12 @@ const StaticSearch = () => {
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
     const results = genericResults.filter(result => result.title.includes(value))
-    const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(results)
+    const categorisedResults = groupBy(results, "page")
+    const categories = Object.keys(categorisedResults) || []
+    const indexedResults = categories.reduce((results: SearchResult[], category) => {
+        return [...results, ...categorisedResults[category]]
+    }, [])
+    const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(indexedResults)
 
     const handleChange = useCallback((event: FormEvent<HTMLInputElement> | string) => {
         if (event.hasOwnProperty("currentTarget")) {
@@ -423,7 +433,13 @@ const StaticSearch = () => {
                 />
                 {open && (
                     <SearchResultsDropdown>
-                        <SearchResults results={results} selectedResult={selectedResult} onResultChange={setResult} />
+                        <SearchResults
+                            categories={categories}
+                            categorisedResults={categorisedResults}
+                            indexedResults={indexedResults}
+                            selectedResult={selectedResult}
+                            onResultChange={setResult}
+                        />
                     </SearchResultsDropdown>
                 )}
             </SearchInputWrapper>
