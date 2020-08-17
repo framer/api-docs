@@ -12,6 +12,7 @@ import { useIndexItem } from "../../hooks/useIndex"
 interface SearchResults {
     results: SearchResult[]
     selectedResult: SearchResult
+    onResultChange: (index: number) => void
 }
 
 interface SearchResult {
@@ -141,16 +142,14 @@ const SearchCategoryResults = styled(motion.ul)`
 `
 
 const SearchResult = styled(motion.li)`
-    a {
-        color: #111;
+    color: #111;
 
-        &:hover {
-            color: var(--accent);
-        }
+    &.active {
+        color: var(--accent);
     }
 
-    &.active a {
-        color: var(--accent);
+    a {
+        color: inherit;
     }
 
     &:not(:last-child) {
@@ -238,9 +237,15 @@ const predictionResults: SearchResult[] = [
     },
 ]
 
-const SearchResults: FC<SearchResults> = ({ results, selectedResult }) => {
+const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultChange }) => {
     const categorisedResults = groupBy(results, "page")
     const categories = Object.keys(categorisedResults) || []
+
+    const handleResultHover = useCallback(event => {
+        const index = event.currentTarget.dataset.index
+
+        onResultChange && onResultChange(index)
+    }, [])
 
     // TODO: State → Recently viewed
     // TODO: State → No results
@@ -255,7 +260,12 @@ const SearchResults: FC<SearchResults> = ({ results, selectedResult }) => {
                         <h5>{category}</h5>
                         <SearchCategoryResults>
                             {categoryResults.map(result => (
-                                <SearchResult key={result.name} className={clsx({ active: selectedResult === result })}>
+                                <SearchResult
+                                    key={result.name}
+                                    className={clsx({ active: selectedResult === result })}
+                                    onPointerEnter={handleResultHover}
+                                    data-index={results.findIndex(flatResult => flatResult === result)}
+                                >
                                     <a href={result.href}>
                                         <h6>
                                             {result.name}: <span>{result.type}</span>
@@ -284,7 +294,7 @@ const StaticSearch = () => {
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
     const results = predictionResults.filter(result => result.name.includes(value))
-    const [selectedResult, previousResult, nextResult] = useIndexItem(results)
+    const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(results)
 
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.value)
@@ -356,7 +366,7 @@ const StaticSearch = () => {
                 />
                 {open && (
                     <SearchResultsDropdown>
-                        <SearchResults results={results} selectedResult={selectedResult} />
+                        <SearchResults results={results} selectedResult={selectedResult} onResultChange={setResult} />
                     </SearchResultsDropdown>
                 )}
             </SearchInputWrapper>

@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react"
+import { useCallback, useState, useEffect, Dispatch, SetStateAction } from "react"
 
 const clamp = (value: number, min: number, max: number) => {
     return Math.min(Math.max(value, min), max)
@@ -10,9 +10,9 @@ const wrap = (value: number, min: number, max: number) => {
     return ((((value - min) % range) + range) % range) + min
 }
 
-type IndexOperator = (value?: number) => void
+type IndexOperator = (nudge?: number) => void
 
-type IndexState<T = number> = [T, IndexOperator, IndexOperator]
+type IndexState<T = number> = [T, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>]
 
 export const useIndex = (range: number, initial = 0): IndexState => {
     const [index, setIndex] = useState(initial)
@@ -35,12 +35,11 @@ export const useIndex = (range: number, initial = 0): IndexState => {
         [range]
     )
 
-    return [index, previousIndex, nextIndex]
+    return [index, previousIndex, nextIndex, setIndex]
 }
 
 export const useIndexItem = <T>(items: T[]): IndexState<T> => {
-    const [index, previousIndex, nextIndex] = useIndex(items.length)
-    const item = items[index]
+    const [index, ...indexOperators] = useIndex(items.length)
 
-    return [item, previousIndex, nextIndex]
+    return [items[index], ...indexOperators]
 }
