@@ -64,10 +64,10 @@ const SearchShortcutKey = styled.span`
 `
 
 const SearchWrapper = styled(motion.div)`
-    position: absolute;
-    top: 58px;
-    left: 0;
-    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 250px;
+    width: calc(100% - 250px);
     height: 100vh;
     z-index: 2000;
     pointer-events: none;
@@ -80,15 +80,15 @@ const SearchWrapper = styled(motion.div)`
         }
     }
 
-    @media (min-width: ${tablet}) {
-        position: fixed;
-        top: 0;
-        left: 250px;
-        width: calc(100vw - 250px);
+    @media (max-width: ${tablet}) {
+        position: absolute;
+        top: 58px;
+        left: 0;
+        width: 100%;
     }
 
     @media (min-width: ${desktop}) {
-        width: calc(50vw - 125px);
+        width: calc(50% - 125px);
         max-width: 675px;
     }
 `
