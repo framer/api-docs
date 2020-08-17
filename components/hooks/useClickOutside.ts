@@ -1,22 +1,25 @@
-import { useEffect, RefObject } from "react"
+import { useEffect, useRef, RefObject } from "react"
 
-// SOURCE: https://usehooks.com/useOnClickOutside/
-export const useClickOutside = (ref: RefObject<any>, handler: (event?: Event) => void) => {
+export const useClickOutside = (ref: RefObject<Element>, callback: (event?: PointerEvent) => void = () => {}) => {
+    const latestCallback = useRef(callback)
+
     useEffect(() => {
-        const listener = (event: Event) => {
-            if (!ref.current || ref.current.contains(event.target)) {
+        latestCallback.current = callback
+    }, [callback])
+
+    useEffect(() => {
+        const handleEvent = (event: PointerEvent) => {
+            if (!ref.current || ref.current.contains(event.target as Node)) {
                 return
             }
 
-            handler(event)
+            latestCallback.current(event)
         }
 
-        document.addEventListener("mousedown", listener)
-        document.addEventListener("touchstart", listener)
+        document.addEventListener("pointerdown", handleEvent)
 
         return () => {
-            document.removeEventListener("mousedown", listener)
-            document.removeEventListener("touchstart", listener)
+            document.removeEventListener("pointerdown", handleEvent)
         }
-    }, [ref, handler])
+    }, [ref])
 }
