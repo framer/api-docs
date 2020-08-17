@@ -1,6 +1,6 @@
 import * as React from "react"
 import clsx from "classnames"
-import { useRef, useEffect, useCallback, useState, FC, FormEvent } from "react"
+import { memo, useRef, useEffect, useCallback, useState, useMemo, FC, FormEvent } from "react"
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
@@ -243,83 +243,81 @@ const genericResults: SearchResult[] = [
     },
 ]
 
-const SearchResults: FC<SearchResults> = ({
-    categories,
-    categorisedResults,
-    indexedResults,
-    selectedResult,
-    onResultChange,
-}) => {
-    const handleResultHover = useCallback(event => {
-        const index = event.currentTarget.dataset.index
+const SearchResults: FC<SearchResults> = memo(
+    ({ categories, categorisedResults, indexedResults, selectedResult, onResultChange }) => {
+        const handleResultHover = useCallback(event => {
+            const index = event.currentTarget.dataset.index
 
-        onResultChange && onResultChange(index)
-    }, [])
+            onResultChange && onResultChange(index)
+        }, [])
 
-    // TODO: State → Recently viewed
-    // TODO: State → No results
+        // TODO: State → Recently viewed
+        // TODO: State → No results
 
-    return (
-        <SearchResultsList>
-            {categories.map((category: string) => {
-                const categoryResults = categorisedResults[category]
+        return (
+            <SearchResultsList>
+                {categories.map((category: string) => {
+                    const categoryResults = categorisedResults[category]
 
-                return (
-                    <SearchCategory key={category}>
-                        <h5>{category}</h5>
-                        <SearchCategoryResults>
-                            {categoryResults.map((result, index) => {
-                                return (
-                                    <SearchResult
-                                        key={index}
-                                        className={clsx(result.type, { active: selectedResult === result })}
-                                        onPointerEnter={handleResultHover}
-                                        data-index={indexedResults.findIndex(indexedResult => indexedResult === result)}
-                                    >
-                                        <a href={result.href}>
-                                            {result.type === "page" && (
-                                                <>
-                                                    <h6>
-                                                        <span>{result.secondaryTitle}</span>
-                                                        {result.title}
-                                                    </h6>
-                                                    <p>{result.description}</p>
-                                                </>
+                    return (
+                        <SearchCategory key={category}>
+                            <h5>{category}</h5>
+                            <SearchCategoryResults>
+                                {categoryResults.map((result, index) => {
+                                    return (
+                                        <SearchResult
+                                            key={index}
+                                            className={clsx(result.type, { active: selectedResult === result })}
+                                            onPointerEnter={handleResultHover}
+                                            data-index={indexedResults.findIndex(
+                                                indexedResult => indexedResult === result
                                             )}
-                                            {result.type === "section" && (
-                                                <>
-                                                    <h6>{result.title}</h6>
-                                                    <p>{result.description}</p>
-                                                </>
-                                            )}
-                                            {result.type === "subsection" && (
-                                                <>
-                                                    <h6>
-                                                        <span>{result.secondaryTitle} › </span>
-                                                        {result.title}
-                                                    </h6>
-                                                    <p>{result.description}</p>
-                                                </>
-                                            )}
-                                            {result.type === "property" && (
-                                                <>
-                                                    <h6>
-                                                        {result.title}: <span>{result.secondaryTitle}</span>
-                                                    </h6>
-                                                    <p>{result.description}</p>
-                                                </>
-                                            )}
-                                        </a>
-                                    </SearchResult>
-                                )
-                            })}
-                        </SearchCategoryResults>
-                    </SearchCategory>
-                )
-            })}
-        </SearchResultsList>
-    )
-}
+                                        >
+                                            <a href={result.href}>
+                                                {result.type === "page" && (
+                                                    <>
+                                                        <h6>
+                                                            <span>{result.secondaryTitle}</span>
+                                                            {result.title}
+                                                        </h6>
+                                                        <p>{result.description}</p>
+                                                    </>
+                                                )}
+                                                {result.type === "section" && (
+                                                    <>
+                                                        <h6>{result.title}</h6>
+                                                        <p>{result.description}</p>
+                                                    </>
+                                                )}
+                                                {result.type === "subsection" && (
+                                                    <>
+                                                        <h6>
+                                                            <span>{result.secondaryTitle} › </span>
+                                                            {result.title}
+                                                        </h6>
+                                                        <p>{result.description}</p>
+                                                    </>
+                                                )}
+                                                {result.type === "property" && (
+                                                    <>
+                                                        <h6>
+                                                            {result.title}: <span>{result.secondaryTitle}</span>
+                                                        </h6>
+                                                        <p>{result.description}</p>
+                                                    </>
+                                                )}
+                                            </a>
+                                        </SearchResult>
+                                    )
+                                })}
+                            </SearchCategoryResults>
+                        </SearchCategory>
+                    )
+                })}
+            </SearchResultsList>
+        )
+    }
+)
 
 const variants: Variants = {
     visible: { opacity: 1 },
@@ -333,13 +331,19 @@ const StaticSearch = () => {
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
-    const results = genericResults.filter(result => result.title.includes(value))
-    const categorisedResults = groupBy(results, "page")
-    const categories = Object.keys(categorisedResults) || []
-    const indexedResults = categories.reduce((results: SearchResult[], category) => {
-        return [...results, ...categorisedResults[category]]
-    }, [])
+    const openRef = useRef(open)
+    const results = useMemo(() => genericResults.filter(result => result.title.includes(value)), [value])
+    const categorisedResults = useMemo(() => groupBy(results, "page"), [results])
+    const categories = useMemo(() => Object.keys(categorisedResults) || [], [categorisedResults])
+    const indexedResults = useMemo(
+        () =>
+            categories.reduce((results: SearchResult[], category) => {
+                return [...results, ...categorisedResults[category]]
+            }, []),
+        [results, categorisedResults, categories]
+    )
     const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(indexedResults)
+    const selectedResultRef = useRef(selectedResult)
 
     const handleChange = useCallback((event: FormEvent<HTMLInputElement> | string) => {
         if (event.hasOwnProperty("currentTarget")) {
@@ -357,35 +361,32 @@ const StaticSearch = () => {
         setOpen(false)
     }, [])
 
-    const handleKey = useCallback(
-        (event: KeyboardEvent) => {
-            if (open) {
-                switch (event.key) {
-                    case "ArrowUp":
-                        previousResult()
-                        break
-                    case "ArrowDown":
-                        nextResult()
-                        break
-                    case "Escape":
-                        setOpen(false)
-                        break
-                    case "Enter":
-                        setOpen(false)
-                        window.location.href = selectedResult.href
-                        break
-                }
-            } else {
-                if (document.activeElement === document.body || document.activeElement === null) {
-                    if (event.key.length === 1) {
-                        handleChange(event.key)
-                        setOpen(true)
-                    }
+    const handleKey = useCallback((event: KeyboardEvent) => {
+        if (openRef.current) {
+            switch (event.key) {
+                case "ArrowUp":
+                    previousResult()
+                    break
+                case "ArrowDown":
+                    nextResult()
+                    break
+                case "Escape":
+                    setOpen(false)
+                    break
+                case "Enter":
+                    setOpen(false)
+                    window.location.href = selectedResultRef.current.href
+                    break
+            }
+        } else {
+            if (document.activeElement === document.body || document.activeElement === null) {
+                if (event.key.length === 1) {
+                    handleChange(event.key)
+                    setOpen(true)
                 }
             }
-        },
-        [open, selectedResult]
-    )
+        }
+    }, [])
 
     useEffect(() => {
         window.addEventListener("keydown", handleKey)
@@ -393,7 +394,7 @@ const StaticSearch = () => {
         return () => {
             window.removeEventListener("keydown", handleKey)
         }
-    }, [open, selectedResult])
+    }, [])
 
     useEffect(() => {
         if (open) {
@@ -402,6 +403,14 @@ const StaticSearch = () => {
             inputRef.current && inputRef.current.blur()
         }
     }, [open])
+
+    useEffect(() => {
+        openRef.current = open
+    }, [open])
+
+    useEffect(() => {
+        selectedResultRef.current = selectedResult
+    }, [selectedResult])
 
     useClickOutside(wrapperRef, handleClickOutside)
 
