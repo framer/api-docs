@@ -35,6 +35,7 @@ const SearchWrapper = styled(motion.div)`
     width: 100vw;
     height: 100vh;
     z-index: 2000;
+    pointer-events: none;
 
     &:focus-within {
         position: fixed;
@@ -61,10 +62,12 @@ const SearchBackdrop = styled(motion.div)`
     height: calc(100vh - 58px);
     background: rgba(255, 255, 255, 0.9);
     z-index: 0;
+    pointer-events: all;
 `
 
 const SearchInputWrapper = styled.div`
     height: 58px;
+    pointer-events: all;
 `
 
 const SearchInput = styled.input`
