@@ -116,13 +116,13 @@ const parseAPI = async (files: string[] = []) => {
                 const [title, permalink] = parsePermalink(section.querySelector("h2"))
                 const description = section.querySelector("p")
 
-                if (permalink) {
+                if (permalink && description) {
                     data.push({
                         type: "section",
                         library: pageLibrary,
                         page: pageTitle,
                         title: title,
-                        description: description ? sanitizeInnerHTML(description.innerHTML) : undefined, // TODO: If no description paragraph, get all h3 until the next section
+                        description: sanitizeInnerHTML(description.innerHTML),
                         href: permalink,
                     })
                 }
@@ -147,14 +147,14 @@ const parseAPI = async (files: string[] = []) => {
                     parent = getTextContent(parentElement)
                 }
 
-                if (permalink) {
+                if (permalink && description) {
                     data.push({
                         type: "subsection",
                         library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         secondaryTitle: parent,
-                        description: description ? sanitizeInnerHTML(description.innerHTML) : undefined,
+                        description: sanitizeInnerHTML(description.innerHTML),
                         href: permalink,
                     })
                 }
@@ -169,14 +169,14 @@ const parseAPI = async (files: string[] = []) => {
                 const [title, secondaryTitle, permalink] = parsePropertyPermalink(property.querySelector("h3"))
                 const description = property.querySelector("[data-tsdoc-ref] > p")
 
-                if (permalink) {
+                if (permalink && description) {
                     data.push({
                         type: "property",
                         library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         secondaryTitle: secondaryTitle,
-                        description: description ? sanitizeInnerHTML(description.innerHTML) : undefined,
+                        description: sanitizeInnerHTML(description.innerHTML),
                         href: permalink,
                     })
                 }
