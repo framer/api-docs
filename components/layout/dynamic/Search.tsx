@@ -15,12 +15,14 @@ interface SearchResults {
     onResultChange: (index: number) => void
 }
 
-interface SearchResult {
-    name: string
-    type: string
-    description: string
+type SearchResultType = "page" | "section" | "subsection" | "method"
+
+interface SearchResult<T = SearchResultType> {
+    type: T
     page: string
-    section: string
+    title: string
+    secondaryTitle?: string
+    description: string
     href: string
 }
 
@@ -219,65 +221,63 @@ const SearchResult = styled(motion.li)`
         text-overflow: ellipsis;
     }
 `
-
-const recentlyViewedResults: SearchResultRecent[] = [
+/*
+ * TODO: Library vs. Motion?
+ *
+ * Not indexable:
+ *  - /frame-deprecated
+ *  - /introduction
+ *  - /tutorial
+ *  - /examples
+ *  - /motion/introduction
+ *  - /motion/examples
+ *
+ * Result types:
+ * - Page: Title (`h1`) and description (`span.lead`) → e.g. | Animation
+ *                                                           | A set of properties and helpers for high-performance...
+ *
+ * - Section: Title (`h2`) and description (`h2 + p` or `h2 ~ h3`) → e.g. | Content
+ *                                                                        | dragEnabled, wheelEnabled, direction...
+ *
+ *
+ * - Subsection: Title (`{Section} > h3`) and description (`h3 + p`) → e.g. | Overview > **Transitions**
+ *                                                                          | The transition for the values in animate...
+ *
+ * - Method: Title (Name: `.framer-property > h3` + Type: `.framer-property > h3 span:nth-of-type(1)`)
+ *           and description (`.framer-property > p:nth-of-type(1)`) → e.g. | **ease:** Easing | Easing[]
+ *                                                                          | The easing function to use. Set as one...
+ */
+const genericResults: SearchResult[] = [
     {
-        name: "width",
-        type: "number | string | MotionValue<number | string>",
+        type: "page",
+        page: "Animation",
+        title: "Animation",
+        description: "A set of properties and helpers for high-performance, declarative animations.",
+        href: "/api/animation/",
+    },
+    {
+        type: "section",
+        page: "Scroll",
+        title: "Content",
+        description: "dragEnabled, wheelEnabled, direction, contentOffsetX, contentOffsetY, scrollAnimate.",
+        href: "/scroll/#content",
+    },
+    {
+        type: "subsection",
+        page: "Animation",
+        title: "Transitions",
+        secondaryTitle: "Overview",
+        description: "The transition for the values in animate can be set via the transition property.",
+        href: "/scroll/#content",
+    },
+    {
+        type: "method",
+        page: "Frame",
+        title: "width",
+        secondaryTitle: "number | string | MotionValue<number | string>",
         description:
             "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
-        page: "Frame",
-        section: "Layout",
         href: "/api/frame/#framelayoutproperties.width",
-        lastViewed: 1574849637,
-    },
-    {
-        name: "opacity",
-        type: "number | MotionValue<number>",
-        description:
-            "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
-        page: "Frame",
-        section: "Visual",
-        href: "/api/frame/#visualproperties.opacity",
-        lastViewed: 1574850002,
-    },
-]
-
-const predictionResults: SearchResult[] = [
-    {
-        name: "width",
-        type: "number | string | MotionValue<number | string>",
-        description:
-            "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
-        page: "Frame",
-        section: "Layout",
-        href: "/api/frame/#framelayoutproperties.width",
-    },
-    {
-        name: "opacity",
-        type: "number | MotionValue<number>",
-        description:
-            "Set the opacity value, which allows you to make elements semi-transparent or entirely hidden. Useful for show-and-hide animations. Set to 1 by default.",
-        page: "Frame",
-        section: "Visual",
-        href: "/api/frame/#visualproperties.opacity",
-    },
-    {
-        name: "damping",
-        type: "number",
-        description:
-            "Strength of opposing force. If set to 0, spring will oscillate indefinitely. Set to 10 by default.",
-        page: "Animation",
-        section: "Spring",
-        href: "/api/animation/#spring.damping",
-    },
-    {
-        name: "stiffness",
-        type: "number",
-        description: "Stiffness of the spring. Higher values will create more sudden movement. Set to 100 by default.",
-        page: "Animation",
-        section: "Spring",
-        href: "/api/animation/#spring.stiffness",
     },
 ]
 
@@ -303,21 +303,51 @@ const SearchResults: FC<SearchResults> = ({ results, selectedResult, onResultCha
                     <SearchCategory key={category}>
                         <h5>{category}</h5>
                         <SearchCategoryResults>
-                            {categoryResults.map(result => (
-                                <SearchResult
-                                    key={result.name}
-                                    className={clsx({ active: selectedResult === result })}
-                                    onPointerEnter={handleResultHover}
-                                    data-index={results.findIndex(flatResult => flatResult === result)}
-                                >
-                                    <a href={result.href}>
-                                        <h6>
-                                            {result.name}: <span>{result.type}</span>
-                                        </h6>
-                                        <p>{result.description}</p>
-                                    </a>
-                                </SearchResult>
-                            ))}
+                            {categoryResults.map((result, index) => {
+                                return (
+                                    <SearchResult
+                                        key={index}
+                                        className={clsx(result.type, { active: selectedResult === result })}
+                                        onPointerEnter={handleResultHover}
+                                        data-index={results.findIndex(flatResult => flatResult === result)}
+                                    >
+                                        <a href={result.href}>
+                                            {result.type === "page" && (
+                                                <>
+                                                    <h6>
+                                                        <span>{result.secondaryTitle}</span>
+                                                        {result.title}
+                                                    </h6>
+                                                    <p>{result.description}</p>
+                                                </>
+                                            )}
+                                            {result.type === "section" && (
+                                                <>
+                                                    <h6>{result.title}</h6>
+                                                    <p>{result.description}</p>
+                                                </>
+                                            )}
+                                            {result.type === "subsection" && (
+                                                <>
+                                                    <h6>
+                                                        <span>{result.secondaryTitle} › </span>
+                                                        {result.title}
+                                                    </h6>
+                                                    <p>{result.description}</p>
+                                                </>
+                                            )}
+                                            {result.type === "method" && (
+                                                <>
+                                                    <h6>
+                                                        {result.title}: <span>{result.secondaryTitle}</span>
+                                                    </h6>
+                                                    <p>{result.description}</p>
+                                                </>
+                                            )}
+                                        </a>
+                                    </SearchResult>
+                                )
+                            })}
                         </SearchCategoryResults>
                     </SearchCategory>
                 )
@@ -338,7 +368,7 @@ const StaticSearch = () => {
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
-    const results = predictionResults.filter(result => result.name.includes(value))
+    const results = genericResults.filter(result => result.title.includes(value))
     const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(results)
 
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
