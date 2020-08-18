@@ -5,6 +5,9 @@
   command = "make publish"
   publish = "build"
 
+[context.production]
+  command = "make publish-search"
+
 # Redirect from framer-api.netlify.com -> /api to avoid 404
 [[redirects]]
   from = "/"
