@@ -5,6 +5,8 @@ import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import algoliasearch from "algoliasearch/lite"
+import debounce from "lodash.debounce"
 import groupBy from "lodash.groupby"
 import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
@@ -22,6 +24,7 @@ type SearchResultType = "page" | "section" | "subsection" | "property"
 type SearchResultLibrary = "library" | "motion"
 
 interface SearchResult {
+    objectID?: string
     type: SearchResultType
     library: SearchResultLibrary
     page: string
@@ -326,13 +329,16 @@ const variants: Variants = {
     },
 }
 
+const client = algoliasearch("", "")
+const index = client.initIndex("prod_API")
+
 const StaticSearch = () => {
     const inputRef = useRef<HTMLInputElement>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
     const openRef = useRef(open)
-    const results = useMemo(() => genericResults.filter(result => result.title.includes(value)), [value])
+    const [results, setResults] = useState<SearchResult[]>([])
     const categorisedResults = useMemo(() => groupBy(results, "page"), [results])
     const categories = useMemo(() => Object.keys(categorisedResults) || [], [categorisedResults])
     const indexedResults = useMemo(
@@ -345,12 +351,27 @@ const StaticSearch = () => {
     const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(indexedResults)
     const selectedResultRef = useRef(selectedResult)
 
+    const search = useCallback(
+        debounce((value: string) => {
+            index
+                .search(value, {
+                    hitsPerPage: 10,
+                })
+                .then(({ hits }) => {
+                    setResults(hits as SearchResult[])
+                })
+                .catch(error => console.error(error))
+        }, 200),
+        []
+    )
+
     const handleChange = useCallback((event: FormEvent<HTMLInputElement> | string) => {
-        if (event.hasOwnProperty("currentTarget")) {
-            setValue((event as FormEvent<HTMLInputElement>).currentTarget.value)
-        } else {
-            setValue(event as string)
-        }
+        let value = event.hasOwnProperty("currentTarget")
+            ? (event as FormEvent<HTMLInputElement>).currentTarget.value
+            : (event as string)
+
+        setValue(value)
+        search(value)
     }, [])
 
     const handleFocus = useCallback(() => {
@@ -380,7 +401,9 @@ const StaticSearch = () => {
             }
         } else {
             if (document.activeElement === document.body || document.activeElement === null) {
-                if (event.key.length === 1) {
+                if (/^\w$/.test(event.key) && !event.metaKey && !event.ctrlKey && !event.altKey) {
+                    event.preventDefault()
+
                     handleChange(event.key)
                     setOpen(true)
                 }
