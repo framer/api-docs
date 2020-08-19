@@ -982,21 +982,6 @@
   resolved "https://registry.yarnpkg.com/@microsoft/tsdoc/-/tsdoc-0.12.10.tgz#c0e2c875c24a21da6d345d09189f5df4a1801d82"
   integrity sha512-tsog/HTdM88/WyR0Jz7XWTI0ghbJkt9soFXnQJrINDyaTGzbCoJjRttaW/IY5eAp4eqDyfg++jq6o+byEDOkIQ==
 
-"@popmotion/easing@^1.0.1", "@popmotion/easing@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@popmotion/easing/-/easing-1.0.2.tgz#17d925c45b4bf44189e5a38038d149df42d8c0b4"
-  integrity sha512-IkdW0TNmRnWTeWI7aGQIVDbKXPWHVEYdGgd5ZR4SH/Ty/61p63jCjrPxX1XrR7IGkl08bjhJROStD7j+RKgoIw==
-
-"@popmotion/popcorn@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@popmotion/popcorn/-/popcorn-0.4.2.tgz#ff9f5334e8e808ed02237b7b9c928619d1eb68ff"
-  integrity sha512-wu0tEwK3KUZ9BoqfcqC3DfdfRDws/oHXwZKJMVtuhXSrF/PtqvilsPjAk93nh8M+orAnbe8ZyxQmop9+4oJs2g==
-  dependencies:
-    "@popmotion/easing" "^1.0.1"
-    framesync "^4.0.1"
-    hey-listen "^1.0.8"
-    style-value-types "^3.1.6"
-
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -3455,16 +3440,21 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
+<<<<<<< HEAD
 framer-motion@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.4.0.tgz#93dd69e87de2c451b38a7b724ab17fedb8c10827"
   integrity sha512-cdrmNdMvUtx/MKHU7Qbm1LvKWIza7Lj9HrGgcKj5p/w1JMKq6hl4yO3m82L92iyaWOYEkIv6MR08I5dTuUpdtg==
+=======
+framer-motion@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-2.5.1.tgz#6ddf5d3d35eaf91505c8685c8859a6382e4f97ff"
+  integrity sha512-ZvuaNWc6co7P4hAtjNC0Go/XWM6XfxmWHn5kT1Zfe0wR+KLRpsm1cG81XnjImlmqSgawtKxkC7baB939AuAbzw==
+>>>>>>> Updating docs
   dependencies:
-    "@popmotion/easing" "^1.0.2"
-    "@popmotion/popcorn" "^0.4.2"
     framesync "^4.0.4"
     hey-listen "^1.0.8"
-    popmotion "9.0.0-beta-8"
+    popmotion "9.0.0-rc.5"
     style-value-types "^3.1.9"
     tslib "^1.10.0"
   optionalDependencies:
@@ -3475,7 +3465,7 @@ framer@^1.2.5:
   resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.5.tgz#70cf754e2450ca159cc06c267165ec8479ac30f4"
   integrity sha512-q8aDopljyDjzK1yN5M96wZYQzZOx8BgY0O+Bm+3IM3YQw8SOfmt/ifdiwv52GIBKZZ+TT+WHH2gr/vcZiLNgLA==
 
-framesync@^4.0.1, framesync@^4.0.4:
+framesync@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/framesync/-/framesync-4.0.4.tgz#79c42c0118f26821c078570db0ff81fb863516a2"
   integrity sha512-mdP0WvVHe0/qA62KG2LFUAOiWLng5GLpscRlwzBxu2VXOp6B8hNs5C5XlFigsMgrfDrr2YbqTsgdWZTc4RXRMQ==
@@ -6114,16 +6104,14 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
-popmotion@9.0.0-beta-8:
-  version "9.0.0-beta-8"
-  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.0.0-beta-8.tgz#f5a709f11737734e84f2a6b73f9bcf25ee30c388"
-  integrity sha512-6eQzqursPvnP7ePvdfPeY4wFHmS3OLzNP8rJRvmfFfEIfpFqrQgLsM50Gd9AOvGKJtYJOFknNG+dsnzCpgIdAA==
+popmotion@9.0.0-rc.5:
+  version "9.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.0.0-rc.5.tgz#4dbfbd905bc7d58ff8b641c39a15902c1370d315"
+  integrity sha512-0RtKQr5hOp6cGbOGLCxVNi72kROGmvl6obfpH1mmpxa6MMbw0wHMjnHEmkBTfNISjf/vk9B2TCN6uVd/zzlkMA==
   dependencies:
-    "@popmotion/easing" "^1.0.1"
-    "@popmotion/popcorn" "^0.4.2"
     framesync "^4.0.4"
     hey-listen "^1.0.8"
-    style-value-types "^3.1.6"
+    style-value-types "^3.1.9"
     tslib "^1.10.0"
 
 port-numbers@^4.0.7:
@@ -7271,13 +7259,6 @@ style-to-object@0.2.3, style-to-object@^0.2.1:
   integrity sha512-1d/k4EY2N7jVLOqf2j04dTc37TPOv/hHxZmvpg8Pdh8UYydxeu/C1W1U4vD8alzf5V2Gt7rLsmkr4dxAlDm9ng==
   dependencies:
     inline-style-parser "0.1.1"
-
-style-value-types@^3.1.6:
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-3.1.6.tgz#6b1da918214d92c74dc7fc2d074013f372b47d76"
-  integrity sha512-AxcfUr/06AHyyyxkNB1O8ypvwa8/qK+sxwelxEN5x+jxW+RXutRE2TuHEQbFq9OBY7ym83CPKvVIsGd6lvKb0Q==
-  dependencies:
-    hey-listen "^1.0.8"
 
 style-value-types@^3.1.9:
   version "3.1.9"

@@ -195,7 +195,7 @@ CSS variables are also of an arbitary type, so Motion can't infer their default 
 <motion.ul
   initial={{ '--rotate': '0deg' } as any}
   animate={{ '--rotate': '360deg' } as any}
-  transition={{ duration: 2, loop: Infinity }}
+  transition={{ duration: 2, repeat: Infinity }}
 >
   <li style={{ transform: 'rotate(var(--rotate))' }} />
   <li style={{ transform: 'rotate(var(--rotate))' }} />
