@@ -1,9 +1,9 @@
 import * as React from "react"
 import { useState, useEffect } from "react"
 import { Dynamic } from "monobase"
-import { motion, useTransform, useSpring, useMotionValue } from "framer-motion"
+import { motion, useSpring, useMotionValue } from "framer-motion"
 import styled from "styled-components"
-import { clamp, mix } from "@popmotion/popcorn"
+import { clamp, mix } from "popmotion"
 
 /**
  * This example is to show the useViewportScroll hook, but for now this only works with

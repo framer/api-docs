@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Dynamic } from "monobase"
 import { motion, useMotionValue, useSpring } from "framer-motion"
 import styled from "styled-components"
-import { distance } from "@popmotion/popcorn"
+import { distance } from "popmotion"
 
 const Ball = styled(motion.div)`
     background: white;
