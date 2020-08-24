@@ -259,7 +259,7 @@ Here, we create a staggered animation by passing along the `custom` property to 
 ```javascript
 export function MyComponent() {
   const variants = {
-    hidden: custom => ({
+    hidden: (custom) => ({
       opacity: 0,
       transition: { delay: custom * 0.5 },
     }),
@@ -349,7 +349,7 @@ Custom data can be sent to this function via the component's `custom` prop.
 const controls = useAnimation()
 
 useEffect(() => {
-  controls.start(i => ({
+  controls.start((i) => ({
     opacity: 0,
     x: 100,
     transition: { delay: i * 0.3 },
