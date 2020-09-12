@@ -348,10 +348,10 @@ const Menu = posed.div({
 
 This had a number of problems and limitations. As we re-introduce this feature into Framer Motion we're trying to ensure these don't exist going forward.
 
-With the new `layoutTransition` prop, a component will automatically detect when it changes layout as the result of a re-render.
+With the new `layout` prop, a component will automatically detect when it changes layout as the result of a re-render.
 
 ```jsx
-<motion.div layoutTransition />
+<motion.div layout />
 ```
 
 This layout change can be instigated by any CSS application or DOM change, for instance:
