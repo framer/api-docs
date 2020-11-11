@@ -100,13 +100,13 @@ navigation.fade(<Component />)
 
 `push()` brings the user to the next screen by pushing the current screen out of view with the next.
 
-You can customize which way the screen pushes through the `appearFrom` property. Set to `right` by default.
+You can customize which way the screen pushes through the `appearsFrom` property. Set to `right` by default.
 
 </div>
 
 ```jsx
 navigation.push(<Component />)
-navigation.push(<Component />, { appearFrom: "top" }) // optional
+navigation.push(<Component />, { appearsFrom: "top" }) // optional
 ```
 
 ---
@@ -130,12 +130,12 @@ navigation.modal(<Component />, {
 
 `overlay()` pushes the next screen on top of the current screen.
 
-You can customize which way the screen pushes through the `appearFrom` property, and the backdrop color through the `backdropColor` property. Set to `right` and `rgba(4,4,15,0.4)` by default.
+You can customize which way the screen pushes through the `appearsFrom` property, and the backdrop color through the `backdropColor` property. Set to `right` and `rgba(4,4,15,0.4)` by default.
 
 ```jsx
 navigation.overlay(<Component />)
 navigation.overlay(<Component />, {
-  appearFrom: "left",
+  appearsFrom: "left",
   backdropColor: "rgba(4,4,15,0.4)",
 }) // optional
 ```
@@ -146,11 +146,11 @@ navigation.overlay(<Component />, {
 
 `flip()` shows the next screen by flipping the current screen 180 degrees.
 
-You can customize which way the screen flips through the `appearFrom` property. Set to `right` by default.
+You can customize which way the screen flips through the `appearsFrom` property. Set to `right` by default.
 
 ```jsx
 navigation.flip(<Component />)
-navigation.flip(<Component />, { appearFrom: "right" }) // optional
+navigation.flip(<Component />, { appearsFrom: "right" }) // optional
 ```
 
 ---
