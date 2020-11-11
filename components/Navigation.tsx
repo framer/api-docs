@@ -8,6 +8,7 @@ const MotionMenu = () => {
             <SubTitle name="Get Started" />
             <MenuItem className="home" href="/pages/motion/index.mdx" title="Introduction" />
             <MenuItem className="examples" href="/pages/motion/examples.mdx" title="Examples" />
+            <MenuItem className="help" href="/pages/motion/help.mdx" title="Help" />
 
             <SubTitle name="API" />
             <MenuItem className="animation" href="/pages/motion/animation.mdx" title="Animation" />
@@ -32,6 +33,7 @@ const MotionMenu = () => {
                 title="Accessibility"
             />
             <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer" />
+
             <MenuItem
                 className="migrate-from-pose"
                 href="/pages/motion/migrate-from-pose.mdx"
@@ -64,6 +66,7 @@ const LibraryMenu = () => {
                 title="ES6 and React"
                 external
             />
+            <MenuItem className="help" href="/pages/help.mdx" title="Help" />
 
             <SubTitle name="Library" />
             <MenuItem className="frame" href="/pages/frame.mdx" title="Frame" />
