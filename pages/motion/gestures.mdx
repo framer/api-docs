@@ -121,6 +121,28 @@ It differs from `onMouseEnter` and `onMouseLeave` in that hover is guaranteed to
 <APIMethod name="HoverHandlers.onHoverStart()" />
 <APIMethod name="HoverHandlers.onHoverEnd()" />
 
+
+## Focus
+
+<div>
+
+The focus gesture detects when a component gains or loses focus through click, .focus(), or by tabIndex.
+
+
+</div>
+
+```jsx
+<motion.a
+  whileFocus={{ scale: 1.2 }}
+  onFocusStart={e => {}}
+  onFocusEnd={e => {}}
+/>
+```
+
+<APIProperty name="FocusHandlers.whileFocus" />
+<APIMethod name="FocusHandlers.onFocusStart()" />
+<APIMethod name="FocusHandlers.onFocusEnd()" />
+
 ## Tap
 
 <div>
