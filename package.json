@@ -19,7 +19,7 @@
         "chokidar-cli": "^2.0.0",
         "classnames": "^2.2.6",
         "framer": "^1.2.8",
-        "framer-motion": "2.9.0",
+        "framer-motion": "3.0.0",
         "jest": "^24.3.1",
         "lodash.escape": "^4.0.1",
         "monobase": "^3.3.1",
