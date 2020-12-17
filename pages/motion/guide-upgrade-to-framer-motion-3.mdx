@@ -65,8 +65,10 @@ This leads to a few behavioural changes:
 
 **Now**, if a value is removed, we check for it in the next highest-priority animation state. For instance, if `opacity` is removed from `whileHover`, Motion will check for it in `animate` and animate to that.
 
-If we don't find one in `animate`, it'll check in `style`, or fallback to its initially-recorded value (for instance if it had to read one from the DOM as none was defined).
+If we don't find one in `animate`, it'll check in `style`, or fallback to its initially-recorded value (for instance if the value was initially read from the DOM because none was explicitly defined).
 
 ## That's all!
 
-These are subtle changes that didn't re
+These are subtle changes that will probably not affect the majority of projects, but they're worth being aware of.
+
+Motion 3 seems much smaller in scope than 2, and it is! But it provides a much stronger base for variants and animation props going forward.
