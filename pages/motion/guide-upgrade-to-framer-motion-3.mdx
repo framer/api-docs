@@ -1,0 +1,72 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template("Upgrade to Framer Motion 3")
+
+# Upgrade to Motion 3
+
+<span className="lead">
+  How to upgrade Framer Motion from 2.x to 3.x
+</span>
+
+Framer Motion 3 is major release but the type of breaking change is very specific and very small. It's unlikely, though possible, to change the way your animations function.
+
+## The changing behaviour
+
+Motion 3 features a centralisation of how animation states are computed.
+
+All animation props are now ranked in terms of priority (left being lowest, right being highest).
+
+```javascript
+;["animate", "while-", "exit"]
+```
+
+When one of those props changes, or becomes active/inactive, we will recompute the necessary animations. This is an extension and codification of a behaviour that was partially implemented only for the `while` props, leading to a more consistent and predictable experience.
+
+This leads to a few behavioural changes:
+
+### Multi-variant props
+
+**Before**, only `animate` could accept a list of variants.
+
+```jsx
+<motion.div animate={["active", "warning"]} />
+```
+
+**Now**, all animation props can.
+
+```jsx
+<motion.div whileHover={["hover", "secondary"]} />
+```
+
+### Live animation props
+
+**Before**, `while-` props and `exit` were only animated to/from when those states became active/inactive. So any changes to `whileHover` while that gesture was active were ignored.
+
+**Now**, if the contents of `whileHover` or `exit` (etc) change while that state is active, that change will be respected and animated to.
+
+### Removing animation values
+
+**Before**, if a value was outright removed from an animation prop, nothing would happen.
+
+**Now**, if a value is removed, we check for it in the next highest-priority animation state. For instance, if `opacity` is removed from `whileHover`, Motion will check for it in `animate` and animate to that.
+
+If we don't find one in `animate`, it'll check in `style`, or fallback to its initially-recorded value (for instance if it had to read one from the DOM as none was defined).
+
+## That's all!
+
+These are subtle changes that didn't re
