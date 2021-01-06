@@ -5,11 +5,43 @@ import { config } from "dotenv"
 import algoliasearch from "algoliasearch"
 import { isProduction } from "../utils/isProduction"
 
+const PATH = "./build/api"
+const LIBRARY_URL = "/"
+const MOTION_URL = "/motion/"
+
 const parseAPI = async (files: string[] = []) => {
     const browser = await chromium.launch()
     const context = await browser.newContext()
     const page = await context.newPage()
+    const sidebarLinks: string[] = []
     const data = []
+
+    for (const url of [LIBRARY_URL, MOTION_URL]) {
+        const file = `${PATH}${url}index.html`
+        const content = await fs.readFile(file, "utf8")
+        await page.setContent(content)
+        await page.waitForLoadState()
+
+        const specificSidebarLinks = await page.evaluate(() => {
+            const toArray = (list: NodeList | HTMLCollection) => {
+                return list ? Array.from(list) : []
+            }
+
+            const sidebarItems = toArray(document.querySelectorAll("aside > ul > li > a"))
+
+            return sidebarItems
+                .map(sidebarItem => {
+                    return (sidebarItem as Element).getAttribute("href")
+                })
+                .filter(sidebarLink => sidebarLink) as string[]
+        })
+
+        sidebarLinks.push(...specificSidebarLinks)
+    }
+
+    files = files.filter(file => {
+        return sidebarLinks.some(sidebarLink => file.includes(`${sidebarLink}index.html`))
+    })
 
     for (const file of files) {
         const content = await fs.readFile(file, "utf8")
@@ -195,8 +227,6 @@ const parseAPI = async (files: string[] = []) => {
     return [].concat.apply([], data as [])
 }
 
-const PATH = "./build/"
-
 glob(
     `${PATH}/**/*.html`,
     {
@@ -204,11 +234,7 @@ glob(
             `${PATH}/**/404.html`,
             `${PATH}/**/404/*`,
             `${PATH}/index.html`,
-            `${PATH}/animation-deprecated/*`,
-            `${PATH}/changelog/*`,
-            `${PATH}/debug/*`,
             `${PATH}/examples/*`,
-            `${PATH}/frame-deprecated/*`,
             `${PATH}/tutorial/*`,
             `${PATH}/motion/index.html`,
             `${PATH}/motion/examples/*`,
@@ -216,6 +242,7 @@ glob(
     },
     async (_, files) => {
         config({ path: "./.env.local" })
+
         if (!process.env.ALGOLIA_PROJECT_ID || !process.env.ALGOLIA_PUSH_API_TOKEN) {
             console.error("Algolia environment variables are missing.")
         }
