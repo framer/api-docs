@@ -11,6 +11,7 @@ import groupBy from "lodash.groupby"
 import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
 import { decode } from "../../utils/decode"
+import { isMotion } from "../../utils/env"
 
 const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
 const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
@@ -362,6 +363,7 @@ const StaticSearch = () => {
             index
                 .search(value, {
                     hitsPerPage: 10,
+                    optionalFilters: [`library:${isMotion() ? "motion" : "library"}`],
                 })
                 .then(({ hits }) => {
                     setResults(hits as SearchResult[])
