@@ -77,7 +77,10 @@ const parseAPI = async (files: string[] = []) => {
             }
 
             const sanitizeInnerHTML = (innerHTML = "") => {
-                return innerHTML.replace(/\w+="[^"]+"/g, "").replace(/(<\w+)\s+(>)/g, "$1$2")
+                return innerHTML
+                    .replace(/\w+="[^"]+"/g, "")
+                    .replace(/(<\w+)\s+(>)/g, "$1$2")
+                    .replace(/<[^>]*>/g, "")
             }
 
             const getTextContent = (element: Element | null) => {
