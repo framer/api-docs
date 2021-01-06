@@ -259,7 +259,7 @@ const SearchResults: FC<SearchResults> = memo(
         }, [])
 
         // TODO: State → Recently viewed
-        // TODO: State → No results
+        // TODO: State → No results (offer to switch to results from the other library, e.g. No results on `motion`? Offer to view `library` results)
 
         return (
             <SearchResultsList>

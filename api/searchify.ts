@@ -3,6 +3,7 @@ import { promises as fs } from "fs"
 import { chromium } from "playwright"
 import { config } from "dotenv"
 import algoliasearch from "algoliasearch"
+import { isProduction } from "../utils/isProduction"
 
 const parseAPI = async (files: string[] = []) => {
     const browser = await chromium.launch()
@@ -224,7 +225,7 @@ glob(
                 process.env.ALGOLIA_PROJECT_ID as string,
                 process.env.ALGOLIA_PUSH_API_TOKEN as string
             )
-            const algoliaIndex = algoliaClient.initIndex("prod_API")
+            const algoliaIndex = algoliaClient.initIndex(isProduction() ? "prod_API" : "dev_API")
 
             const data = await parseAPI(files)
             await algoliaIndex.replaceAllObjects(data, {
