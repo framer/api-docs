@@ -10,6 +10,10 @@ import debounce from "lodash.debounce"
 import groupBy from "lodash.groupby"
 import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
+import { decode } from "../../utils/decode"
+
+const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
+const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
 
 interface SearchResults {
     categories: string[]
@@ -329,7 +333,7 @@ const variants: Variants = {
     },
 }
 
-const client = algoliasearch("", "")
+const client = algoliasearch(decode(ALGOLIA_PROJECT_ID), decode(ALGOLIA_API_TOKEN))
 const index = client.initIndex("prod_API")
 
 const StaticSearch = () => {
