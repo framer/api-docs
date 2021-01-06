@@ -54,7 +54,7 @@ const parseAPI = async (files: string[] = []) => {
             }
 
             const getPageURL = (file: string) => {
-                const page = file.replace("./build/", "").replace("index.html", "")
+                const page = file.replace("./build/api/", "").replace("index.html", "")
 
                 return `/api/${page}`
             }
