@@ -299,7 +299,9 @@ const SearchResults: FC<SearchResults> = memo(
                                                 {result.type === "subsection" && (
                                                     <>
                                                         <h6>
-                                                            <span>{result.secondaryTitle} › </span>
+                                                            {result.secondaryTitle && (
+                                                                <span>{result.secondaryTitle} › </span>
+                                                            )}
                                                             {result.title}
                                                         </h6>
                                                         <p>{result.description}</p>
