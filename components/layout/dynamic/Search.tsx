@@ -12,13 +12,13 @@ import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
 import { decode } from "../../utils/decode"
 import { isMotion } from "../../utils/env"
+import { getDeepValues } from "../../utils/getDeepValues"
 
 const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
 const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
 
 interface SearchResults {
-    categories: string[]
-    categorisedResults: Record<string, SearchResult[]>
+    categorisedResults: CategorisedResults
     indexedResults: SearchResult[]
     selectedResult: SearchResult
     onResultChange: (index: number) => void
@@ -42,6 +42,8 @@ interface SearchResult {
 interface SearchResultRecent extends SearchResult {
     lastViewed: number
 }
+
+type CategorisedResults = Record<SearchResultLibrary, Record<string, SearchResult[]>>
 
 const SearchWrapper = styled(motion.div)`
     position: fixed;
@@ -140,10 +142,20 @@ const SearchResultsList = styled(motion.ul)`
     list-style: none;
 `
 
-const SearchCategory = styled(motion.li)`
-    margin: 30px 30px 0;
+const SearchSection = styled(motion.li)`
+    padding: 30px;
 
-    &:last-child {
+    &:not(:last-of-type) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+`
+
+const SearchSectionResults = styled(motion.ul)`
+    list-style: none;
+`
+
+const SearchCategory = styled(motion.li)`
+    &:not(:last-of-type) {
         margin-bottom: 30px;
     }
 
@@ -251,8 +263,25 @@ const genericResults: SearchResult[] = [
     },
 ]
 
+const variants: Variants = {
+    visible: { opacity: 1 },
+    hidden: {
+        opacity: 0,
+    },
+}
+
+const libraryTitles: Record<SearchResultLibrary, string> = {
+    library: "Framer Library",
+    motion: "Framer Motion",
+}
+
+const flattenSearchResults = (categorisedResults: CategorisedResults): SearchResult[] => {
+    return getDeepValues(categorisedResults)
+}
+
 const SearchResults: FC<SearchResults> = memo(
-    ({ categories, categorisedResults, indexedResults, selectedResult, onResultChange }) => {
+    ({ categorisedResults, indexedResults, selectedResult, onResultChange }) => {
+        const sections = Object.entries(categorisedResults)
         const handleResultHover = useCallback(event => {
             const index = event.currentTarget.dataset.index
 
@@ -261,80 +290,87 @@ const SearchResults: FC<SearchResults> = memo(
 
         // TODO: State → Recently viewed
         // TODO: State → No results (offer to switch to results from the other library, e.g. No results on `motion`? Offer to view `library` results)
+        // TODO: Order library sections depending on if you're on / or /motion
 
         return (
             <SearchResultsList>
-                {categories.map((category: string) => {
-                    const categoryResults = categorisedResults[category]
+                {sections.map(([library, sectionResults]) => {
+                    const categories = Object.keys(sectionResults)
 
                     return (
-                        <SearchCategory key={category}>
-                            <h5>{category}</h5>
-                            <SearchCategoryResults>
-                                {categoryResults.map((result, index) => {
+                        <SearchSection key={library}>
+                            <SearchSectionResults>
+                                {categories.map((category: string) => {
+                                    const categoryResults = sectionResults[category]
+
                                     return (
-                                        <SearchResult
-                                            key={index}
-                                            className={clsx(result.type, { active: selectedResult === result })}
-                                            onPointerEnter={handleResultHover}
-                                            data-index={indexedResults.findIndex(
-                                                indexedResult => indexedResult === result
-                                            )}
-                                        >
-                                            <a href={result.href}>
-                                                {result.type === "page" && (
-                                                    <>
-                                                        <h6>
-                                                            <span>{result.secondaryTitle}</span>
-                                                            {result.title}
-                                                        </h6>
-                                                        <p>{result.description}</p>
-                                                    </>
-                                                )}
-                                                {result.type === "section" && (
-                                                    <>
-                                                        <h6>{result.title}</h6>
-                                                        <p>{result.description}</p>
-                                                    </>
-                                                )}
-                                                {result.type === "subsection" && (
-                                                    <>
-                                                        <h6>
-                                                            {result.secondaryTitle && (
-                                                                <span>{result.secondaryTitle} › </span>
+                                        <SearchCategory key={category}>
+                                            <h5>{category}</h5>
+                                            <SearchCategoryResults>
+                                                {categoryResults.map((result, index) => {
+                                                    return (
+                                                        <SearchResult
+                                                            key={index}
+                                                            className={clsx(result.type, {
+                                                                active: selectedResult === result,
+                                                            })}
+                                                            onPointerEnter={handleResultHover}
+                                                            data-index={indexedResults.findIndex(
+                                                                index => index === result
                                                             )}
-                                                            {result.title}
-                                                        </h6>
-                                                        <p>{result.description}</p>
-                                                    </>
-                                                )}
-                                                {result.type === "property" && (
-                                                    <>
-                                                        <h6>
-                                                            {result.title}: <span>{result.secondaryTitle}</span>
-                                                        </h6>
-                                                        <p>{result.description}</p>
-                                                    </>
-                                                )}
-                                            </a>
-                                        </SearchResult>
+                                                        >
+                                                            <a href={result.href}>
+                                                                {result.type === "page" && (
+                                                                    <>
+                                                                        <h6>
+                                                                            <span>{result.secondaryTitle}</span>
+                                                                            {result.title}
+                                                                        </h6>
+                                                                        <p>{result.description}</p>
+                                                                    </>
+                                                                )}
+                                                                {result.type === "section" && (
+                                                                    <>
+                                                                        <h6>{result.title}</h6>
+                                                                        <p>{result.description}</p>
+                                                                    </>
+                                                                )}
+                                                                {result.type === "subsection" && (
+                                                                    <>
+                                                                        <h6>
+                                                                            {result.secondaryTitle && (
+                                                                                <span>{result.secondaryTitle} › </span>
+                                                                            )}
+                                                                            {result.title}
+                                                                        </h6>
+                                                                        <p>{result.description}</p>
+                                                                    </>
+                                                                )}
+                                                                {result.type === "property" && (
+                                                                    <>
+                                                                        <h6>
+                                                                            {result.title}:{" "}
+                                                                            <span>{result.secondaryTitle}</span>
+                                                                        </h6>
+                                                                        <p>{result.description}</p>
+                                                                    </>
+                                                                )}
+                                                            </a>
+                                                        </SearchResult>
+                                                    )
+                                                })}
+                                            </SearchCategoryResults>
+                                        </SearchCategory>
                                     )
                                 })}
-                            </SearchCategoryResults>
-                        </SearchCategory>
+                            </SearchSectionResults>
+                        </SearchSection>
                     )
                 })}
             </SearchResultsList>
         )
     }
 )
-
-const variants: Variants = {
-    visible: { opacity: 1 },
-    hidden: {
-        opacity: 0,
-    },
-}
 
 const client = algoliasearch(decode(ALGOLIA_PROJECT_ID), decode(ALGOLIA_API_TOKEN))
 const index = client.initIndex("prod_API")
@@ -346,16 +382,21 @@ const StaticSearch = () => {
     const [open, setOpen] = useState(false)
     const openRef = useRef(open)
     const [results, setResults] = useState<SearchResult[]>([])
-    const categorisedResults = useMemo(() => groupBy(results, "page"), [results])
-    const categories = useMemo(() => Object.keys(categorisedResults) || [], [categorisedResults])
-    const indexedResults = useMemo(
-        () =>
-            categories.reduce((results: SearchResult[], category) => {
-                return [...results, ...categorisedResults[category]]
-            }, []),
-        [results, categorisedResults, categories]
-    )
-    const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(indexedResults)
+    const categorisedResults = useMemo(() => {
+        const libraryDividedResults = groupBy(results, "library") as Record<SearchResultLibrary, SearchResult[]>
+        const pageDividedResults: Partial<CategorisedResults> = {}
+
+        for (const [library, results] of Object.entries(libraryDividedResults) as [
+            SearchResultLibrary,
+            SearchResult[]
+        ][]) {
+            pageDividedResults[library] = groupBy(results, "page")
+        }
+
+        return pageDividedResults as CategorisedResults
+    }, [results])
+    const indexedResults = useMemo(() => flattenSearchResults(categorisedResults), [categorisedResults])
+    const [selectedResult, , previousResult, nextResult, setResult] = useIndexItem(indexedResults)
     const selectedResultRef = useRef(selectedResult)
 
     const search = useCallback(
@@ -403,7 +444,6 @@ const StaticSearch = () => {
                     setOpen(false)
                     break
                 case "Enter":
-                    setOpen(false)
                     window.location.href = selectedResultRef.current.href
                     break
             }
@@ -474,7 +514,6 @@ const StaticSearch = () => {
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults
-                            categories={categories}
                             categorisedResults={categorisedResults}
                             indexedResults={indexedResults}
                             selectedResult={selectedResult}

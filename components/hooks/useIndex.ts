@@ -10,11 +10,12 @@ const wrap = (value: number, min: number, max: number) => {
     return ((((value - min) % range) + range) % range) + min
 }
 
-type IndexOperator = (nudge?: number) => void
+export type IndexOperator = (nudge?: number) => void
 
-type IndexState<T = number> = [T, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>]
-
-export const useIndex = (range: number, initial = 0): IndexState => {
+export const useIndex = (
+    range: number,
+    initial = 0
+): [number, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>] => {
     const [index, setIndex] = useState(initial)
 
     useEffect(() => {
@@ -38,8 +39,11 @@ export const useIndex = (range: number, initial = 0): IndexState => {
     return [index, previousIndex, nextIndex, setIndex]
 }
 
-export const useIndexItem = <T>(items: T[]): IndexState<T> => {
-    const [index, ...indexOperators] = useIndex(items.length)
+export const useIndexItem = <T>(
+    items: T[],
+    initial = 0
+): [T, number, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>] => {
+    const [index, ...indexOperators] = useIndex(items.length, initial)
 
-    return [items[index], ...indexOperators]
+    return [items[index], index, ...indexOperators]
 }
