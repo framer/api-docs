@@ -220,61 +220,6 @@ const SearchResult = styled(motion.li)`
         text-overflow: ellipsis;
     }
 `
-/*
- * TODO: Library vs. Motion?
-
- * Result types:
- * - Page: Title (`h1`) and description (`span.lead`) → e.g. | Animation
- *                                                           | A set of properties and helpers for high-performance...
- *
- * - Section: Title (`h2`) and description (`h2 + p` or `h2 ~ h3`) → e.g. | Content
- *                                                                        | dragEnabled, wheelEnabled, direction...
- *
- *
- * - Subsection: Title (`{Section} > h3`) and description (`h3 + p`) → e.g. | Overview > **Transitions**
- *                                                                          | The transition for the values in animate...
- *
- * - Property: Title (Name: `.framer-property > h3` + Type: `.framer-property > h3 span:nth-of-type(1)`)
- *           and description (`.framer-property > p:nth-of-type(1)`) → e.g. | **ease:** Easing | Easing[]
- *                                                                          | The easing function to use. Set as one...
- */
-const genericResults: SearchResult[] = [
-    {
-        type: "page",
-        library: "library",
-        page: "Animation",
-        title: "Animation",
-        description: "A set of properties and helpers for high-performance, declarative animations.",
-        href: "/api/animation/",
-    },
-    {
-        type: "section",
-        library: "library",
-        page: "Scroll",
-        title: "Content",
-        description: "dragEnabled, wheelEnabled, direction, contentOffsetX, contentOffsetY, scrollAnimate.",
-        href: "/scroll/#content",
-    },
-    {
-        type: "subsection",
-        library: "library",
-        page: "Animation",
-        title: "Transitions",
-        secondaryTitle: "Overview",
-        description: "The transition for the values in animate can be set via the transition property.",
-        href: "/scroll/#content",
-    },
-    {
-        type: "property",
-        library: "library",
-        page: "Frame",
-        title: "width",
-        secondaryTitle: "number | string | MotionValue<number | string>",
-        description:
-            "Set the CSS width property. Set to 200 by default. Accepts all CSS value types (including pixels, percentages, keywords and more).",
-        href: "/api/frame/#framelayoutproperties.width",
-    },
-]
 
 const variants: Variants = {
     visible: { opacity: 1 },
@@ -298,7 +243,6 @@ const SearchResults: FC<SearchResults> = memo(
 
         // TODO: State → Recently viewed
         // TODO: State → No results (offer to switch to results from the other library, e.g. No results on `motion`? Offer to view `library` results)
-        // TODO: Order library sections depending on if you're on / or /motion
 
         return (
             <SearchResultsList>
