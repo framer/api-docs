@@ -375,7 +375,14 @@ const StaticSearch = () => {
             : (event as string)
 
         setValue(value)
-        search(value)
+
+        if (value) {
+            search(value)
+        } else {
+            setResults([])
+
+            search.cancel()
+        }
     }, [])
 
     const handleFocus = useCallback(() => {
