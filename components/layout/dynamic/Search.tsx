@@ -390,15 +390,19 @@ const StaticSearch = () => {
         if (openRef.current) {
             switch (event.key) {
                 case "ArrowUp":
+                    event.preventDefault()
                     previousResult()
                     break
                 case "ArrowDown":
+                    event.preventDefault()
                     nextResult()
                     break
                 case "Escape":
+                    event.preventDefault()
                     setOpen(false)
                     break
                 case "Enter":
+                    event.preventDefault()
                     setOpen(false)
                     window.location.href = selectedResultRef.current.href
                     break
