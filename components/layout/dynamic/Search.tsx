@@ -455,6 +455,7 @@ const StaticSearch = () => {
                     setOpen(false)
                     break
                 case "Enter":
+                    setOpen(false)
                     window.location.href = selectedResultRef.current.href
                     break
             }
