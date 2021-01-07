@@ -51,6 +51,16 @@ const parseAPI = async (files: string[] = []) => {
         const pageData = await page.evaluate((file: string) => {
             const functionRegex = /\s*(\w+)\s*\((.*)\)[: ]+(.*)/i
 
+            const decode = (string: string | undefined) => {
+                if (string) {
+                    const parser = new DOMParser().parseFromString(string, "text/html")
+
+                    return parser.documentElement.textContent
+                } else {
+                    return string
+                }
+            }
+
             const toArray = (list: NodeList | HTMLCollection) => {
                 return list ? Array.from(list) : []
             }
@@ -112,7 +122,7 @@ const parseAPI = async (files: string[] = []) => {
                 const permalinkElement = element.querySelector("[data-permalink-path]")
                 const permalink = permalinkElement ? permalinkElement.getAttribute("data-permalink-path") : undefined
 
-                return [textContent, permalink]
+                return [decode(textContent), permalink]
             }
 
             const parsePropertyPermalink = (element: Element | null) => {
@@ -129,7 +139,7 @@ const parseAPI = async (files: string[] = []) => {
                 const additionalElement = element.querySelector(".addition")
                 const addition = additionalElement ? (additionalElement.textContent || "").trim() : undefined
 
-                return [textContent, addition, permalink]
+                return [decode(textContent), addition, permalink]
             }
 
             const data = []
