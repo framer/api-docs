@@ -13,6 +13,7 @@ import { useIndexItem } from "../../hooks/useIndex"
 import { decode } from "../../utils/decode"
 import { isMotion } from "../../utils/env"
 import { getDeepValues } from "../../utils/getDeepValues"
+import { Logo } from "../Logo"
 
 const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
 const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
@@ -160,12 +161,24 @@ const SearchCategory = styled(motion.li)`
     }
 
     h5 {
+        display: inline-flex;
+        place-content: center;
         text-transform: uppercase;
         font-size: 10px;
         font-weight: 500;
         color: #aaa;
         letter-spacing: 0.5px;
         margin-bottom: 15px;
+    }
+`
+
+const CategoryLogo = styled(Logo)`
+    color: inherit;
+    margin-right: 0.68em;
+    transform: translateY(12%);
+
+    path {
+        fill: currentColor;
     }
 `
 
@@ -270,11 +283,6 @@ const variants: Variants = {
     },
 }
 
-const libraryTitles: Record<SearchResultLibrary, string> = {
-    library: "Framer Library",
-    motion: "Framer Motion",
-}
-
 const flattenSearchResults = (categorisedResults: CategorisedResults): SearchResult[] => {
     return getDeepValues(categorisedResults)
 }
@@ -305,7 +313,10 @@ const SearchResults: FC<SearchResults> = memo(
 
                                     return (
                                         <SearchCategory key={category}>
-                                            <h5>{category}</h5>
+                                            <h5>
+                                                <CategoryLogo library={library as SearchResultLibrary} height={10} />
+                                                <span>{category}</span>
+                                            </h5>
                                             <SearchCategoryResults>
                                                 {categoryResults.map((result, index) => {
                                                     return (

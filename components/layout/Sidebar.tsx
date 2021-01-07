@@ -7,6 +7,7 @@ import { version as libraryVersion } from "framer/package.json"
 import { version as motionVersion } from "framer-motion/package.json"
 import { isMotion } from "../utils/env"
 import { DynamicMobileToggle } from "./dynamic/MobileToggle"
+import { Logo } from "./Logo"
 
 const libraryUrl = "/api/"
 const motionUrl = "/api/motion/"
@@ -161,15 +162,7 @@ export const Sidebar: React.FunctionComponent = () => (
             <Header>
                 <Home href={isMotion() ? motionUrl : libraryUrl}>
                     <Icon>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${isMotion() ? 13 : 10} 15`} height={15}>
-                            <path
-                                d={
-                                    isMotion()
-                                        ? "M0 14V1l6.5 6.5L13 1v13l-3.25-3.25L6.5 14l-3.25-3.25z"
-                                        : "M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z"
-                                }
-                            />
-                        </svg>
+                        <Logo />
                     </Icon>
                     <span>API</span>
                 </Home>
