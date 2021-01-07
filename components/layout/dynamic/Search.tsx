@@ -25,7 +25,7 @@ interface SearchResults {
     onResultChange: (index: number) => void
 }
 
-type SearchResultType = "page" | "section" | "subsection" | "property"
+type SearchResultType = "page" | "section" | "subsection" | "property" | "function"
 
 type SearchResultLibrary = "library" | "motion"
 
@@ -36,6 +36,7 @@ interface SearchResult {
     page: string
     title: string
     secondaryTitle?: string
+    tertiaryTitle?: string
     description: string
     href: string
 }
@@ -305,6 +306,15 @@ const SearchResults: FC<SearchResults> = memo(
                                                                     <>
                                                                         <h6>
                                                                             {result.title}:{" "}
+                                                                            <span>{result.secondaryTitle}</span>
+                                                                        </h6>
+                                                                        <p>{result.description}</p>
+                                                                    </>
+                                                                )}
+                                                                {result.type === "function" && (
+                                                                    <>
+                                                                        <h6>
+                                                                            {result.title}({result.tertiaryTitle}):{" "}
                                                                             <span>{result.secondaryTitle}</span>
                                                                         </h6>
                                                                         <p>{result.description}</p>

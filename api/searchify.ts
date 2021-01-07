@@ -49,6 +49,8 @@ const parseAPI = async (files: string[] = []) => {
         await page.waitForLoadState()
 
         const pageData = await page.evaluate((file: string) => {
+            const functionRegex = /\s*(\w+)\s*\((.*)\)[: ]+(.*)/i
+
             const toArray = (list: NodeList | HTMLCollection) => {
                 return list ? Array.from(list) : []
             }
@@ -81,6 +83,10 @@ const parseAPI = async (files: string[] = []) => {
                     .replace(/\w+="[^"]+"/g, "")
                     .replace(/(<\w+)\s+(>)/g, "$1$2")
                     .replace(/<[^>]*>/g, "")
+            }
+
+            const capitalize = (string: string) => {
+                return string.charAt(0).toUpperCase() + string.slice(1)
             }
 
             const getTextContent = (element: Element | null) => {
@@ -141,7 +147,7 @@ const parseAPI = async (files: string[] = []) => {
                 library: pageLibrary,
                 page: pageTitle,
                 title: pageTitle,
-                description: pageDescription ? sanitizeInnerHTML(pageDescription.innerHTML) : undefined,
+                description: pageDescription ? capitalize(sanitizeInnerHTML(pageDescription.innerHTML)) : undefined,
                 href: pageURL,
             })
 
@@ -154,13 +160,13 @@ const parseAPI = async (files: string[] = []) => {
                 const [title, permalink] = parsePermalink(section.querySelector("h2"))
                 const description = section.querySelector("p")
 
-                if (permalink && description) {
+                if (title && permalink && description) {
                     data.push({
                         type: "section",
                         library: pageLibrary,
                         page: pageTitle,
                         title: title,
-                        description: sanitizeInnerHTML(description.innerHTML),
+                        description: capitalize(sanitizeInnerHTML(description.innerHTML)),
                         href: permalink,
                     })
                 }
@@ -185,38 +191,60 @@ const parseAPI = async (files: string[] = []) => {
                     parent = getTextContent(parentElement)
                 }
 
-                if (permalink && description) {
+                if (title && permalink && description) {
                     data.push({
                         type: "subsection",
                         library: pageLibrary,
                         page: pageTitle,
                         title: title,
                         secondaryTitle: parent,
-                        description: sanitizeInnerHTML(description.innerHTML),
+                        description: capitalize(sanitizeInnerHTML(description.innerHTML)),
                         href: permalink,
                     })
                 }
             }
 
             /*
-             * Properties
+             * Properties and functions
              */
-            const properties = toArray(document.querySelectorAll(".framer-variable, .framer-method, .framer-property"))
+            const properties = toArray(
+                document.querySelectorAll(".framer-variable, .framer-function, .framer-method, .framer-property")
+            )
 
             for (const property of properties as Element[]) {
                 const [title, secondaryTitle, permalink] = parsePropertyPermalink(property.querySelector("h3"))
                 const description = property.querySelector("[data-tsdoc-ref] > p")
 
-                if (permalink && description) {
-                    data.push({
-                        type: "property",
-                        library: pageLibrary,
-                        page: pageTitle,
-                        title: title,
-                        secondaryTitle: secondaryTitle,
-                        description: sanitizeInnerHTML(description.innerHTML),
-                        href: permalink,
-                    })
+                if (title && permalink && description) {
+                    if (functionRegex.test(title)) {
+                        const [, functionTitle, functionParameters, functionReturn] = title.match(functionRegex) || [
+                            null,
+                            null,
+                            null,
+                            null,
+                        ]
+
+                        data.push({
+                            type: "function",
+                            library: pageLibrary,
+                            page: pageTitle,
+                            title: functionTitle,
+                            secondaryTitle: functionReturn,
+                            tertiaryTitle: functionParameters,
+                            description: capitalize(sanitizeInnerHTML(description.innerHTML)),
+                            href: permalink,
+                        })
+                    } else {
+                        data.push({
+                            type: "property",
+                            library: pageLibrary,
+                            page: pageTitle,
+                            title: title,
+                            secondaryTitle: secondaryTitle,
+                            description: capitalize(sanitizeInnerHTML(description.innerHTML)),
+                            href: permalink,
+                        })
+                    }
                 }
             }
 
