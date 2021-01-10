@@ -52,7 +52,7 @@ const parseAPI = async (files: string[] = []) => {
             const propertyRegex = /([^:]+)[: ]+(.*)/
             const functionRegex = /\s*(\w+)\s*\((.*)\)[: ]+(.*)/
 
-            const decode = (string: string | undefined) => {
+            const decode = (string: string | null | undefined) => {
                 if (string) {
                     const parser = new DOMParser().parseFromString(string, "text/html")
 
@@ -240,8 +240,8 @@ const parseAPI = async (files: string[] = []) => {
                             library: pageLibrary,
                             page: pageTitle,
                             title: functionTitle,
-                            secondaryTitle: functionReturn,
-                            tertiaryTitle: functionParameters,
+                            secondaryTitle: decode(functionReturn),
+                            tertiaryTitle: decode(functionParameters),
                             description: capitalize(sanitizeInnerHTML(description.innerHTML)),
                             href: permalink,
                         })
@@ -252,8 +252,8 @@ const parseAPI = async (files: string[] = []) => {
                             type: "property",
                             library: pageLibrary,
                             page: pageTitle,
-                            title: propertyTitle ?? title,
-                            secondaryTitle: propertyReturn ?? secondaryTitle,
+                            title: decode(propertyTitle ?? title),
+                            secondaryTitle: decode(propertyReturn ?? secondaryTitle),
                             description: capitalize(sanitizeInnerHTML(description.innerHTML)),
                             href: permalink,
                         })
