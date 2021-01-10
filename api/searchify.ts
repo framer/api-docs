@@ -49,7 +49,8 @@ const parseAPI = async (files: string[] = []) => {
         await page.waitForLoadState()
 
         const pageData = await page.evaluate((file: string) => {
-            const functionRegex = /\s*(\w+)\s*\((.*)\)[: ]+(.*)/i
+            const propertyRegex = /([^:]+)[: ]+(.*)/
+            const functionRegex = /\s*(\w+)\s*\((.*)\)[: ]+(.*)/
 
             const decode = (string: string | undefined) => {
                 if (string) {
@@ -245,12 +246,14 @@ const parseAPI = async (files: string[] = []) => {
                             href: permalink,
                         })
                     } else {
+                        const [, propertyTitle, propertyReturn] = title.match(propertyRegex) || [null, null, null]
+
                         data.push({
                             type: "property",
                             library: pageLibrary,
                             page: pageTitle,
-                            title: title,
-                            secondaryTitle: secondaryTitle,
+                            title: propertyTitle ?? title,
+                            secondaryTitle: propertyReturn ?? secondaryTitle,
                             description: capitalize(sanitizeInnerHTML(description.innerHTML)),
                             href: permalink,
                         })
