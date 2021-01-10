@@ -242,9 +242,6 @@ const SearchResults: FC<SearchResults> = memo(
             onResultChange && onResultChange(index)
         }, [])
 
-        // TODO: State → Recently viewed
-        // TODO: State → No results (offer to switch to results from the other library, e.g. No results on `motion`? Offer to view `library` results)
-
         return (
             <SearchResultsList>
                 {sections.map(([library, sectionResults]) => {
