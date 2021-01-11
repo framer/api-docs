@@ -268,22 +268,21 @@ const SearchResultReturn = styled.div`
     }
 `
 
-const SearchKey = styled.div`
+const SearchInputKey = styled.button`
+    all: unset;
     color: #999;
     box-shadow: inset 0 0 0 1px #eee;
     padding: 4px 9px 2px;
     border-radius: 6px;
     font-weight: 500;
     font-size: 12px;
-    pointer-events: none;
-`
-
-const SearchInputKey = styled(SearchKey)`
     position: absolute;
     top: 17px;
     right: 18px;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    pointer-events: all;
+    cursor: pointer;
 
     &.is-open {
         opacity: 1;
@@ -479,8 +478,6 @@ const StaticSearch = () => {
                 filters.push(`page:${page}`)
             }
 
-            console.log(filters)
-
             index
                 .search(value, {
                     hitsPerPage: 10,
@@ -514,7 +511,7 @@ const StaticSearch = () => {
         setOpen(true)
     }, [])
 
-    const handleClickOutside = useCallback(() => {
+    const handleClose = useCallback(() => {
         setOpen(false)
     }, [])
 
@@ -575,7 +572,7 @@ const StaticSearch = () => {
         selectedResultRef.current = selectedResult
     }, [selectedResult])
 
-    useClickOutside(wrapperRef, handleClickOutside)
+    useClickOutside(wrapperRef, handleClose)
 
     return (
         <SearchWrapper>
@@ -603,7 +600,9 @@ const StaticSearch = () => {
                     type="search"
                     placeholder="Start typing to search…"
                 />
-                <SearchInputKey className={open ? "is-open" : ""}>esc</SearchInputKey>
+                <SearchInputKey className={clsx({ "is-open": open })} onClick={handleClose}>
+                    esc
+                </SearchInputKey>
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults
