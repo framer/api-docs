@@ -99,7 +99,7 @@ const SearchInput = styled.input`
     font-size: 1rem;
     width: 100%;
     height: 100%;
-    padding: 16px 20px 14px 46px;
+    padding: 16px 72px 14px 46px;
     background-color: #fff;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M7 13A6 6 0 107 1a6 6 0 000 12z' fill='transparent' stroke-width='2' stroke='%23ccc' /%3E%3Cpath d='M11.5 11.5L15 15' fill='transparent' stroke-width='2' stroke='%23ccc' stroke-linecap='round' /%3E%3C/svg%3E");
     background-size: 16px;
@@ -188,6 +188,7 @@ const SearchCategoryResults = styled(motion.ul)`
 `
 
 const SearchResult = styled(motion.li)`
+    position: relative;
     color: #111;
 
     &.active {
@@ -220,6 +221,44 @@ const SearchResult = styled(motion.li)`
         overflow: hidden;
         text-overflow: ellipsis;
     }
+`
+
+const SearchKey = styled.div`
+    color: #999;
+    box-shadow: inset 0 0 0 1px #eee;
+    padding: 4px 9px 2px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+    pointer-events: none;
+`
+
+const SearchInputKey = styled(SearchKey)`
+    position: absolute;
+    top: 17px;
+    right: 18px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+
+    &.is-open {
+        opacity: 1;
+    }
+`
+
+const SearchResultKeyContainer = styled.div`
+    display: flex;
+    place-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 92px;
+    height: 100%;
+    background: linear-gradient(-90deg, #fff 50%, rgba(255, 255, 255, 0));
+`
+
+const SearchResultKey = styled(SearchKey)`
+    padding: 6px 10px 0px;
 `
 
 const variants: Variants = {
@@ -261,11 +300,13 @@ const SearchResults: FC<SearchResults> = memo(
                                             </h5>
                                             <SearchCategoryResults>
                                                 {categoryResults.map((result, index) => {
+                                                    const isActive = selectedResult === result
+
                                                     return (
                                                         <SearchResult
                                                             key={index}
                                                             className={clsx(result.type, {
-                                                                active: selectedResult === result,
+                                                                active: isActive,
                                                             })}
                                                             onPointerEnter={handleResultHover}
                                                             data-index={indexedResults.findIndex(
@@ -318,6 +359,11 @@ const SearchResults: FC<SearchResults> = memo(
                                                                     </>
                                                                 )}
                                                             </a>
+                                                            {isActive && (
+                                                                <SearchResultKeyContainer>
+                                                                    <SearchResultKey>↩</SearchResultKey>
+                                                                </SearchResultKeyContainer>
+                                                            )}
                                                         </SearchResult>
                                                     )
                                                 })}
@@ -485,6 +531,7 @@ const StaticSearch = () => {
                     type="search"
                     placeholder="Start typing to search…"
                 />
+                <SearchInputKey className={open ? "is-open" : ""}>esc</SearchInputKey>
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults
