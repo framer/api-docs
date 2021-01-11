@@ -293,6 +293,18 @@ const variants: Variants = {
     },
 }
 
+const getPage = () => {
+    const title = document.title
+
+    if (title.includes("|")) {
+        const [, page] = title.match(/.* \| (.*)/) || [null, null]
+
+        return page
+    } else {
+        return null
+    }
+}
+
 const flattenSearchResults = (categorisedResults: CategorisedResults): SearchResult[] => {
     return getDeepValues(categorisedResults)
 }
@@ -456,10 +468,19 @@ const StaticSearch = () => {
 
     const search = useCallback(
         debounce((value: string) => {
+            const page = getPage()
+            const filters = [`library:${isMotion() ? "motion" : "library"}`]
+
+            if (page) {
+                filters.push(`page:${page}`)
+            }
+
+            console.log(filters)
+
             index
                 .search(value, {
                     hitsPerPage: 10,
-                    optionalFilters: [`library:${isMotion() ? "motion" : "library"}`],
+                    optionalFilters: filters,
                 })
                 .then(({ hits }) => {
                     setResults(hits as SearchResult[])
