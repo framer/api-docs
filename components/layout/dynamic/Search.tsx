@@ -225,6 +225,13 @@ const SearchResult = styled(motion.li)`
         margin-bottom: 32px;
     }
 
+    h6,
+    p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     h6 {
         font-size: 16px;
         font-weight: 500;
@@ -240,9 +247,6 @@ const SearchResult = styled(motion.li)`
         font-size: 15px;
         line-height: 1;
         opacity: 0.7;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 `
 
