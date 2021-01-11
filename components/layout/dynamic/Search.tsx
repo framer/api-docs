@@ -145,7 +145,7 @@ const SearchResultsList = styled(motion.ul)`
 `
 
 const SearchSection = styled(motion.li)`
-    padding: 30px;
+    padding: 32px;
 
     &:not(:last-of-type) {
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -158,7 +158,7 @@ const SearchSectionResults = styled(motion.ul)`
 
 const SearchCategory = styled(motion.li)`
     &:not(:last-of-type) {
-        margin-bottom: 30px;
+        margin-bottom: 32px;
     }
 
     h5 {
@@ -169,7 +169,7 @@ const SearchCategory = styled(motion.li)`
         font-weight: 500;
         color: #aaa;
         letter-spacing: 0.5px;
-        margin-bottom: 15px;
+        margin-bottom: 22px;
     }
 `
 
@@ -189,24 +189,46 @@ const SearchCategoryResults = styled(motion.ul)`
 
 const SearchResult = styled(motion.li)`
     position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
     color: #111;
 
+    &:before {
+        content: "";
+        position: absolute;
+        top: -16px;
+        bottom: -16px;
+        left: -16px;
+        right: -16px;
+        border-radius: 12px;
+        z-index: 0;
+    }
+
     &.active {
-        color: var(--accent);
+        color: #fff;
+
+        &.library:before {
+            background: var(--library);
+        }
+
+        &.motion:before {
+            background: var(--motion);
+        }
     }
 
     a {
         color: inherit;
+        z-index: 1;
     }
 
     &:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 32px;
     }
 
     h6 {
         font-size: 16px;
         font-weight: 500;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
 
         span {
             font-weight: 400;
@@ -216,10 +238,29 @@ const SearchResult = styled(motion.li)`
 
     p {
         font-size: 15px;
+        line-height: 1;
         opacity: 0.7;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+`
+
+const SearchResultReturn = styled.div`
+    display: flex;
+    place-content: center;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    align-self: center;
+    background: rgba(255, 255, 255, 0.3);
+    margin-left: 16px;
+    z-index: 1;
+
+    svg {
+        height: 14px;
+        margin-right: 2px;
     }
 `
 
@@ -243,22 +284,6 @@ const SearchInputKey = styled(SearchKey)`
     &.is-open {
         opacity: 1;
     }
-`
-
-const SearchResultKeyContainer = styled.div`
-    display: flex;
-    place-items: center;
-    justify-content: flex-end;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 92px;
-    height: 100%;
-    background: linear-gradient(-90deg, #fff 50%, rgba(255, 255, 255, 0));
-`
-
-const SearchResultKey = styled(SearchKey)`
-    padding: 6px 10px 0px;
 `
 
 const variants: Variants = {
@@ -301,12 +326,15 @@ const SearchResults: FC<SearchResults> = memo(
                                             <SearchCategoryResults>
                                                 {categoryResults.map((result, index) => {
                                                     const isActive = selectedResult === result
+                                                    const isMotion = result.library === "motion"
 
                                                     return (
                                                         <SearchResult
                                                             key={index}
                                                             className={clsx(result.type, {
                                                                 active: isActive,
+                                                                motion: isMotion,
+                                                                library: !isMotion,
                                                             })}
                                                             onPointerEnter={handleResultHover}
                                                             data-index={indexedResults.findIndex(
@@ -360,9 +388,28 @@ const SearchResults: FC<SearchResults> = memo(
                                                                 )}
                                                             </a>
                                                             {isActive && (
-                                                                <SearchResultKeyContainer>
-                                                                    <SearchResultKey>↩</SearchResultKey>
-                                                                </SearchResultKeyContainer>
+                                                                <SearchResultReturn>
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 14 14"
+                                                                    >
+                                                                        <path
+                                                                            d="M12.25 1.5v3.75a3 3 0 01-3 3H3"
+                                                                            fill="transparent"
+                                                                            strokeWidth="1.5"
+                                                                            stroke="#fff"
+                                                                            strokeLinecap="round"
+                                                                            strokeLinejoin="round"
+                                                                        />
+                                                                        <path
+                                                                            d="M6 4.25l-4 4 4 4"
+                                                                            fill="transparent"
+                                                                            strokeWidth="1.5"
+                                                                            stroke="#fff"
+                                                                            strokeLinecap="round"
+                                                                        />
+                                                                    </svg>
+                                                                </SearchResultReturn>
                                                             )}
                                                         </SearchResult>
                                                     )
