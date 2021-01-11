@@ -18,6 +18,7 @@
         "@types/react": "^16.8.2",
         "@types/react-dom": "^16.8.0",
         "@types/react-test-renderer": "^16.8.1",
+        "@types/styled-components": "^5.1.7",
         "chalk": "^2.4.2",
         "cheerio": "^1.0.0-rc.2",
         "chokidar-cli": "^2.0.0",
@@ -42,6 +43,7 @@
         "algoliasearch": "^4.8.3",
         "lodash.debounce": "^4.0.8",
         "lodash.groupby": "^4.6.0",
-        "lodash.isplainobject": "^4.0.6"
+        "lodash.isplainobject": "^4.0.6",
+        "styled-components": "^5.2.1"
     }
 }
