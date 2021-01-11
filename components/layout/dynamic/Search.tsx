@@ -535,15 +535,15 @@ const StaticSearch = () => {
     }, [])
 
     useEffect(() => {
+        openRef.current = open
+
         if (open) {
             inputRef.current && inputRef.current.focus()
+            document.documentElement.setAttribute("data-scroll", "false")
         } else {
             inputRef.current && inputRef.current.blur()
+            document.documentElement.removeAttribute("data-scroll")
         }
-    }, [open])
-
-    useEffect(() => {
-        openRef.current = open
     }, [open])
 
     useEffect(() => {

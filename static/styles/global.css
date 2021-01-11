@@ -5,6 +5,11 @@ body {
     overflow-x: hidden;
 }
 
+html[data-scroll="false"],
+html[data-scroll="false"] body {
+    overflow-y: hidden;
+}
+
 *[id] {
     scroll-margin-top: 58px;
 }
