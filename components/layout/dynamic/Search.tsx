@@ -18,13 +18,6 @@ import { Logo } from "../Logo"
 const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
 const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
 
-interface SearchResults {
-    categorisedResults: CategorisedResults
-    indexedResults: SearchResult[]
-    selectedResult: SearchResult
-    onResultChange: (index: number) => void
-}
-
 type SearchResultType = "page" | "section" | "subsection" | "property" | "function"
 
 type SearchResultLibrary = "library" | "motion"
@@ -41,11 +34,33 @@ interface SearchResult {
     href: string
 }
 
-interface SearchResultRecent extends SearchResult {
-    lastViewed: number
+type CategorisedResults = Record<SearchResultLibrary, Record<string, SearchResult[]>>
+
+interface SearchResultProps {
+    index: number
+    result: SearchResult
+    selectedResult: SearchResult
+    onResultChange: (index: number) => void
 }
 
-type CategorisedResults = Record<SearchResultLibrary, Record<string, SearchResult[]>>
+interface SearchResultsProps {
+    value: string
+    suggestedResults: SearchResult[]
+    selectedSuggestedResult: SearchResult
+    onSuggestedResultChange: (index: number) => void
+    categorisedResults: CategorisedResults
+    indexedResults: SearchResult[]
+    selectedResult: SearchResult
+    noResults: boolean
+    onResultChange: (index: number) => void
+}
+
+interface SearchNoResultsProps {
+    value: string
+    suggestedResults: SearchResult[]
+    selectedResult: SearchResult
+    onResultChange: (index: number) => void
+}
 
 const SearchWrapper = styled(motion.div)`
     position: fixed;
@@ -152,6 +167,22 @@ const SearchSection = styled(motion.li)`
     }
 `
 
+const SearchEmptySection = styled(SearchSection)`
+    p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: -3px;
+        color: #aaa;
+
+        span {
+            color: #111;
+        }
+    }
+`
+
 const SearchSectionResults = styled(motion.ul)`
     list-style: none;
 `
@@ -187,7 +218,7 @@ const SearchCategoryResults = styled(motion.ul)`
     list-style: none;
 `
 
-const SearchResult = styled(motion.li)`
+const SearchResultContainer = styled(motion.li)`
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) max-content;
@@ -296,6 +327,83 @@ const variants: Variants = {
     },
 }
 
+const librarySuggestedResults: SearchResult[] = [
+    {
+        type: "property",
+        library: "library",
+        page: "Frame",
+        title: "animate",
+        secondaryTitle: "AnimationControls | TargetAndTransition | VariantLabels | boolean",
+        description: "Values to animate to, variant label(s), or AnimationControls.",
+        href: "/api/frame/#animationprops.animate",
+    },
+    {
+        type: "property",
+        library: "library",
+        page: "Frame",
+        title: "drag",
+        secondaryTitle: 'boolean | "x" | "y"',
+        description:
+            'Enable dragging for this element. Set to false by default. Set true to drag in both directions. Set "x" or "y" to only drag in a specific direction.',
+        href: "/api/frame/#draggableprops.drag",
+    },
+    {
+        type: "page",
+        library: "library",
+        page: "Scroll",
+        title: "Scroll",
+        description: "Create scrollable areas for desktop or mobile, with mouse and touch-based input support.",
+        href: "/api/scroll/",
+    },
+    {
+        type: "page",
+        library: "library",
+        page: "Property Controls",
+        title: "Property Controls",
+        description: "Add controls to your components to allow customization via the Framer interface.",
+        href: "/api/property-controls/",
+    },
+]
+
+const motionSuggestedResults: SearchResult[] = [
+    {
+        type: "page",
+        library: "motion",
+        page: "Motion components",
+        title: "Motion components",
+        description: "Motion components are DOM primitives optimised for 60fps animation and gestures.",
+        href: "/api/motion/component/",
+    },
+    {
+        type: "page",
+        library: "motion",
+        page: "MotionValue",
+        title: "MotionValue",
+        description: "MotionValues track the state and velocity of animating values.",
+        href: "/api/motion/motionvalue/",
+    },
+    {
+        type: "subsection",
+        library: "motion",
+        page: "Animation",
+        title: "Scale correction",
+        secondaryTitle: "Layout animations",
+        description:
+            "All layout animations are performed using the transform property, resulting in smooth framerates.",
+        href: "/api/motion/animation/#scale-correction",
+    },
+    {
+        type: "function",
+        library: "motion",
+        page: "MotionValue",
+        title: "useSpring",
+        secondaryTitle: "MotionValue",
+        tertiaryTitle: "source, config",
+        description: "Creates a MotionValue that, when set, will use a spring animation to animate to its new state.",
+        href: "/api/motion/motionvalue/#usespring",
+    },
+]
+
 const getPage = () => {
     const title = document.title
 
@@ -312,131 +420,191 @@ const flattenSearchResults = (categorisedResults: CategorisedResults): SearchRes
     return getDeepValues(categorisedResults)
 }
 
-const SearchResults: FC<SearchResults> = memo(
-    ({ categorisedResults, indexedResults, selectedResult, onResultChange }) => {
-        const sections = Object.entries(categorisedResults)
-        const handleResultHover = useCallback(event => {
-            const index = event.currentTarget.dataset.index
+const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, onResultChange }) => {
+    const isActive = selectedResult === result
+    const isMotion = result.library === "motion"
 
-            onResultChange && onResultChange(index)
-        }, [])
+    const handleResultHover = useCallback(event => {
+        const index = event.currentTarget.dataset.index
+
+        onResultChange && onResultChange(index)
+    }, [])
+
+    return (
+        <SearchResultContainer
+            className={clsx(result.type, {
+                active: isActive,
+                motion: isMotion,
+                library: !isMotion,
+            })}
+            onPointerEnter={handleResultHover}
+            data-index={index}
+        >
+            <a href={result.href}>
+                {result.type === "page" && (
+                    <>
+                        <h6>
+                            <span>{result.secondaryTitle}</span>
+                            {result.title}
+                        </h6>
+                        <p>{result.description}</p>
+                    </>
+                )}
+                {result.type === "section" && (
+                    <>
+                        <h6>{result.title}</h6>
+                        <p>{result.description}</p>
+                    </>
+                )}
+                {result.type === "subsection" && (
+                    <>
+                        <h6>
+                            {result.secondaryTitle && <span>{result.secondaryTitle} › </span>}
+                            {result.title}
+                        </h6>
+                        <p>{result.description}</p>
+                    </>
+                )}
+                {result.type === "property" && (
+                    <>
+                        <h6>
+                            {result.title}: <span>{result.secondaryTitle}</span>
+                        </h6>
+                        <p>{result.description}</p>
+                    </>
+                )}
+                {result.type === "function" && (
+                    <>
+                        <h6>
+                            {result.title}({result.tertiaryTitle}
+                            ): <span>{result.secondaryTitle}</span>
+                        </h6>
+                        <p>{result.description}</p>
+                    </>
+                )}
+            </a>
+            {isActive && (
+                <SearchResultReturn>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                        <path
+                            d="M12.25 1.5v3.75a3 3 0 01-3 3H3"
+                            fill="transparent"
+                            strokeWidth="1.5"
+                            stroke="#fff"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                        <path
+                            d="M6 4.25l-4 4 4 4"
+                            fill="transparent"
+                            strokeWidth="1.5"
+                            stroke="#fff"
+                            strokeLinecap="round"
+                        />
+                    </svg>
+                </SearchResultReturn>
+            )}
+        </SearchResultContainer>
+    )
+}
+
+const SearchNoResults: FC<SearchNoResultsProps> = ({ value, suggestedResults, selectedResult, onResultChange }) => {
+    return (
+        <>
+            {value && (
+                <SearchEmptySection>
+                    <p>
+                        No results for “<span>{value}</span>”.
+                    </p>
+                </SearchEmptySection>
+            )}
+            <SearchSection>
+                <SearchCategory>
+                    <h5>Suggestions</h5>
+                    <SearchCategoryResults>
+                        {suggestedResults.map((result, index) => {
+                            return (
+                                <SearchResult
+                                    key={index}
+                                    index={index}
+                                    result={result}
+                                    selectedResult={selectedResult}
+                                    onResultChange={onResultChange}
+                                />
+                            )
+                        })}
+                    </SearchCategoryResults>
+                </SearchCategory>
+            </SearchSection>
+        </>
+    )
+}
+
+const SearchResults: FC<SearchResultsProps> = memo(
+    ({
+        value,
+        categorisedResults,
+        indexedResults,
+        selectedResult,
+        onResultChange,
+        noResults,
+        suggestedResults,
+        selectedSuggestedResult,
+        onSuggestedResultChange,
+    }) => {
+        const sections = Object.entries(categorisedResults)
 
         return (
             <SearchResultsList>
-                {sections.map(([library, sectionResults]) => {
-                    const categories = Object.keys(sectionResults)
+                {noResults ? (
+                    <SearchNoResults
+                        value={value}
+                        suggestedResults={suggestedResults}
+                        selectedResult={selectedSuggestedResult}
+                        onResultChange={onSuggestedResultChange}
+                    />
+                ) : (
+                    sections.map(([library, sectionResults]) => {
+                        const categories = Object.keys(sectionResults)
 
-                    return (
-                        <SearchSection key={library}>
-                            <SearchSectionResults>
-                                {categories.map((category: string) => {
-                                    const categoryResults = sectionResults[category]
+                        return (
+                            <SearchSection key={library}>
+                                <SearchSectionResults>
+                                    {categories.map((category: string) => {
+                                        const categoryResults = sectionResults[category]
 
-                                    return (
-                                        <SearchCategory key={category}>
-                                            <h5>
-                                                <CategoryLogo library={library as SearchResultLibrary} height={10} />
-                                                <span>{category}</span>
-                                            </h5>
-                                            <SearchCategoryResults>
-                                                {categoryResults.map((result, index) => {
-                                                    const isActive = selectedResult === result
-                                                    const isMotion = result.library === "motion"
-
-                                                    return (
-                                                        <SearchResult
-                                                            key={index}
-                                                            className={clsx(result.type, {
-                                                                active: isActive,
-                                                                motion: isMotion,
-                                                                library: !isMotion,
-                                                            })}
-                                                            onPointerEnter={handleResultHover}
-                                                            data-index={indexedResults.findIndex(
-                                                                index => index === result
-                                                            )}
-                                                        >
-                                                            <a href={result.href}>
-                                                                {result.type === "page" && (
-                                                                    <>
-                                                                        <h6>
-                                                                            <span>{result.secondaryTitle}</span>
-                                                                            {result.title}
-                                                                        </h6>
-                                                                        <p>{result.description}</p>
-                                                                    </>
+                                        return (
+                                            <SearchCategory key={category}>
+                                                <h5>
+                                                    <CategoryLogo
+                                                        library={library as SearchResultLibrary}
+                                                        height={10}
+                                                    />
+                                                    <span>{category}</span>
+                                                </h5>
+                                                <SearchCategoryResults>
+                                                    {categoryResults.map((result, index) => {
+                                                        return (
+                                                            <SearchResult
+                                                                key={index}
+                                                                index={indexedResults.findIndex(
+                                                                    index => index === result
                                                                 )}
-                                                                {result.type === "section" && (
-                                                                    <>
-                                                                        <h6>{result.title}</h6>
-                                                                        <p>{result.description}</p>
-                                                                    </>
-                                                                )}
-                                                                {result.type === "subsection" && (
-                                                                    <>
-                                                                        <h6>
-                                                                            {result.secondaryTitle && (
-                                                                                <span>{result.secondaryTitle} › </span>
-                                                                            )}
-                                                                            {result.title}
-                                                                        </h6>
-                                                                        <p>{result.description}</p>
-                                                                    </>
-                                                                )}
-                                                                {result.type === "property" && (
-                                                                    <>
-                                                                        <h6>
-                                                                            {result.title}:{" "}
-                                                                            <span>{result.secondaryTitle}</span>
-                                                                        </h6>
-                                                                        <p>{result.description}</p>
-                                                                    </>
-                                                                )}
-                                                                {result.type === "function" && (
-                                                                    <>
-                                                                        <h6>
-                                                                            {result.title}({result.tertiaryTitle}):{" "}
-                                                                            <span>{result.secondaryTitle}</span>
-                                                                        </h6>
-                                                                        <p>{result.description}</p>
-                                                                    </>
-                                                                )}
-                                                            </a>
-                                                            {isActive && (
-                                                                <SearchResultReturn>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        viewBox="0 0 14 14"
-                                                                    >
-                                                                        <path
-                                                                            d="M12.25 1.5v3.75a3 3 0 01-3 3H3"
-                                                                            fill="transparent"
-                                                                            strokeWidth="1.5"
-                                                                            stroke="#fff"
-                                                                            strokeLinecap="round"
-                                                                            strokeLinejoin="round"
-                                                                        />
-                                                                        <path
-                                                                            d="M6 4.25l-4 4 4 4"
-                                                                            fill="transparent"
-                                                                            strokeWidth="1.5"
-                                                                            stroke="#fff"
-                                                                            strokeLinecap="round"
-                                                                        />
-                                                                    </svg>
-                                                                </SearchResultReturn>
-                                                            )}
-                                                        </SearchResult>
-                                                    )
-                                                })}
-                                            </SearchCategoryResults>
-                                        </SearchCategory>
-                                    )
-                                })}
-                            </SearchSectionResults>
-                        </SearchSection>
-                    )
-                })}
+                                                                result={result}
+                                                                selectedResult={selectedResult}
+                                                                onResultChange={onResultChange}
+                                                            />
+                                                        )
+                                                    })}
+                                                </SearchCategoryResults>
+                                            </SearchCategory>
+                                        )
+                                    })}
+                                </SearchSectionResults>
+                            </SearchSection>
+                        )
+                    })
+                )}
             </SearchResultsList>
         )
     }
@@ -450,8 +618,8 @@ const StaticSearch = () => {
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
     const [open, setOpen] = useState(false)
-    const openRef = useRef(open)
     const [results, setResults] = useState<SearchResult[]>([])
+    const [noResults, setNoResults] = useState(true)
     const categorisedResults = useMemo(() => {
         const libraryDividedResults = groupBy(results, "library") as Record<SearchResultLibrary, SearchResult[]>
         const pageDividedResults: Partial<CategorisedResults> = {}
@@ -466,8 +634,11 @@ const StaticSearch = () => {
         return pageDividedResults as CategorisedResults
     }, [results])
     const indexedResults = useMemo(() => flattenSearchResults(categorisedResults), [categorisedResults])
-    const [selectedResult, , previousResult, nextResult, setResult] = useIndexItem(indexedResults)
-    const selectedResultRef = useRef(selectedResult)
+    const suggestedResults = useMemo(() => (isMotion() ? motionSuggestedResults : librarySuggestedResults), [])
+    const [selectedResult, previousResult, nextResult, setResult] = useIndexItem(indexedResults)
+    const [selectedSuggestedResult, previousSuggestedResult, nextSuggestedResult, setSuggestedResult] = useIndexItem(
+        suggestedResults
+    )
 
     const search = useCallback(
         debounce((value: string) => {
@@ -515,50 +686,65 @@ const StaticSearch = () => {
         setOpen(false)
     }, [])
 
-    const handleKey = useCallback((event: KeyboardEvent) => {
-        if (openRef.current) {
-            switch (event.key) {
-                case "ArrowUp":
-                    event.preventDefault()
-                    previousResult()
-                    break
-                case "ArrowDown":
-                    event.preventDefault()
-                    nextResult()
-                    break
-                case "Escape":
-                    event.preventDefault()
-                    setOpen(false)
-                    break
-                case "Enter":
-                    event.preventDefault()
-                    setOpen(false)
-                    window.location.href = selectedResultRef.current.href
-                    break
-            }
-        } else {
-            if (document.activeElement === document.body || document.activeElement === null) {
-                if (/^\w$/.test(event.key) && !event.metaKey && !event.ctrlKey && !event.altKey) {
-                    event.preventDefault()
+    const handleKey = useCallback(
+        (event: KeyboardEvent) => {
+            if (open) {
+                console.log(noResults)
+                switch (event.key) {
+                    case "ArrowUp":
+                        event.preventDefault()
 
-                    handleChange(event.key)
-                    setOpen(true)
+                        if (noResults) {
+                            previousSuggestedResult()
+                        } else {
+                            previousResult()
+                        }
+
+                        break
+                    case "ArrowDown":
+                        event.preventDefault()
+
+                        if (noResults) {
+                            nextSuggestedResult()
+                        } else {
+                            nextResult()
+                        }
+
+                        break
+                    case "Escape":
+                        event.preventDefault()
+                        setOpen(false)
+
+                        break
+                    case "Enter":
+                        event.preventDefault()
+                        setOpen(false)
+
+                        if (noResults) {
+                            window.location.href = selectedSuggestedResult.href
+                        } else {
+                            window.location.href = selectedResult.href
+                        }
+
+                        break
+                }
+            } else {
+                if (document.activeElement === document.body || document.activeElement === null) {
+                    if (/^\w$/.test(event.key) && !event.metaKey && !event.ctrlKey && !event.altKey) {
+                        event.preventDefault()
+
+                        handleChange(event.key)
+                        setOpen(true)
+                    }
                 }
             }
-        }
-    }, [])
+        },
+        [open, noResults, selectedResult, selectedSuggestedResult]
+    )
+
+    useClickOutside(wrapperRef, handleClose)
 
     useEffect(() => {
-        window.addEventListener("keydown", handleKey)
-
-        return () => {
-            window.removeEventListener("keydown", handleKey)
-        }
-    }, [])
-
-    useEffect(() => {
-        openRef.current = open
-
         if (open) {
             inputRef.current && inputRef.current.focus()
             document.documentElement.setAttribute("data-scroll", "false")
@@ -569,10 +755,16 @@ const StaticSearch = () => {
     }, [open])
 
     useEffect(() => {
-        selectedResultRef.current = selectedResult
-    }, [selectedResult])
+        setNoResults(results.length === 0)
+    }, [results])
 
-    useClickOutside(wrapperRef, handleClose)
+    useEffect(() => {
+        window.addEventListener("keydown", handleKey)
+
+        return () => {
+            window.removeEventListener("keydown", handleKey)
+        }
+    }, [handleKey])
 
     return (
         <SearchWrapper>
@@ -606,10 +798,15 @@ const StaticSearch = () => {
                 {open && (
                     <SearchResultsDropdown>
                         <SearchResults
+                            value={value}
+                            suggestedResults={suggestedResults}
                             categorisedResults={categorisedResults}
                             indexedResults={indexedResults}
                             selectedResult={selectedResult}
+                            selectedSuggestedResult={selectedSuggestedResult}
+                            onSuggestedResultChange={setSuggestedResult}
                             onResultChange={setResult}
+                            noResults={noResults}
                         />
                     </SearchResultsDropdown>
                 )}

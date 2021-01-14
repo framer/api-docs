@@ -15,7 +15,7 @@ export type IndexOperator = (nudge?: number) => void
 export const useIndexItem = <T>(
     items: T[],
     initial = 0
-): [T, number, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>] => {
+): [T, IndexOperator, IndexOperator, Dispatch<SetStateAction<number>>] => {
     const [index, setIndex] = useState(initial)
     const itemsRef = useRef(items)
 
@@ -33,5 +33,5 @@ export const useIndexItem = <T>(
         setIndex(index => wrap(index + nudge, 0, Math.max(itemsRef.current.length, 0)))
     }, [])
 
-    return [items[index], index, previousItem, nextItem, setIndex]
+    return [items[index], previousItem, nextItem, setIndex]
 }
