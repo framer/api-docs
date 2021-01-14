@@ -259,6 +259,7 @@ const SearchResultContainer = styled(motion.li)`
     }
 
     h6,
+    h6 span,
     p {
         white-space: nowrap;
         overflow: hidden;
@@ -271,6 +272,9 @@ const SearchResultContainer = styled(motion.li)`
         margin-bottom: 6px;
 
         span {
+            display: inline-block;
+            vertical-align: bottom;
+            max-width: 100%;
             font-weight: 400;
             opacity: 0.5;
         }
