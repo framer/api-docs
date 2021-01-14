@@ -763,10 +763,21 @@ const StaticSearch = () => {
             inputRef.current && inputRef.current.focus()
             document.documentElement.setAttribute("data-scroll", "false")
         } else {
+            setResult(0)
+            setSuggestedResult(0)
+
             inputRef.current && inputRef.current.blur()
             document.documentElement.removeAttribute("data-scroll")
         }
     }, [isOpen])
+
+    useEffect(() => {
+        if (isSuggesting) {
+            setResult(0)
+        } else {
+            setSuggestedResult(0)
+        }
+    }, [isSuggesting])
 
     useEffect(() => {
         window.addEventListener("keydown", handleKey)
