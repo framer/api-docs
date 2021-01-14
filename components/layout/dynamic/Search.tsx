@@ -467,8 +467,7 @@ const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, on
                 {result.type === "subsection" && (
                     <div>
                         <h6>
-                            {result.secondaryTitle && <span>{result.secondaryTitle} › </span>}
-                            {result.title}
+                            {result.secondaryTitle && <span>{result.secondaryTitle} ›</span>} {result.title}
                         </h6>
                         <p>{result.description}</p>
                     </div>
