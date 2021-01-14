@@ -64,7 +64,7 @@ interface SearchEmptyProps {
     onResultChange: (index: number) => void
 }
 
-const SearchWrapper = styled(motion.div)`
+const SearchWrapper = styled.div`
     position: fixed;
     top: 0;
     left: 250px;
@@ -147,7 +147,7 @@ const SearchInput = styled.input`
     }
 `
 
-const SearchResultsDropdown = styled(motion.div)`
+const SearchResultsDropdown = styled.div`
     position: absolute;
     width: 100%;
     height: auto;
@@ -157,11 +157,11 @@ const SearchResultsDropdown = styled(motion.div)`
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 `
 
-const SearchResultsList = styled(motion.ul)`
+const SearchResultsList = styled.ul`
     list-style: none;
 `
 
-const SearchSection = styled(motion.li)`
+const SearchSection = styled.li`
     padding: 32px;
 
     &:not(:last-of-type) {
@@ -185,11 +185,11 @@ const SearchEmptySection = styled(SearchSection)`
     }
 `
 
-const SearchSectionResults = styled(motion.ul)`
+const SearchSectionResults = styled.ul`
     list-style: none;
 `
 
-const SearchCategory = styled(motion.li)`
+const SearchCategory = styled.div`
     &:not(:last-of-type) {
         margin-bottom: 32px;
     }
@@ -216,11 +216,11 @@ const CategoryLogo = styled(Logo)`
     }
 `
 
-const SearchCategoryResults = styled(motion.ul)`
+const SearchCategoryResults = styled.ul`
     list-style: none;
 `
 
-const SearchResultContainer = styled(motion.li)`
+const SearchResultContainer = styled.li`
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) max-content;
