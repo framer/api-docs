@@ -220,43 +220,12 @@ const SearchCategoryResults = styled.ul`
     list-style: none;
 `
 
-const SearchResultContainer = styled.li`
+const SearchResultAnchor = styled.a`
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) max-content;
-    color: #111;
-
-    &:before {
-        content: "";
-        position: absolute;
-        top: -16px;
-        bottom: -16px;
-        left: -16px;
-        right: -16px;
-        border-radius: 12px;
-        z-index: 0;
-    }
-
-    &.active {
-        color: #fff;
-
-        &.library:before {
-            background: var(--library);
-        }
-
-        &.motion:before {
-            background: var(--motion);
-        }
-    }
-
-    a {
-        color: inherit;
-        z-index: 1;
-    }
-
-    &:not(:last-child) {
-        margin-bottom: 32px;
-    }
+    color: inherit;
+    z-index: 1;
 
     h6,
     h6 span,
@@ -284,6 +253,39 @@ const SearchResultContainer = styled.li`
         font-size: 15px;
         line-height: 1;
         opacity: 0.7;
+    }
+`
+
+const SearchResultContainer = styled.li`
+    position: relative;
+    color: #111;
+
+    &:before,
+    ${SearchResultAnchor}:before {
+        content: "";
+        position: absolute;
+        top: -16px;
+        bottom: -16px;
+        left: -16px;
+        right: -16px;
+        border-radius: 12px;
+        z-index: 0;
+    }
+
+    &.active {
+        color: #fff;
+
+        &.library:before {
+            background: var(--library);
+        }
+
+        &.motion:before {
+            background: var(--motion);
+        }
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 32px;
     }
 `
 
@@ -446,70 +448,70 @@ const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, on
             onPointerEnter={handleResultHover}
             data-index={index}
         >
-            <a href={result.href}>
+            <SearchResultAnchor href={result.href}>
                 {result.type === "page" && (
-                    <>
+                    <div>
                         <h6>
                             <span>{result.secondaryTitle}</span>
                             {result.title}
                         </h6>
                         <p>{result.description}</p>
-                    </>
+                    </div>
                 )}
                 {result.type === "section" && (
-                    <>
+                    <div>
                         <h6>{result.title}</h6>
                         <p>{result.description}</p>
-                    </>
+                    </div>
                 )}
                 {result.type === "subsection" && (
-                    <>
+                    <div>
                         <h6>
                             {result.secondaryTitle && <span>{result.secondaryTitle} › </span>}
                             {result.title}
                         </h6>
                         <p>{result.description}</p>
-                    </>
+                    </div>
                 )}
                 {result.type === "property" && (
-                    <>
+                    <div>
                         <h6>
                             {result.title}: <span>{result.secondaryTitle}</span>
                         </h6>
                         <p>{result.description}</p>
-                    </>
+                    </div>
                 )}
                 {result.type === "function" && (
-                    <>
+                    <div>
                         <h6>
                             {result.title}({result.tertiaryTitle}
                             ): <span>{result.secondaryTitle}</span>
                         </h6>
                         <p>{result.description}</p>
-                    </>
+                    </div>
                 )}
-            </a>
-            {isActive && (
-                <SearchResultReturn>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-                        <path
-                            d="M12.25 1.5v3.75a3 3 0 01-3 3H3"
-                            fill="transparent"
-                            strokeWidth="1.5"
-                            stroke="#fff"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                        <path
-                            d="M6 4.25l-4 4 4 4"
-                            fill="transparent"
-                            strokeWidth="1.5"
-                            stroke="#fff"
-                            strokeLinecap="round"
-                        />
-                    </svg>
-                </SearchResultReturn>
-            )}
+                {isActive && (
+                    <SearchResultReturn>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                            <path
+                                d="M12.25 1.5v3.75a3 3 0 01-3 3H3"
+                                fill="transparent"
+                                strokeWidth="1.5"
+                                stroke="#fff"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            />
+                            <path
+                                d="M6 4.25l-4 4 4 4"
+                                fill="transparent"
+                                strokeWidth="1.5"
+                                stroke="#fff"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+                    </SearchResultReturn>
+                )}
+            </SearchResultAnchor>
         </SearchResultContainer>
     )
 }
