@@ -51,12 +51,14 @@ interface SearchResultsProps {
     categorisedResults: CategorisedResults
     indexedResults: SearchResult[]
     selectedResult: SearchResult
-    noResults: boolean
+    isSuggesting: boolean
+    isEmpty: boolean
     onResultChange: (index: number) => void
 }
 
-interface SearchNoResultsProps {
+interface SearchEmptyProps {
     value: string
+    isEmpty: boolean
     suggestedResults: SearchResult[]
     selectedResult: SearchResult
     onResultChange: (index: number) => void
@@ -508,37 +510,35 @@ const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, on
     )
 }
 
-const SearchNoResults: FC<SearchNoResultsProps> = ({ value, suggestedResults, selectedResult, onResultChange }) => {
-    return (
-        <>
-            {value && (
-                <SearchEmptySection>
-                    <p>
-                        No results for “<span>{value}</span>”.
-                    </p>
-                </SearchEmptySection>
-            )}
-            <SearchSection>
-                <SearchCategory>
-                    <h5>Suggestions</h5>
-                    <SearchCategoryResults>
-                        {suggestedResults.map((result, index) => {
-                            return (
-                                <SearchResult
-                                    key={index}
-                                    index={index}
-                                    result={result}
-                                    selectedResult={selectedResult}
-                                    onResultChange={onResultChange}
-                                />
-                            )
-                        })}
-                    </SearchCategoryResults>
-                </SearchCategory>
-            </SearchSection>
-        </>
-    )
-}
+const SearchEmpty: FC<SearchEmptyProps> = ({ value, isEmpty, suggestedResults, selectedResult, onResultChange }) => (
+    <>
+        {isEmpty && (
+            <SearchEmptySection>
+                <p>
+                    No results for “<span>{value}</span>”.
+                </p>
+            </SearchEmptySection>
+        )}
+        <SearchSection>
+            <SearchCategory>
+                <h5>Suggestions</h5>
+                <SearchCategoryResults>
+                    {suggestedResults.map((result, index) => {
+                        return (
+                            <SearchResult
+                                key={index}
+                                index={index}
+                                result={result}
+                                selectedResult={selectedResult}
+                                onResultChange={onResultChange}
+                            />
+                        )
+                    })}
+                </SearchCategoryResults>
+            </SearchCategory>
+        </SearchSection>
+    </>
+)
 
 const SearchResults: FC<SearchResultsProps> = memo(
     ({
@@ -547,7 +547,8 @@ const SearchResults: FC<SearchResultsProps> = memo(
         indexedResults,
         selectedResult,
         onResultChange,
-        noResults,
+        isSuggesting,
+        isEmpty,
         suggestedResults,
         selectedSuggestedResult,
         onSuggestedResultChange,
@@ -556,9 +557,10 @@ const SearchResults: FC<SearchResultsProps> = memo(
 
         return (
             <SearchResultsList>
-                {noResults ? (
-                    <SearchNoResults
+                {isSuggesting ? (
+                    <SearchEmpty
                         value={value}
+                        isEmpty={isEmpty}
                         suggestedResults={suggestedResults}
                         selectedResult={selectedSuggestedResult}
                         onResultChange={onSuggestedResultChange}
@@ -617,21 +619,24 @@ const StaticSearch = () => {
     const inputRef = useRef<HTMLInputElement>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [value, setValue] = useState("")
-    const [open, setOpen] = useState(false)
-    const [results, setResults] = useState<SearchResult[]>([])
-    const [noResults, setNoResults] = useState(true)
+    const [isOpen, setOpen] = useState(false)
+    const [results, setResults] = useState<SearchResult[] | null>(null)
     const categorisedResults = useMemo(() => {
-        const libraryDividedResults = groupBy(results, "library") as Record<SearchResultLibrary, SearchResult[]>
-        const pageDividedResults: Partial<CategorisedResults> = {}
+        if (Array.isArray(results)) {
+            const libraryDividedResults = groupBy(results, "library") as Record<SearchResultLibrary, SearchResult[]>
+            const pageDividedResults: Partial<CategorisedResults> = {}
 
-        for (const [library, results] of Object.entries(libraryDividedResults) as [
-            SearchResultLibrary,
-            SearchResult[]
-        ][]) {
-            pageDividedResults[library] = groupBy(results, "page")
+            for (const [library, results] of Object.entries(libraryDividedResults) as [
+                SearchResultLibrary,
+                SearchResult[]
+            ][]) {
+                pageDividedResults[library] = groupBy(results, "page")
+            }
+
+            return pageDividedResults as CategorisedResults
+        } else {
+            return {} as CategorisedResults
         }
-
-        return pageDividedResults as CategorisedResults
     }, [results])
     const indexedResults = useMemo(() => flattenSearchResults(categorisedResults), [categorisedResults])
     const suggestedResults = useMemo(() => (isMotion() ? motionSuggestedResults : librarySuggestedResults), [])
@@ -639,6 +644,8 @@ const StaticSearch = () => {
     const [selectedSuggestedResult, previousSuggestedResult, nextSuggestedResult, setSuggestedResult] = useIndexItem(
         suggestedResults
     )
+    const isSuggesting = useMemo(() => !results || results?.length === 0, [results])
+    const isEmpty = useMemo(() => isSuggesting && Array.isArray(results), [isSuggesting, results])
 
     const search = useCallback(
         debounce((value: string) => {
@@ -657,7 +664,11 @@ const StaticSearch = () => {
                 .then(({ hits }) => {
                     setResults(hits as SearchResult[])
                 })
-                .catch(error => console.error(error))
+                .catch(error => {
+                    setResults([])
+
+                    console.error(error)
+                })
         }, 200),
         []
     )
@@ -672,7 +683,7 @@ const StaticSearch = () => {
         if (value) {
             search(value)
         } else {
-            setResults([])
+            setResults(null)
 
             search.cancel()
         }
@@ -688,13 +699,12 @@ const StaticSearch = () => {
 
     const handleKey = useCallback(
         (event: KeyboardEvent) => {
-            if (open) {
-                console.log(noResults)
+            if (isOpen) {
                 switch (event.key) {
                     case "ArrowUp":
                         event.preventDefault()
 
-                        if (noResults) {
+                        if (isSuggesting) {
                             previousSuggestedResult()
                         } else {
                             previousResult()
@@ -704,7 +714,7 @@ const StaticSearch = () => {
                     case "ArrowDown":
                         event.preventDefault()
 
-                        if (noResults) {
+                        if (isSuggesting) {
                             nextSuggestedResult()
                         } else {
                             nextResult()
@@ -720,7 +730,7 @@ const StaticSearch = () => {
                         event.preventDefault()
                         setOpen(false)
 
-                        if (noResults) {
+                        if (isSuggesting) {
                             window.location.href = selectedSuggestedResult.href
                         } else {
                             window.location.href = selectedResult.href
@@ -739,24 +749,20 @@ const StaticSearch = () => {
                 }
             }
         },
-        [open, noResults, selectedResult, selectedSuggestedResult]
+        [isOpen, isSuggesting, selectedResult, selectedSuggestedResult]
     )
 
     useClickOutside(wrapperRef, handleClose)
 
     useEffect(() => {
-        if (open) {
+        if (isOpen) {
             inputRef.current && inputRef.current.focus()
             document.documentElement.setAttribute("data-scroll", "false")
         } else {
             inputRef.current && inputRef.current.blur()
             document.documentElement.removeAttribute("data-scroll")
         }
-    }, [open])
-
-    useEffect(() => {
-        setNoResults(results.length === 0)
-    }, [results])
+    }, [isOpen])
 
     useEffect(() => {
         window.addEventListener("keydown", handleKey)
@@ -769,7 +775,7 @@ const StaticSearch = () => {
     return (
         <SearchWrapper>
             <AnimatePresence>
-                {open && (
+                {isOpen && (
                     <SearchBackdrop
                         key="backdrop"
                         variants={variants}
@@ -792,10 +798,10 @@ const StaticSearch = () => {
                     type="search"
                     placeholder="Start typing to search…"
                 />
-                <SearchInputKey className={clsx({ "is-open": open })} onClick={handleClose}>
+                <SearchInputKey className={clsx({ "is-open": isOpen })} onClick={handleClose}>
                     esc
                 </SearchInputKey>
-                {open && (
+                {isOpen && (
                     <SearchResultsDropdown>
                         <SearchResults
                             value={value}
@@ -806,7 +812,8 @@ const StaticSearch = () => {
                             selectedSuggestedResult={selectedSuggestedResult}
                             onSuggestedResultChange={setSuggestedResult}
                             onResultChange={setResult}
-                            noResults={noResults}
+                            isSuggesting={isSuggesting}
+                            isEmpty={isEmpty}
                         />
                     </SearchResultsDropdown>
                 )}
