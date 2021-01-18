@@ -49,14 +49,14 @@ test: bootstrap
 
 .PHONY: dev
 dev: bootstrap data changelog
-	@$(monobase) serve --project=. --prefix=/api
+	@yarn dotenv $(monobase) serve --project=. --prefix=/api
 
 .PHONY: serve
 serve: dev
 
 .PHONY: build
 build: bootstrap data changelog
-	@$(monobase) build --project=. --path=$(BUILD_DIR)
+	@yarn dotenv $(monobase) build --project=. --path=$(BUILD_DIR)
 	@find $(BUILD_DIR) -name '*.html' | xargs $(node) ./api/linkify.ts
 
 .PHONY: verify-api-references
@@ -66,7 +66,7 @@ verify-api-references:
 .PHONY: publish
 publish: bootstrap data changelog
 	# Using /api for framer.com
-	@$(monobase) build --project=. --path=build --prefix=/api
+	@yarn dotenv $(monobase) build --project=. --path=build --prefix=/api
 	@$(node) ./api/linkify.ts build/api/**/*.html
 
 .PHONY: publish-search
@@ -76,7 +76,7 @@ publish-search:
 
 .PHONY: search
 search:
-	@$(node) -O '{ "downlevelIteration": false }' ./api/searchify.ts
+	@yarn dotenv $(node) -O '{ "downlevelIteration": false }' ./api/searchify.ts
 
 .PHONY: clean
 clean:

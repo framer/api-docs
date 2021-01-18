@@ -10,13 +10,9 @@ import debounce from "lodash.debounce"
 import groupBy from "lodash.groupby"
 import { useClickOutside } from "../../hooks/useClickOutside"
 import { useIndexItem } from "../../hooks/useIndex"
-import { decode } from "../../utils/decode"
 import { isMotion } from "../../utils/env"
 import { getDeepValues } from "../../utils/getDeepValues"
 import { Logo } from "../Logo"
-
-const ALGOLIA_PROJECT_ID = "NEdBVDdKS1NFUA=="
-const ALGOLIA_API_TOKEN = "ZDMzM2JjMzhlYTNkNWM5OWM4YTVhNjdlMDhiZTc1ODc="
 
 type SearchResultType = "page" | "section" | "subsection" | "property" | "function"
 
@@ -617,7 +613,7 @@ const SearchResults: FC<SearchResultsProps> = memo(
     }
 )
 
-const client = algoliasearch(decode(ALGOLIA_PROJECT_ID), decode(ALGOLIA_API_TOKEN))
+const client = algoliasearch(process.env.ALGOLIA_PROJECT_ID as string, process.env.ALGOLIA_API_TOKEN as string)
 const index = client.initIndex("prod_API")
 
 const StaticSearch = () => {

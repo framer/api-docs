@@ -1,0 +1,14 @@
+diff --git a/node_modules/monobase/dist/compiler.js b/node_modules/monobase/dist/compiler.js
+index ce43098..a030f78 100644
+--- a/node_modules/monobase/dist/compiler.js
++++ b/node_modules/monobase/dist/compiler.js
+@@ -185,6 +185,9 @@ exports.Config = function (projectPath, contextCallback, options) {
+                 "process.env.NODE_ENV": options.production
+                     ? JSON.stringify("production")
+                     : JSON.stringify("debug"),
++                // Patch: framer/api-docs
++                "process.env.ALGOLIA_PROJECT_ID": JSON.stringify(process.env.ALGOLIA_PROJECT_ID),
++                "process.env.ALGOLIA_API_TOKEN": JSON.stringify(process.env.ALGOLIA_API_TOKEN),
+             }),
+         ],
+     };

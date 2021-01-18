@@ -1,7 +1,6 @@
 import glob from "glob"
 import { promises as fs } from "fs"
 import { chromium } from "playwright"
-import { config } from "dotenv"
 import algoliasearch from "algoliasearch"
 import { isProduction } from "../utils/isProduction"
 
@@ -285,8 +284,6 @@ glob(
         ],
     },
     async (_, files) => {
-        config({ path: "./.env.local" })
-
         if (!process.env.ALGOLIA_PROJECT_ID || !process.env.ALGOLIA_PUSH_API_TOKEN) {
             console.error("Algolia environment variables are missing.")
         }
