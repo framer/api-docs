@@ -12,12 +12,42 @@ import { Logo } from "./Logo"
 const libraryUrl = "/api/"
 const motionUrl = "/api/motion/"
 
-const Header = styled.div`
-    display: flex;
+const HeaderWrapper = styled.div`
+    position: relative;
     height: 58px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        transition: opacity 0.2s ease;
+
+        .is-search & {
+            opacity: 0.4;
+        }
+    }
+`
+
+const Header = styled.div`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
     place-items: center;
     padding: 15px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 `
 
 const Home = styled.a`
@@ -37,9 +67,40 @@ const Home = styled.a`
     }
 `
 
-const APISwitch = styled.div`
-    display: flex;
+const APISwitchWrapper = styled.div`
+    position: relative;
     height: 46px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        transition: opacity 0.2s ease;
+
+        .is-search & {
+            opacity: 0.4;
+        }
+    }
+`
+
+const APISwitch = styled.div`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 `
 
 const APISwitchItem = styled.a.attrs<{ isMotion?: boolean }>(({ isMotion }) => ({
@@ -78,7 +139,6 @@ const Icon = styled.div`
 const SideBarHeader = styled.div`
     display: flex;
     flex-flow: column nowrap;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
 
     @media (max-width: ${tablet}) {
@@ -154,27 +214,29 @@ function formatVersion(str: string): string {
     return version + " " + formatPrerelease(prerelease.join("-"))
 }
 
-// export const APISwitch: React.FunctionComponent = () => <div>Hello</div>
-
 export const Sidebar: React.FunctionComponent = () => (
     <SideBarWrapper className="side-bar-wrapper">
         <SideBarHeader>
-            <Header>
-                <Home href={isMotion() ? motionUrl : libraryUrl}>
-                    <Icon>
-                        <Logo />
-                    </Icon>
-                    <span>API</span>
-                </Home>
-                <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
-                <DynamicMobileToggle />
-            </Header>
-            <APISwitch>
-                <APISwitchItem isActive={!isMotion()}>Library</APISwitchItem>
-                <APISwitchItem isMotion isActive={isMotion()}>
-                    Motion
-                </APISwitchItem>
-            </APISwitch>
+            <HeaderWrapper>
+                <Header>
+                    <Home href={isMotion() ? motionUrl : libraryUrl}>
+                        <Icon>
+                            <Logo />
+                        </Icon>
+                        <span>API</span>
+                    </Home>
+                    <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
+                    <DynamicMobileToggle />
+                </Header>
+            </HeaderWrapper>
+            <APISwitchWrapper>
+                <APISwitch>
+                    <APISwitchItem isActive={!isMotion()}>Library</APISwitchItem>
+                    <APISwitchItem isMotion isActive={isMotion()}>
+                        Motion
+                    </APISwitchItem>
+                </APISwitch>
+            </APISwitchWrapper>
         </SideBarHeader>
         <Navigation />
     </SideBarWrapper>

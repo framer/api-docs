@@ -4,7 +4,7 @@ import { memo, useRef, useEffect, useCallback, useState, useMemo, FC, FormEvent 
 import styled from "styled-components"
 import { desktop, tablet } from "../Breakpoints"
 import { Dynamic } from "monobase"
-import { motion, AnimatePresence, Variants } from "framer-motion"
+import { motion, AnimatePresence, Transition, Variants } from "framer-motion"
 import algoliasearch from "algoliasearch/lite"
 import debounce from "lodash.debounce"
 import groupBy from "lodash.groupby"
@@ -13,6 +13,10 @@ import { useIndexItem } from "../../hooks/useIndex"
 import { isMotion } from "../../utils/env"
 import { getDeepValues } from "../../utils/getDeepValues"
 import { Logo } from "../Logo"
+
+const SEARCH_HEIGHT = 58
+const SEARCH_EMPTY_HEIGHT = 80
+const SEARCH_OPEN_DELAY = 0.24
 
 type SearchResultType = "page" | "section" | "subsection" | "property" | "function"
 
@@ -62,7 +66,7 @@ interface SearchEmptyProps {
 
 const SearchWrapper = styled.div`
     position: fixed;
-    top: 0;
+    top: 0px;
     left: 250px;
     width: calc(100% - 250px);
     height: 100vh;
@@ -75,8 +79,8 @@ const SearchWrapper = styled.div`
 
     @media (max-width: ${tablet}) {
         position: absolute;
-        top: 58px;
-        left: 0;
+        top: ${SEARCH_HEIGHT}px;
+        left: 0px;
         width: 100%;
     }
 
@@ -86,20 +90,9 @@ const SearchWrapper = styled.div`
     }
 `
 
-const SearchBackdrop = styled(motion.div)`
-    position: absolute;
-    top: 58px;
-    left: 0;
-    width: 100%;
-    height: calc(100vh - 58px);
-    background: rgba(255, 255, 255, 0.9);
-    z-index: 0;
-    pointer-events: all;
-`
-
 const SearchInputWrapper = styled.div`
     position: relative;
-    height: 58px;
+    height: ${SEARCH_HEIGHT}px;
     z-index: 3000;
     pointer-events: all;
 `
@@ -122,13 +115,13 @@ const SearchInput = styled.input`
 
     &::-ms-clear {
         display: none;
-        width: 0;
-        height: 0;
+        width: 0px;
+        height: 0px;
     }
     &::-ms-reveal {
         display: none;
-        width: 0;
-        height: 0;
+        width: 0px;
+        height: 0px;
     }
 
     &::-webkit-search-decoration,
@@ -143,14 +136,16 @@ const SearchInput = styled.input`
     }
 `
 
-const SearchResultsDropdown = styled.div`
+const SearchResultsDropdown = styled(motion.div)`
     position: absolute;
     width: 100%;
     height: auto;
-    max-height: calc(100vh - 58px);
+    max-height: calc(100vh - ${SEARCH_HEIGHT}px);
     overflow-y: auto;
     background: #fff;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    will-change: transform;
+    z-index: -1;
 `
 
 const SearchResultsList = styled.ul`
@@ -166,6 +161,16 @@ const SearchSection = styled.li`
 `
 
 const SearchEmptySection = styled(SearchSection)`
+    position: sticky;
+    top: 0px;
+    display: flex;
+    place-items: center;
+    height: ${SEARCH_EMPTY_HEIGHT}px;
+    background: #fff;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    z-index: 10;
+
     p {
         white-space: nowrap;
         overflow: hidden;
@@ -303,10 +308,10 @@ const SearchResultReturn = styled.div`
     }
 `
 
-const SearchInputKey = styled.button`
+const SearchInputKey = styled(motion.button)`
     all: unset;
-    color: #999;
-    box-shadow: inset 0 0 0 1px #eee;
+    color: #8a8a8a;
+    background: #f5f5f5;
     padding: 4px 9px 2px;
     border-radius: 6px;
     font-weight: 500;
@@ -314,15 +319,35 @@ const SearchInputKey = styled.button`
     position: absolute;
     top: 17px;
     right: 18px;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    pointer-events: all;
     cursor: pointer;
+    transition-property: transform, background;
+    transition-duration: 0.16s;
+    will-change: transform;
 
-    &.is-open {
-        opacity: 1;
+    &:hover {
+        background: #f0f0f0;
+    }
+
+    &:active {
+        transform: scale(0.9);
     }
 `
+
+const ease: Transition = {
+    ease: "easeInOut",
+    duration: 0.2,
+}
+
+const spring: Transition = {
+    type: "spring",
+    stiffness: 500,
+    damping: 50,
+}
+
+const transition: Transition = {
+    default: spring,
+    opacity: ease,
+}
 
 const variants: Variants = {
     visible: { opacity: 1 },
@@ -424,7 +449,7 @@ const flattenSearchResults = (categorisedResults: CategorisedResults): SearchRes
     return getDeepValues(categorisedResults)
 }
 
-const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, onResultChange }) => {
+const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, index, onResultChange }) => {
     const isActive = selectedResult === result
     const isMotion = result.library === "motion"
 
@@ -509,7 +534,7 @@ const SearchResult: FC<SearchResultProps> = ({ result, selectedResult, index, on
             </SearchResultAnchor>
         </SearchResultContainer>
     )
-}
+})
 
 const SearchEmpty: FC<SearchEmptyProps> = ({ value, isEmpty, suggestedResults, selectedResult, onResultChange }) => (
     <>
@@ -759,12 +784,14 @@ const StaticSearch = () => {
         if (isOpen) {
             inputRef.current && inputRef.current.focus()
             document.documentElement.setAttribute("data-scroll", "false")
+            document.body.classList.add("is-search")
         } else {
             setResult(0)
             setSuggestedResult(0)
 
             inputRef.current && inputRef.current.blur()
             document.documentElement.removeAttribute("data-scroll")
+            document.body.classList.remove("is-search")
         }
     }, [isOpen])
 
@@ -785,22 +812,7 @@ const StaticSearch = () => {
     }, [handleKey])
 
     return (
-        <SearchWrapper>
-            <AnimatePresence>
-                {isOpen && (
-                    <SearchBackdrop
-                        key="backdrop"
-                        variants={variants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        transition={{
-                            ease: "easeInOut",
-                            duration: 0.2,
-                        }}
-                    />
-                )}
-            </AnimatePresence>
+        <SearchWrapper className="search">
             <SearchInputWrapper ref={wrapperRef}>
                 <SearchInput
                     ref={inputRef}
@@ -810,25 +822,68 @@ const StaticSearch = () => {
                     type="search"
                     placeholder="Start typing to search…"
                 />
-                <SearchInputKey className={clsx({ "is-open": isOpen })} onClick={handleClose}>
-                    esc
-                </SearchInputKey>
-                {isOpen && (
-                    <SearchResultsDropdown>
-                        <SearchResults
-                            value={value}
-                            suggestedResults={suggestedResults}
-                            categorisedResults={categorisedResults}
-                            indexedResults={indexedResults}
-                            selectedResult={selectedResult}
-                            selectedSuggestedResult={selectedSuggestedResult}
-                            onSuggestedResultChange={setSuggestedResult}
-                            onResultChange={setResult}
-                            isSuggesting={isSuggesting}
-                            isEmpty={isEmpty}
-                        />
-                    </SearchResultsDropdown>
-                )}
+                <AnimatePresence>
+                    {isOpen && (
+                        <SearchInputKey
+                            key="escape"
+                            onClick={handleClose}
+                            variants={{
+                                ...variants,
+                                visible: {
+                                    ...variants.visible,
+                                    transition: {
+                                        ...transition,
+                                        delay: SEARCH_OPEN_DELAY,
+                                    },
+                                },
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            transition={transition}
+                        >
+                            esc
+                        </SearchInputKey>
+                    )}
+                </AnimatePresence>
+                <AnimatePresence>
+                    {isOpen && (
+                        <SearchResultsDropdown
+                            key="dropdown"
+                            variants={{
+                                hidden: {
+                                    ...variants.hidden,
+                                    y: -SEARCH_HEIGHT,
+                                },
+                                visible: {
+                                    ...variants.visible,
+                                    y: 0,
+                                    transition: {
+                                        ...transition,
+                                        delay: SEARCH_OPEN_DELAY,
+                                    },
+                                },
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            transition={transition}
+                        >
+                            <SearchResults
+                                value={value}
+                                suggestedResults={suggestedResults}
+                                categorisedResults={categorisedResults}
+                                indexedResults={indexedResults}
+                                selectedResult={selectedResult}
+                                selectedSuggestedResult={selectedSuggestedResult}
+                                onSuggestedResultChange={setSuggestedResult}
+                                onResultChange={setResult}
+                                isSuggesting={isSuggesting}
+                                isEmpty={isEmpty}
+                            />
+                        </SearchResultsDropdown>
+                    )}
+                </AnimatePresence>
             </SearchInputWrapper>
         </SearchWrapper>
     )
