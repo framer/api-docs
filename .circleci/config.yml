@@ -1,38 +1,38 @@
 version: 2.1
 jobs:
-  build:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.15
-    steps:
-      - checkout
-      - run:
-          name: build
-          command: |
-            make build
-      - run:
-          name: verify-api-references
-          command: |
-            make verify-api-references
-      - run:
-          name: verify-code-examples
-          command: |
-            find ~/repo/build -name '*.html' | xargs yarn ts-node ./test/stylecheck.ts
-      - store_artifacts:
-          path: ~/repo/build
-  test:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.15
-    steps:
-      - checkout
-      - run:
-          name: test
-          command: |
-            make test
+    build:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:10.17
+        steps:
+            - checkout
+            - run:
+                  name: build
+                  command: |
+                      make build
+            - run:
+                  name: verify-api-references
+                  command: |
+                      make verify-api-references
+            - run:
+                  name: verify-code-examples
+                  command: |
+                      find ~/repo/build -name '*.html' | xargs yarn ts-node ./test/stylecheck.ts
+            - store_artifacts:
+                  path: ~/repo/build
+    test:
+        working_directory: ~/repo
+        docker:
+            - image: circleci/node:10.17
+        steps:
+            - checkout
+            - run:
+                  name: test
+                  command: |
+                      make test
 workflows:
-  version: 2
-  "Build & Test":
-    jobs:
-      - build
-      - test
+    version: 2
+    "Build & Test":
+        jobs:
+            - build
+            - test
