@@ -11,15 +11,15 @@ import { GoogleTag } from "./GoogleTag"
 import { isMotion } from "./utils/env"
 
 const Body = styled.body`
-    --library: #05f;
-    --motion: #60f;
+    --library: #09f;
+    --motion: #85f;
 
     --accent: ${() => (isMotion() ? "var(--motion)" : "var(--library)")};
-    --accent-selection: ${() => (isMotion() ? "rgba(119, 0, 255, 0.9)" : "rgba(0, 85, 255, 0.9)")};
-    --accent-backdrop: ${() => (isMotion() ? "rgba(119, 0, 255, 0.1)" : "rgba(0, 85, 255, 0.1)")};
+    --accent-selection: ${() => (isMotion() ? "rgba(136, 85, 255, 0.9)" : "rgba(0, 153, 255, 0.9)")};
+    --accent-backdrop: ${() => (isMotion() ? "rgba(136, 85, 255, 0.1)" : "rgba(0, 153, 255, 0.1)")};
 
-    --animation-left: ${() => (isMotion() ? "#b5f" : "#09f")};
-    --animation-middle: ${() => (isMotion() ? "#fbd" : "#adf")};
+    --animation-left: ${() => (isMotion() ? "#85f" : "#09f")};
+    --animation-middle: ${() => (isMotion() ? "#caf" : "#adf")};
     --animation-right: #fff;
 
     font-family: Colfax, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
