@@ -265,6 +265,7 @@ const SearchResultAnchor = styled.a`
     grid-template-columns: minmax(0, 1fr) max-content;
     color: inherit;
     z-index: 1;
+    will-change: transform;
 
     ${SearchResultTitle},
     ${SearchResultDescription} {
