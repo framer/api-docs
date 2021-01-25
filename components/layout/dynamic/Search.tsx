@@ -691,13 +691,13 @@ const SearchResults: FC<SearchResultsProps> = memo(
                         onResultChange={onSuggestedResultChange}
                     />
                 ) : (
-                    categories.map(([category, categoryResults]) => {
-                        const [library, page] = getCategory(category)
+                    <SearchSection>
+                        <SearchSectionResults>
+                            {categories.map(([category, categoryResults], index) => {
+                                const [library, page] = getCategory(category)
 
-                        return (
-                            <SearchSection key={category}>
-                                <SearchSectionResults>
-                                    <SearchCategory>
+                                return (
+                                    <SearchCategory key={index}>
                                         <h5>
                                             <CategoryLogo library={library as SearchResultLibrary} height={10} />
                                             <span>{page}</span>
@@ -716,10 +716,10 @@ const SearchResults: FC<SearchResultsProps> = memo(
                                             })}
                                         </SearchCategoryResults>
                                     </SearchCategory>
-                                </SearchSectionResults>
-                            </SearchSection>
-                        )
-                    })
+                                )
+                            })}
+                        </SearchSectionResults>
+                    </SearchSection>
                 )}
             </SearchResultsList>
         )
