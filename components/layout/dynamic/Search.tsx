@@ -22,6 +22,13 @@ type SearchResultType = "page" | "section" | "subsection" | "property" | "functi
 
 type SearchResultLibrary = "library" | "motion"
 
+interface HighlightResult {
+    value: string
+    matchLevel: "none" | "partial" | "full"
+    fullyHighlighted: boolean
+    matchedWords: string[]
+}
+
 interface SearchResult {
     objectID?: string
     type: SearchResultType
@@ -32,6 +39,7 @@ interface SearchResult {
     tertiaryTitle?: string
     description: string
     href: string
+    _highlightResult?: Record<string, HighlightResult>
 }
 
 type CategorisedResults = Record<SearchResultLibrary, Record<string, SearchResult[]>>
@@ -221,39 +229,67 @@ const SearchCategoryResults = styled.ul`
     list-style: none;
 `
 
+const SearchResultTitle = styled.h6`
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 6px 0px 6px 12px;
+    margin: -4px -12px 0;
+`
+
+const SearchResultSecondaryTitle = styled.span`
+    display: inline-block;
+    vertical-align: bottom;
+    max-width: 100%;
+    font-weight: 400;
+    opacity: 0.5;
+`
+
+const SearchResultDescription = styled.p`
+    font-size: 15px;
+    line-height: 1;
+    padding: 6px 0px 6px 12px;
+    margin: 0 -12px -8px;
+    opacity: 0.7;
+`
+
+const SearchResultHighlight = styled.span`
+    display: contents;
+`
+
 const SearchResultAnchor = styled.a`
     position: relative;
     display: grid;
+    grid-gap: 12px;
     grid-template-columns: minmax(0, 1fr) max-content;
     color: inherit;
     z-index: 1;
 
-    h6,
-    h6 span,
-    p {
+    ${SearchResultTitle},
+    ${SearchResultDescription} {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    h6 {
-        font-size: 16px;
-        font-weight: 500;
-        margin-bottom: 6px;
+    em {
+        display: inline-block;
+        position: relative;
+        z-index: 1;
 
-        span {
-            display: inline-block;
-            vertical-align: bottom;
-            max-width: 100%;
-            font-weight: 400;
-            opacity: 0.5;
+        &:before {
+            content: "";
+            position: absolute;
+            top: -0.16em;
+            bottom: 0.06em;
+            left: -0.12em;
+            right: -0.12em;
+            z-index: -1;
+            pointer-events: none;
+            background: currentColor;
+            opacity: 0.08;
+            border-radius: 0.22em;
         }
-    }
-
-    p {
-        font-size: 15px;
-        line-height: 1;
-        opacity: 0.7;
     }
 `
 
@@ -273,20 +309,40 @@ const SearchResultContainer = styled.li`
         z-index: 0;
     }
 
-    &.active {
-        color: #fff;
+    &:not(:last-child) {
+        margin-bottom: 32px;
+    }
 
-        &.library:before {
-            background: var(--library);
+    &.library {
+        em {
+            color: var(--library);
         }
 
-        &.motion:before {
+        &.active:before {
+            background: var(--library);
+        }
+    }
+
+    &.motion {
+        em {
+            color: var(--motion);
+        }
+
+        &.active:before {
             background: var(--motion);
         }
     }
 
-    &:not(:last-child) {
-        margin-bottom: 32px;
+    &.active {
+        color: #fff;
+
+        em {
+            color: inherit;
+
+            &:before {
+                opacity: 0.2;
+            }
+        }
     }
 `
 
@@ -449,6 +505,25 @@ const flattenSearchResults = (categorisedResults: CategorisedResults): SearchRes
     return getDeepValues(categorisedResults)
 }
 
+const consecutiveHighlightsRegex = /(<\/[^>]*>) *(<[^>]*>)/g
+
+const getHighlightResult = (result: SearchResult, property: Exclude<keyof SearchResult, "_highlightResult">) => {
+    const isHighlightResult = "_highlightResult" in result
+    const highlightResult = result._highlightResult?.[property]
+
+    if (isHighlightResult) {
+        return (
+            <SearchResultHighlight
+                dangerouslySetInnerHTML={{
+                    __html: highlightResult?.value.replace(consecutiveHighlightsRegex, " ") as string,
+                }}
+            />
+        )
+    } else {
+        return result[property]
+    }
+}
+
 const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, index, onResultChange }) => {
     const isActive = selectedResult === result
     const isMotion = result.library === "motion"
@@ -472,42 +547,55 @@ const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, inde
             <SearchResultAnchor href={result.href}>
                 {result.type === "page" && (
                     <div>
-                        <h6>
-                            <span>{result.secondaryTitle}</span>
-                            {result.title}
-                        </h6>
-                        <p>{result.description}</p>
+                        <SearchResultTitle>
+                            <SearchResultSecondaryTitle>
+                                {getHighlightResult(result, "secondaryTitle")}
+                            </SearchResultSecondaryTitle>
+                            {getHighlightResult(result, "title")}
+                        </SearchResultTitle>
+                        <SearchResultDescription>{getHighlightResult(result, "description")}</SearchResultDescription>
                     </div>
                 )}
                 {result.type === "section" && (
                     <div>
-                        <h6>{result.title}</h6>
-                        <p>{result.description}</p>
+                        <SearchResultTitle>{getHighlightResult(result, "title")}</SearchResultTitle>
+                        <SearchResultDescription>{getHighlightResult(result, "description")}</SearchResultDescription>
                     </div>
                 )}
                 {result.type === "subsection" && (
                     <div>
-                        <h6>
-                            {result.secondaryTitle && <span>{result.secondaryTitle} ›</span>} {result.title}
-                        </h6>
-                        <p>{result.description}</p>
+                        <SearchResultTitle>
+                            {result.secondaryTitle && (
+                                <SearchResultSecondaryTitle>
+                                    {getHighlightResult(result, "secondaryTitle")} ›
+                                </SearchResultSecondaryTitle>
+                            )}{" "}
+                            {getHighlightResult(result, "title")}
+                        </SearchResultTitle>
+                        <SearchResultDescription>{getHighlightResult(result, "description")}</SearchResultDescription>
                     </div>
                 )}
                 {result.type === "property" && (
                     <div>
-                        <h6>
-                            {result.title}: <span>{result.secondaryTitle}</span>
-                        </h6>
-                        <p>{result.description}</p>
+                        <SearchResultTitle>
+                            {getHighlightResult(result, "title")}:{" "}
+                            <SearchResultSecondaryTitle>
+                                {getHighlightResult(result, "secondaryTitle")}
+                            </SearchResultSecondaryTitle>
+                        </SearchResultTitle>
+                        <SearchResultDescription>{getHighlightResult(result, "description")}</SearchResultDescription>
                     </div>
                 )}
                 {result.type === "function" && (
                     <div>
-                        <h6>
-                            {result.title}({result.tertiaryTitle}
-                            ): <span>{result.secondaryTitle}</span>
-                        </h6>
-                        <p>{result.description}</p>
+                        <SearchResultTitle>
+                            {getHighlightResult(result, "title")}({getHighlightResult(result, "tertiaryTitle")}
+                            ):{" "}
+                            <SearchResultSecondaryTitle>
+                                {getHighlightResult(result, "secondaryTitle")}
+                            </SearchResultSecondaryTitle>
+                        </SearchResultTitle>
+                        <SearchResultDescription>{getHighlightResult(result, "description")}</SearchResultDescription>
                     </div>
                 )}
                 {isActive && (
