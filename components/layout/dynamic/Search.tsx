@@ -17,6 +17,7 @@ import { Logo } from "../Logo"
 const SEARCH_HEIGHT = 58
 const SEARCH_EMPTY_HEIGHT = 80
 const SEARCH_OPEN_DELAY = 0.24
+const CATEGORY_SEPARATOR = "__"
 
 type SearchResultType = "page" | "section" | "subsection" | "property" | "function"
 
@@ -42,7 +43,7 @@ interface SearchResult {
     _highlightResult?: Record<string, HighlightResult>
 }
 
-type CategorisedResults = Record<SearchResultLibrary, Record<string, SearchResult[]>>
+type CategorisedResults = Record<string, SearchResult[]>
 
 interface SearchResultProps {
     index: number
@@ -489,6 +490,9 @@ const motionSuggestedResults: SearchResult[] = [
     },
 ]
 
+const consecutiveHighlightsRegex = /(<\/[^>]*>) *(<[^>]*>)/g
+const categorySeparatorRegex = new RegExp(`^(.*)${CATEGORY_SEPARATOR}(.*)$`)
+
 const getPage = () => {
     const title = document.title
 
@@ -501,11 +505,15 @@ const getPage = () => {
     }
 }
 
+const getCategory = (category: string) => {
+    const [, library, page] = category.match(categorySeparatorRegex) || [null, null, null]
+
+    return [library, page]
+}
+
 const flattenSearchResults = (categorisedResults: CategorisedResults): SearchResult[] => {
     return getDeepValues(categorisedResults)
 }
-
-const consecutiveHighlightsRegex = /(<\/[^>]*>) *(<[^>]*>)/g
 
 const getHighlightResult = (result: SearchResult, property: Exclude<keyof SearchResult, "_highlightResult">) => {
     const isHighlightResult = "_highlightResult" in result
@@ -635,7 +643,10 @@ const SearchEmpty: FC<SearchEmptyProps> = ({ value, isEmpty, suggestedResults, s
         )}
         <SearchSection>
             <SearchCategory>
-                <h5>Suggestions</h5>
+                <h5>
+                    <CategoryLogo library={isMotion() ? "motion" : "library"} height={10} />
+                    <span>Suggestions</span>
+                </h5>
                 <SearchCategoryResults>
                     {suggestedResults.map((result, index) => {
                         return (
@@ -667,7 +678,7 @@ const SearchResults: FC<SearchResultsProps> = memo(
         selectedSuggestedResult,
         onSuggestedResultChange,
     }) => {
-        const sections = Object.entries(categorisedResults)
+        const categories = Object.entries(categorisedResults)
 
         return (
             <SearchResultsList>
@@ -680,42 +691,31 @@ const SearchResults: FC<SearchResultsProps> = memo(
                         onResultChange={onSuggestedResultChange}
                     />
                 ) : (
-                    sections.map(([library, sectionResults]) => {
-                        const categories = Object.keys(sectionResults)
+                    categories.map(([category, categoryResults]) => {
+                        const [library, page] = getCategory(category)
 
                         return (
-                            <SearchSection key={library}>
+                            <SearchSection key={category}>
                                 <SearchSectionResults>
-                                    {categories.map((category: string) => {
-                                        const categoryResults = sectionResults[category]
-
-                                        return (
-                                            <SearchCategory key={category}>
-                                                <h5>
-                                                    <CategoryLogo
-                                                        library={library as SearchResultLibrary}
-                                                        height={10}
+                                    <SearchCategory>
+                                        <h5>
+                                            <CategoryLogo library={library as SearchResultLibrary} height={10} />
+                                            <span>{page}</span>
+                                        </h5>
+                                        <SearchCategoryResults>
+                                            {categoryResults.map((result, index) => {
+                                                return (
+                                                    <SearchResult
+                                                        key={index}
+                                                        index={indexedResults.findIndex(index => index === result)}
+                                                        result={result}
+                                                        selectedResult={selectedResult}
+                                                        onResultChange={onResultChange}
                                                     />
-                                                    <span>{category}</span>
-                                                </h5>
-                                                <SearchCategoryResults>
-                                                    {categoryResults.map((result, index) => {
-                                                        return (
-                                                            <SearchResult
-                                                                key={index}
-                                                                index={indexedResults.findIndex(
-                                                                    index => index === result
-                                                                )}
-                                                                result={result}
-                                                                selectedResult={selectedResult}
-                                                                onResultChange={onResultChange}
-                                                            />
-                                                        )
-                                                    })}
-                                                </SearchCategoryResults>
-                                            </SearchCategory>
-                                        )
-                                    })}
+                                                )
+                                            })}
+                                        </SearchCategoryResults>
+                                    </SearchCategory>
                                 </SearchSectionResults>
                             </SearchSection>
                         )
@@ -737,17 +737,10 @@ const StaticSearch = () => {
     const [results, setResults] = useState<SearchResult[] | null>(null)
     const categorisedResults = useMemo(() => {
         if (Array.isArray(results)) {
-            const libraryDividedResults = groupBy(results, "library") as Record<SearchResultLibrary, SearchResult[]>
-            const pageDividedResults: Partial<CategorisedResults> = {}
-
-            for (const [library, results] of Object.entries(libraryDividedResults) as [
-                SearchResultLibrary,
-                SearchResult[]
-            ][]) {
-                pageDividedResults[library] = groupBy(results, "page")
-            }
-
-            return pageDividedResults as CategorisedResults
+            return groupBy(
+                results,
+                result => `${result.library}${CATEGORY_SEPARATOR}${result.page}`
+            ) as CategorisedResults
         } else {
             return {} as CategorisedResults
         }
@@ -773,7 +766,9 @@ const StaticSearch = () => {
             index
                 .search(value, {
                     hitsPerPage: 10,
+                    removeStopWords: true,
                     optionalFilters: filters,
+                    optionalWords: ["framer motion"],
                 })
                 .then(({ hits }) => {
                     setResults(hits as SearchResult[])
