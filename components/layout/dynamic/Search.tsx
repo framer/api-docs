@@ -49,6 +49,7 @@ interface SearchResultProps {
     index: number
     result: SearchResult
     selectedResult: SearchResult
+    onResultClick: () => void
     onResultChange: (index: number) => void
 }
 
@@ -62,6 +63,7 @@ interface SearchResultsProps {
     selectedResult: SearchResult
     isSuggesting: boolean
     isEmpty: boolean
+    onResultClick: () => void
     onResultChange: (index: number) => void
 }
 
@@ -70,6 +72,7 @@ interface SearchEmptyProps {
     isEmpty: boolean
     suggestedResults: SearchResult[]
     selectedResult: SearchResult
+    onResultClick: () => void
     onResultChange: (index: number) => void
 }
 
@@ -533,7 +536,7 @@ const getHighlightResult = (result: SearchResult, property: Exclude<keyof Search
     }
 }
 
-const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, index, onResultChange }) => {
+const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, index, onResultChange, onResultClick }) => {
     const isActive = selectedResult === result
     const isMotion = result.library === "motion"
 
@@ -553,7 +556,7 @@ const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, inde
             onPointerEnter={handleResultHover}
             data-index={index}
         >
-            <SearchResultAnchor href={result.href}>
+            <SearchResultAnchor onClick={onResultClick} href={result.href}>
                 {result.type === "page" && (
                     <div>
                         <SearchResultTitle>
@@ -633,7 +636,14 @@ const SearchResult: FC<SearchResultProps> = memo(({ result, selectedResult, inde
     )
 })
 
-const SearchEmpty: FC<SearchEmptyProps> = ({ value, isEmpty, suggestedResults, selectedResult, onResultChange }) => (
+const SearchEmpty: FC<SearchEmptyProps> = ({
+    value,
+    isEmpty,
+    suggestedResults,
+    selectedResult,
+    onResultChange,
+    onResultClick,
+}) => (
     <>
         {isEmpty && (
             <SearchEmptySection>
@@ -657,6 +667,7 @@ const SearchEmpty: FC<SearchEmptyProps> = ({ value, isEmpty, suggestedResults, s
                                 result={result}
                                 selectedResult={selectedResult}
                                 onResultChange={onResultChange}
+                                onResultClick={onResultClick}
                             />
                         )
                     })}
@@ -673,6 +684,7 @@ const SearchResults: FC<SearchResultsProps> = memo(
         indexedResults,
         selectedResult,
         onResultChange,
+        onResultClick,
         isSuggesting,
         isEmpty,
         suggestedResults,
@@ -690,6 +702,7 @@ const SearchResults: FC<SearchResultsProps> = memo(
                         suggestedResults={suggestedResults}
                         selectedResult={selectedSuggestedResult}
                         onResultChange={onSuggestedResultChange}
+                        onResultClick={onResultClick}
                     />
                 ) : (
                     <SearchSection>
@@ -712,6 +725,7 @@ const SearchResults: FC<SearchResultsProps> = memo(
                                                         result={result}
                                                         selectedResult={selectedResult}
                                                         onResultChange={onResultChange}
+                                                        onResultClick={onResultClick}
                                                     />
                                                 )
                                             })}
@@ -962,6 +976,7 @@ const StaticSearch = () => {
                                 selectedSuggestedResult={selectedSuggestedResult}
                                 onSuggestedResultChange={setSuggestedResult}
                                 onResultChange={setResult}
+                                onResultClick={handleClose}
                                 isSuggesting={isSuggesting}
                                 isEmpty={isEmpty}
                             />
