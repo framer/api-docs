@@ -81,10 +81,10 @@ push directly to this repository) and open a Pull Request describing the changes
 
 ## Deployment
 
-Deployment is managed by [Netlify][#netlify]. On each commit to the master branch Netlify
-will rebuild changes and publish. Netlify will also generate a build for any pull requests
-created and add a link via the comments. The [netlify.toml](./netlify.toml) file contains
-the build and routing configuration for Netlify.
+Deployment is managed by [Vercel][#vercel]. On each commit to the master branch Vercel
+will rebuild changes and publish. Vercel will also generate a build for any pull requests
+created and add a link via the comments. The [vercel.json](./vercel.json) file contains
+the routing configuration for Vercel.
 
 To invoke a manual build you can run:
 
@@ -92,7 +92,7 @@ To invoke a manual build you can run:
 
 This will output the static HTML/CSS and JavaScript into a build directory in the project root.
 
-[#netlify]: https://www.netlify.com/
+[#vercel]: https://vercel.com/
 
 ## Framer API Data
 
