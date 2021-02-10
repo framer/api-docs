@@ -1,4 +1,10 @@
 {
+    "redirects": [{ "source": "/", "destination": "/api/" }],
+    "routes": [
+        { "handle": "filesystem" },
+        { "src": "/motion/(.*)", "status": 404, "dest": "/api/motion/404.html" },
+        { "src": "/(.*)", "status": 404, "dest": "/api/404.html" }
+    ],
     "headers": [
         {
             "source": "/(.*)",
