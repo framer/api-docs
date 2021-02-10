@@ -12,8 +12,8 @@
             },
             "continue": true
         },
-        { "src": "/motion/(.*)", "status": 404, "dest": "/api/motion/404.html" },
+        { "src": "/", "status": 308, "headers": { "Location": "/api/" } },
         { "src": "/(.*)", "status": 404, "dest": "/api/404.html" },
-        { "src": "/", "dest": "/api/" }
+        { "src": "/motion/(.*)", "status": 404, "dest": "/api/motion/404.html" }
     ]
 }
