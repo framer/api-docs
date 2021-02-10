@@ -1,6 +1,5 @@
 {
     "cleanUrls": true,
-    "redirects": [{ "source": "/", "destination": "/api/" }],
     "headers": [
         {
             "source": "/(.*)",
