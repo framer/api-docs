@@ -5,6 +5,7 @@ node := $(bin)/ts-node
 watch := $(bin)/chokidar
 monobase := $(bin)/monobase
 dotenv := $(bin)/dotenv
+cpy := $(bin)/cpy
 
 BUILD_DIR ?= ./build
 FRAMER_LIBRARY_DIR ?= ./node_modules/framer
@@ -68,6 +69,7 @@ publish: bootstrap data changelog
 	# Using /api for framer.com
 	@$(dotenv) -- $(monobase) build --project=. --path=build --prefix=/api
 	@$(node) ./model/linkify.ts build/api/**/*.html
+	@$(cpy) '$(BUILD_DIR)/api/404.html' $(BUILD_DIR)
 
 .PHONY: publish-search
 publish-search:

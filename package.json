@@ -26,6 +26,7 @@
         "cheerio": "^1.0.0-rc.2",
         "chokidar-cli": "^2.0.0",
         "classnames": "^2.2.6",
+        "cpy-cli": "^3.1.1",
         "dotenv-cli": "^4.0.0",
         "framer": "^1.2.25",
         "framer-motion": "^3.5.3",
