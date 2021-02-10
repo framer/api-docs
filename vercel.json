@@ -1,6 +1,7 @@
 {
     "cleanUrls": true,
     "redirects": [{ "source": "/", "destination": "/api/" }],
+    "rewrites": [{ "source": "/api/404.html", "destination": "/404.html" }],
     "headers": [
         {
             "source": "/(.*)",
