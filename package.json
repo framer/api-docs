@@ -3,8 +3,7 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "postinstall": "patch-package",
-        "publish": "make publish-env"
+        "postinstall": "patch-package"
     },
     "devDependencies": {
         "@microsoft/api-extractor-model": "7.7.7",
