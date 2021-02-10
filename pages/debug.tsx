@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Page } from "../components/Template"
 import { FramerAPIDefaultProvider, FramerAPIContext } from "../components/contexts/FramerAPIContext"
-import { AnyModel, Kind, FramerAPI } from "../api"
+import { AnyModel, Kind, FramerAPI } from "../model"
 import { Grid } from "../components/layout/Grid"
 
 export default function render() {

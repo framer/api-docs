@@ -61,7 +61,7 @@ This will watch for changes to the project files and reload the page when modifi
 ## Testing
 
 We use [jest][#jest] for our unit tests, these are mostly focused around the code
-used to generate the framer.data.ts file in the [api](/api) directory. Though test
+used to generate the framer.data.ts file in the [model](/model) directory. Though test
 for other parts of the codebase are most welcome.
 
 To run the test suite:

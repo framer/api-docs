@@ -58,7 +58,7 @@ serve: dev
 .PHONY: build
 build: bootstrap data changelog
 	@$(dotenv) -- $(monobase) build --project=. --path=$(BUILD_DIR)
-	@find $(BUILD_DIR) -name '*.html' | xargs $(node) ./api/linkify.ts
+	@find $(BUILD_DIR) -name '*.html' | xargs $(node) ./model/linkify.ts
 
 .PHONY: verify-api-references
 verify-api-references:
@@ -68,7 +68,7 @@ verify-api-references:
 publish: bootstrap data changelog
 	# Using /api for framer.com
 	@$(dotenv) -- $(monobase) build --project=. --path=build --prefix=/api
-	@$(node) ./api/linkify.ts build/api/**/*.html
+	@$(node) ./model/linkify.ts build/api/**/*.html
 
 .PHONY: publish-search
 publish-search:
@@ -85,7 +85,7 @@ endif
 
 .PHONY: search
 search:
-	@$(dotenv) -- $(node) -O '{ "downlevelIteration": false }' ./api/searchify.ts
+	@$(dotenv) -- $(node) -O '{ "downlevelIteration": false }' ./model/searchify.ts
 
 .PHONY: clean
 clean:
@@ -93,7 +93,7 @@ clean:
 
 .PHONY: query
 query-data: data
-	@yarn ts-node ./api/query.ts '$(QUERY)'
+	@yarn ts-node ./model/query.ts '$(QUERY)'
 
 .PHONY: upgrade
 upgrade:
@@ -141,7 +141,7 @@ components/framer.data.ts: bootstrap $(wildcard api/*)
 			exit 1;\
 		fi;\
 	done
-	@cat <(printf "export default ") <($(node) ./api/generator.ts $(GENERATOR_DEPENDENCIES)) > "$@.tmp"
+	@cat <(printf "export default ") <($(node) ./model/generator.ts $(GENERATOR_DEPENDENCIES)) > "$@.tmp"
 	@mv -f "$@.tmp" "$@"
 
 pages/changelog.mdx: bootstrap node_modules/framer/CHANGELOG.md
@@ -154,6 +154,6 @@ pages/changelog.mdx: bootstrap node_modules/framer/CHANGELOG.md
 changelog: pages/changelog.mdx
 
 api/__fixtures__/example.data.ts: api/__fixtures__/example.api.json
-	@cat <(printf "export default ") <($(node) ./api/generator.ts $<) > "$@"
+	@cat <(printf "export default ") <($(node) ./model/generator.ts $<) > "$@"
 
 .DEFAULT_GOAL := usage

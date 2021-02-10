@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ClassModel, Kind } from "../../api"
+import { ClassModel, Kind } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIMethodElement } from "./APIMethod"
 import { APIOverviewElement } from "./APIOverview"

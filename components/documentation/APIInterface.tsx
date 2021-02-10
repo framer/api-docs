@@ -1,6 +1,6 @@
 import * as React from "react"
 import { APIEntity, APIEntityExample } from "./types"
-import { InterfaceModel, Kind } from "../../api"
+import { InterfaceModel, Kind } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIPropertyElement } from "./APIProperty"
 import { APIMethodElement } from "./APIMethod"

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Kind } from "../../api"
+import { Kind } from "../../model"
 
 /**
  * Helper for displaying a warning message when unable to render an API

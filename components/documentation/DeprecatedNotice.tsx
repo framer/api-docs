@@ -1,6 +1,6 @@
 import * as React from "react"
-import { AnyModel } from "../../api"
-import { APIOverviewElement } from "./APIOverview";
+import { AnyModel } from "../../model"
+import { APIOverviewElement } from "./APIOverview"
 
 /**
  * Renders a badge if the method is depreacted.
