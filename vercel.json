@@ -1,9 +1,9 @@
 {
-    "redirects": [{ "source": "/", "destination": "/api/" }],
-    "routes": [
-        { "handle": "filesystem" },
-        { "src": "/motion/(.*)", "status": 404, "dest": "/api/motion/404.html" },
-        { "src": "/(.*)", "status": 404, "dest": "/api/404.html" }
+    "cleanUrls": true,
+    "redirects": [
+        { "source": "/", "destination": "/api/" },
+        { "source": "/motion/(.*)", "destination": "/api/motion/404.html", "statusCode": 404 },
+        { "source": "/(.*)", "destination": "/api/404.html", "statusCode": 404 }
     ],
     "headers": [
         {
