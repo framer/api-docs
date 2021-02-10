@@ -36,9 +36,8 @@ usage:
 	@echo "    NOTE: You can use \`make -B\` to force rebuild changes if needed"
 
 # Update node modules if package.json is newer than node_modules or yarn lockfile
-# Use a mutex file so multiple Source dirs can be built in parallel.
 node_modules/.yarn-integrity: yarn.lock package.json
-	yarn install --mutex network
+	yarn install
 	touch $@
 
 .PHONY: bootstrap
