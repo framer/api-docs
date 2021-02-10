@@ -75,6 +75,14 @@ publish-search:
 	@make publish
 	@make search
 
+.PHONY: publish-env
+publish-env:
+ifeq ($(CONTEXT),"production")
+	@make publish-search
+else
+	@make publish
+endif
+
 .PHONY: search
 search:
 	@$(dotenv) -- $(node) -O '{ "downlevelIteration": false }' ./api/searchify.ts

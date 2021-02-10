@@ -4,8 +4,7 @@
     "private": true,
     "scripts": {
         "postinstall": "patch-package",
-        "publish": "make publish",
-        "publish-search": "make publish-search"
+        "publish": "make publish-env"
     },
     "devDependencies": {
         "@microsoft/api-extractor-model": "7.7.7",
