@@ -1,10 +1,6 @@
 {
     "cleanUrls": true,
-    "redirects": [
-        { "source": "/", "destination": "/api/" },
-        { "source": "/motion/(.*)", "destination": "/api/motion/404.html", "statusCode": 404 },
-        { "source": "/(.*)", "destination": "/api/404.html", "statusCode": 404 }
-    ],
+    "redirects": [{ "source": "/", "destination": "/api/" }],
     "headers": [
         {
             "source": "/(.*)",
