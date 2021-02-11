@@ -105,6 +105,10 @@ addPropertyControls(MyComponent, {
 
 <APIEnumField name="ControlType.Array" />
 
+## Object
+
+<APIEnumField name="ControlType.Object" />
+
 ## Boolean
 
 <APIEnumField name="ControlType.Boolean" />
@@ -145,48 +149,10 @@ addPropertyControls(MyComponent, {
 
 <APIEnumField name="ControlType.String" />
 
----
+## EventHandler
 
-## Event Handler
-
-<h3>ControlType.EventHandler</h3>
-
-A control that exposes events in the prototyping panel within the Framer UI. When choosing an event from the prototyping panel, you’ll have the option to navigate to a new Frame or open a URL.
-
-```jsx
-export function MyComponent(props) {
-  return <button onClick={props.onClick}>Click Me</button>
-}
-
-addPropertyControls(MyComponent, {
-  onClick: {
-    type: ControlType.EventHandler,
-  },
-})
-```
-
----
+<APIEnumField name="ControlType.EventHandler" />
 
 ## Transition
 
-<h3>ControlType.Transition</h3>
-
-A control that allows for editing animation transition options within the Framer UI.
-
-```jsx
-export function MyComponent(props) {
-  return (
-    <Frame
-      animate={{ scale: 2 }}
-      transition={props.transition}
-    />
-  )
-}
-
-addPropertyControls(MyComponent, {
-  transition: {
-    type: ControlType.Transition,
-    title: "Transition",
-  },
-})
-```
+<APIEnumField name="ControlType.Transition" />
