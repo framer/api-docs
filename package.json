@@ -6,8 +6,8 @@
         "postinstall": "patch-package"
     },
     "devDependencies": {
-        "@microsoft/api-extractor-model": "7.3.0",
-        "@microsoft/tsdoc": "0.12.10",
+        "@microsoft/api-extractor-model": "7.7.7",
+        "@microsoft/tsdoc": "0.12.14",
         "@types/chalk": "^2.2.0",
         "@types/cheerio": "^0.22.11",
         "@types/classnames": "^2.2.7",
