@@ -27,7 +27,7 @@
         "chokidar-cli": "^2.0.0",
         "classnames": "^2.2.6",
         "dotenv-cli": "^4.0.0",
-        "framer": "^1.2.22",
+        "framer": "^1.2.23",
         "framer-motion": "^3.3.0",
         "glob": "^7.1.6",
         "jest": "^24.3.1",
