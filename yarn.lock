@@ -4043,10 +4043,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-framer-motion@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-3.3.0.tgz#e355824369f03c8cd07a87ef59b7a8348c33fafd"
-  integrity sha512-bjUrwXfMJZ6D+HSMDiXbMGKmlWGnUux8HotWgORTZkdPTgKAndlRXjeC2ikCgNVo2ifmRvEla5ckP9JaZc7JKA==
+framer-motion@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-3.4.2.tgz#da3145f710eb1fbd5521a045879feb5613081540"
+  integrity sha512-8gSxsLoq17Xqo+Hwuamnh0PXN9Hln6u6PwSLbT0KeXqsGSDjCXKk2+QJQ0EpkImV2WpC6guT/xMhG6+uQADxNA==
   dependencies:
     framesync "^5.0.0"
     hey-listen "^1.0.8"
@@ -4056,10 +4056,10 @@ framer-motion@^3.3.0:
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framer@^1.2.23:
-  version "1.2.23"
-  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.23.tgz#055e6c7e4d567b892e6129c3e9c8742449d40a68"
-  integrity sha512-eebj22LpHPkK7267rUyjW+70rsfddWBgeWi+ubmWqbsmJXHfFtIqjp16sHXMM0jroAThD2KrsnAXD3oFuZZCnw==
+framer@^1.2.25:
+  version "1.2.25"
+  resolved "https://registry.yarnpkg.com/framer/-/framer-1.2.25.tgz#f785b9711e4198bbbf397875cb031a3512df2a3b"
+  integrity sha512-1Nbi4VErK7l5rN5r188u2TtAMN5YqS7Kq2fJ0CLKcrd47d92TgjDuszjYv0NpCGKdQ5U2g+TGg6q8Pw7BeXjkw==
 
 framesync@5.0.0, framesync@^5.0.0:
   version "5.0.0"
