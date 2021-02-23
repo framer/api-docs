@@ -48,22 +48,6 @@ export const MyComponent = () => (
 )
 ```
 
-<div>
-
-Any component can be turned into a `motion` component with the `motion.custom` function.
-
-Note that the provided component must pass `ref` to the underlying DOM element that is to be animated. `motion.custom` must not be called inside a React render function.
-
-</div>
-
-```jsx
-const Component = React.forwardRef((props, ref) => (
-    <div ref={ref} />
-))
-
-const MotionComponent = motion.custom(Component)
-```
-
 ---
 
 ## Supported values
@@ -238,6 +222,45 @@ These are all set as a value between `0` and `1`, where `1` is the measured leng
   animate={{ pathLength: 0, pathOffset: 1 }}
   transition={{ duration: 2 }}
 />
+```
+
+---
+
+## Custom components
+
+<div>
+
+Any component can be turned into a `motion` component by wrapping it with the `motion()` function.
+
+The provided component **must** forward `ref` to the DOM element you want to animate.
+
+In addition, `motion()` **must not** be called inside a React render function.
+
+</div>
+
+```jsx
+const Component = React.forwardRef((props, ref) => (
+    <div ref={ref} />
+))
+
+const MotionComponent = motion(Component)
+```
+
+It's also possible to pass strings to `motion`, which will create custom DOM elements.
+
+```jsx
+// Will render <custom-element /> into HTML
+const MotionComponent = motion('custom-element')
+```
+
+<div>
+
+By default, all `motion` props (like `animate` etc) are filtered out of the `props` forwarded to the provided component. By providing a `forwardMotionProps` config, the provided component will receive these props.
+
+</div>
+
+```jsx
+motion(Component, { forwardMotionProps: true })
 ```
 
 ---
