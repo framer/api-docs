@@ -44,7 +44,16 @@ const MotionMenu = () => {
                 href="/pages/motion/guide-reduce-bundle-size.mdx"
                 title="Reduce bundle size"
             />
-            <MenuItem className="guide-upgrade" href="/pages/motion/guide-upgrade.mdx" title="Upgrade Framer Motion" />
+            <MenuItem
+                className="guide-upgrade-to-framer-motion-2"
+                href="/pages/motion/guide-upgrade-to-framer-motion-2.mdx"
+                title="Upgrade to Motion 2"
+            />
+            <MenuItem
+                className="guide-upgrade-to-framer-motion-3"
+                href="/pages/motion/guide-upgrade-to-framer-motion-3.mdx"
+                title="Upgrade to Motion 3"
+            />
         </Menu>
     )
 }
