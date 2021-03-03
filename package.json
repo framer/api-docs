@@ -29,7 +29,7 @@
         "cpy-cli": "^3.1.1",
         "dotenv-cli": "^4.0.0",
         "framer": "^1.2.25",
-        "framer-motion": "^3.7.0",
+        "framer-motion": "3.10.0",
         "glob": "^7.1.6",
         "jest": "^24.3.1",
         "lodash.escape": "^4.0.1",
