@@ -25,6 +25,8 @@ const MotionMenu = () => {
                 title="AnimateSharedLayout"
             />
             <MenuItem className="animate-presence" href="/pages/motion/animate-presence.mdx" title="AnimatePresence" />
+            <MenuItem className="lazy-motion" href="/pages/motion/lazy-motion.mdx" title="LazyMotion" />
+            <MenuItem className="motion-config" href="/pages/motion/motion-config.mdx" title="MotionConfig" />
 
             <SubTitle name="Guides" />
             <MenuItem
@@ -44,16 +46,7 @@ const MotionMenu = () => {
                 href="/pages/motion/guide-reduce-bundle-size.mdx"
                 title="Reduce bundle size"
             />
-            <MenuItem
-                className="guide-upgrade-to-framer-motion-2"
-                href="/pages/motion/guide-upgrade-to-framer-motion-2.mdx"
-                title="Upgrade to Motion 2"
-            />
-            <MenuItem
-                className="guide-upgrade-to-framer-motion-3"
-                href="/pages/motion/guide-upgrade-to-framer-motion-3.mdx"
-                title="Upgrade to Motion 3"
-            />
+            <MenuItem className="guide-upgrade" href="/pages/motion/guide-upgrade.mdx" title="Upgrade guides" />
         </Menu>
     )
 }

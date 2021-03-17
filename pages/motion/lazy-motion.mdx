@@ -1,0 +1,56 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+  Button,
+  EmbeddedExample,
+} from "../../components"
+import { AnimatePresenceExample } from "../../components/examples/motion"
+
+export default Template("LazyMotion")
+
+# LazyMotion
+
+<span className="lead">
+  Reduce bundle size by lazy-loading a subset of `motion`'s features.
+</span>
+
+<div>
+
+The `LazyMotion` component can help you reduce bundle size by synchronously or asynchronously loading some, or all, of the `motion` component's features.
+
+</div>
+
+```jsx
+import { LazyMotion, domAnimation, m } from "framer-motion"
+
+export const MyComponent = ({ isVisible }) => (
+  <LazyMotion features={domAnimation}>
+    <m.div animate={{ opacity: 1 }} />
+  </AnimatePresence>
+)
+```
+
+By default, the `motion` component comes pre-bundled with all of its features. The `m` component can be used in exactly the same way as `motion`, but it comes with no features preloaded. These are then provided by `LazyMotion`.
+
+This can cut initial bundle sizes down to under 5kb.
+
+Read the [Reduce bundle size](guide-reduce-bundle-size) guide for full usage instructions.
+
+---
+
+## Props
+
+<APIProperty name="LazyMotionProps.features" />
+<APIProperty name="LazyMotionProps.strict" />

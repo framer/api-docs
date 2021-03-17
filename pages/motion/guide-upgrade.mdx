@@ -1,0 +1,156 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+} from "../../components"
+
+export default Template("Upgrade Framer Motion to the latest version")
+
+# Upgrade guides
+
+<span className="lead">
+  How to upgrade to the latest version of Framer Motion
+</span>
+
+## 4.0
+
+Framer Motion 4 introduces a brand new `LazyMotion` component to help reduce bundle size.
+
+Previously, a subset of `motion` functionality could be loaded in synchronously or asynchronously via `MotionConfig`'s `features` prop. This functionality has been removed in favour of the new `LazyMotion` component.
+
+Check out the new [reduce bundle size](guide-reduce-bundle-size) guide to find out how to use this new API.
+
+## 3.0
+
+Framer Motion 3 is major release but the type of breaking change is very specific and very small. It's unlikely, though possible, to change the way your animations function.
+
+### The changing behaviour
+
+Motion 3 features a centralisation of how animation states are computed.
+
+All animation props are now ranked in terms of priority (left being lowest, right being highest).
+
+```javascript
+const priority = ["animate", "while-", "exit"]
+```
+
+When one of those props changes, or becomes active/inactive, we will recompute the necessary animations. This is an extension and codification of a behaviour that was partially implemented only for the `while` props, leading to a more consistent and predictable experience.
+
+This leads to a few behavioural changes:
+
+### Multi-variant props
+
+**Before**, only `animate` could accept a list of variants.
+
+```jsx
+<motion.div animate={["active", "warning"]} />
+```
+
+**Now**, all animation props can.
+
+```jsx
+<motion.div whileHover={["hover", "secondary"]} />
+```
+
+### Live animation props
+
+**Before**, `while-` props and `exit` were only animated to/from when those states became active/inactive. So any changes to `whileHover` while that gesture was active were ignored.
+
+**Now**, if the contents of `whileHover` or `exit` (etc) change while that state is active, that change will be respected and animated to.
+
+### Removing animation values
+
+**Before**, if a value was outright removed from an animation prop, nothing would happen.
+
+**Now**, if a value is removed, we check for it in the next highest-priority animation state. For instance, if `opacity` is removed from `whileHover`, Motion will check for it in `animate` and animate to that.
+
+If we don't find one in `animate`, it'll check in `style`, or fallback to its initially-recorded value (for instance if the value was initially read from the DOM because none was explicitly defined).
+
+## That's all!
+
+These are subtle changes that will probably not affect the majority of projects, but they're worth being aware of.
+
+Motion 3 seems much smaller in scope than 2, and it is! But it provides a much stronger base for variants and animation props going forward.
+
+
+## 2.0
+
+Framer Motion 2 is major release and that means there's API changes. In this guide we'll take a look at how you can upgrade your code to ensure it continues to work as expected, and highlight some features that will be broken in the new version of Motion.
+
+### Layout animations
+
+Framer Motion 1 supported a couple of ways to perform layout animations, the `positionTransition` and `layoutTransition` props.
+
+```jsx
+// Before
+<motion.div layoutTransition />
+```
+
+In Framer Motion 2, these have both been superseded by the `layout` prop.
+
+```jsx
+// After
+<motion.div layout />
+```
+
+Both of the old props used to take a transition as an argument.
+
+```jsx
+// Before
+<motion.div layoutTransition={{ duration: 2 }} />
+```
+
+Now, layout animations use the same default `transition` prop as other animations.
+
+```jsx
+// After
+<motion.div layout transition={{ duration: 2 }} />
+```
+
+In Framer Motion 1, layout animations could distort `borderRadius` and `boxShadow` properties on components that were changing size. This is now fixed if either property is animated.
+
+```jsx
+<motion.div layout initial={{ borderRadius: 20 }} />
+```
+
+<div>
+
+Layout animations that changed size could also distort child components. This can now be corrected by providing them with a `layout` prop, too.
+
+Only immediate children will need to be corrected for scale.
+
+</div>
+
+```jsx
+<motion.div layout>
+  <motion.div layout />
+</motion.div>
+```
+
+### Breaking changes
+
+There are some changes that don't have an immediate fix that you should be aware of before upgrading.
+
+#### Drag
+
+Drag has been refactored to use the same layout projection rendering methodology that powers Motion 2's layout animations to ensure the two features are fully compatible with each other.
+
+This has lead to some breaking changes:
+
+- Drag listeners (like `onDrag`) now report the `point` relative to the viewport, moving in line with other pointer gestures in Motion.
+- `dragOriginX` and `dragOriginY` have been removed. These were added to allow a hacky way to make `positionTransition` compatible with `drag`, but `layout` is compatible with `drag` by default.
+
+#### useAnimatedState
+
+The `useAnimatedState` API was an experimental and undocumented API for use in Framer X. This has now been removed.
