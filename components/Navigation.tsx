@@ -37,16 +37,16 @@ const MotionMenu = () => {
             <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer" />
 
             <MenuItem
-                className="migrate-from-pose"
-                href="/pages/motion/migrate-from-pose.mdx"
-                title="Migrate from Pose"
-            />
-            <MenuItem
                 className="guide-reduce-bundle-size"
                 href="/pages/motion/guide-reduce-bundle-size.mdx"
                 title="Reduce bundle size"
             />
             <MenuItem className="guide-upgrade" href="/pages/motion/guide-upgrade.mdx" title="Upgrade guides" />
+            <MenuItem
+                className="migrate-from-pose"
+                href="/pages/motion/migrate-from-pose.mdx"
+                title="Migrate from Pose"
+            />
         </Menu>
     )
 }

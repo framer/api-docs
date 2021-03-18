@@ -26,11 +26,25 @@ export default Template("Reduce bundle size")
 
 As of version 4.0, the full bundle size is just under **30kb**. But thanks to code-splitting it's likely that this **isn't** the actual weight you'll be adding to your bundle size.
 
-For example, if you're only importing `AnimatePresence` and `usePresence` to implement your own exit animations, you'd only add **1.4kb** to your bundle.
+For example, if you're only importing `AnimatePresence` and `usePresence` to implement your own exit animations with CSS or a third-party library, you'd only add **1.4kb** to your bundle.
 
 ```jsx
 import { AnimatePresence, usePresence } from "framer-motion" // 1.4kb
 ```
+
+<Callout>
+  <strong>Note:</strong> All sizes quoted in this guide are
+  from{" "}
+  <a href="https://rollupjs.org/" target="_blank">
+    Rollup
+  </a>
+  -generated bundles.{" "}
+  <a href="https://webpack.js.org/" target="_blank">
+    Webpack
+  </a>{" "}
+  is less effective at tree-shaking and should generate
+  slightly larger bundles.
+</Callout>
 
 The main import from Framer Motion is the `motion` component and, by default, this can add around **25kb** to your bundle.
 
