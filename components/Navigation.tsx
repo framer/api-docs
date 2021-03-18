@@ -79,9 +79,7 @@ const LibraryMenu = () => {
             <SubTitle name="Framer" />
             <MenuItem className="assets" href="/pages/assets.mdx" title="Assets" />
             <MenuItem className="data" href="/pages/data.mdx" title="Data &amp; Overrides" />
-            <MenuItem className="canvas-components" href="/pages/canvas-components.mdx" title="CanvasComponents" />
             <MenuItem className="property-controls" href="/pages/property-controls.mdx" title="PropertyControls" />
-            <MenuItem className="navigation" href="/pages/navigation.mdx" title="Navigation" />
             <MenuItem className="render-target" href="/pages/render-target.mdx" title="RenderTarget" />
         </Menu>
     )
