@@ -25,11 +25,26 @@ export default Template("Upgrade Framer Motion to the latest version")
 
 ## 4.0
 
+<div>
+
 Framer Motion 4 introduces a brand new `LazyMotion` component to help reduce bundle size.
 
 Previously, a subset of `motion` functionality could be loaded in synchronously or asynchronously via `MotionConfig`'s `features` prop. This functionality has been removed in favour of the new `LazyMotion` component.
 
 Check out the new [reduce bundle size](/api/motion/guide-reduce-bundle-size) guide to find out how to use this new API.
+
+</div>
+
+```jsx
+import { LazyMotion, domAnimation, m } from "framer-motion"
+
+export const MyComponent = ({ isVisible }) => (
+  <LazyMotion features={domAnimation}>
+    <m.div animate={{ opacity: 1 }} />
+  </AnimatePresence>
+)
+```
+
 
 ## 3.0
 
