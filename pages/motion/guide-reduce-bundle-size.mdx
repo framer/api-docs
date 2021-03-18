@@ -24,7 +24,9 @@ export default Template("Reduce bundle size")
   reduce it.
 </span>
 
-As of version 4.0, the full bundle size is just under **30kb**. But thanks to code-splitting it's likely that this **isn't** the actual weight you'll be adding to your bundle size.
+As of version 4.0, the full gzipped and minified size of Framer Motion is just under **30kb**.
+
+However, modern JavaScript bundlers like [Rollup](https://rollupjs.org/) and [Webpack](https://webpack.js.org/) are capable of "tree shaking", which means that only the code you import is shipped to consumers.
 
 For example, if you're only importing `AnimatePresence` and `usePresence` to implement your own exit animations with CSS or a third-party library, you'd only add **1.4kb** to your bundle.
 
@@ -34,16 +36,9 @@ import { AnimatePresence, usePresence } from "framer-motion" // 1.4kb
 
 <Callout>
   <strong>Note:</strong> All sizes quoted in this guide are
-  from{" "}
-  <a href="https://rollupjs.org/" target="_blank">
-    Rollup
-  </a>
-  -generated bundles.{" "}
-  <a href="https://webpack.js.org/" target="_blank">
-    Webpack
-  </a>{" "}
-  is less effective at tree-shaking and should generate
-  slightly larger bundles.
+  from Rollup -generated bundles. Webpack is less effective
+  at tree-shaking and should generate slightly larger
+  bundles.
 </Callout>
 
 The main import from Framer Motion is the `motion` component and, by default, this can add around **25kb** to your bundle.
@@ -52,7 +47,7 @@ The main import from Framer Motion is the `motion` component and, by default, th
 import { motion } from "framer-motion" // ~25kb
 ```
 
-Framer Motion's simple, props-driven API is the reason for this extra size. Unused features aren't code-split, as it isn't currently possible to detect which features you're going to use at build time.
+Framer Motion's simple, props-driven API is the reason for this extra size. Unused features aren't tree-shaken, as it isn't currently possible to detect which features you're going to use at build time.
 
 However, by using the `m` and `LazyMotion` components, we can bring this down significantly, to just under **5kb** for the initial render.
 
@@ -90,7 +85,7 @@ There are currently two **feature packages** you can load:
 
 In the future it might be possible to offer more granular feature packages, but for now these were chosen to reduce the amount of duplication between features, which could result in much more data being downloaded ultimately.
 
-## Sync loading
+## Synchronous loading
 
 By passing one of these feature packages to `LazyMotion`, they'll be bundled into your main JavaScript bundle.
 
@@ -123,6 +118,7 @@ Then, pass `features` a function that will dynamically load that file.
 ```jsx
 import { LazyMotion, m } from "framer-motion"
 
+// Make sure to return the specific export containing the feature bundle.
 const loadFeatures = () =>
   import("./features.js").then(res => res.default)
 
@@ -141,7 +137,7 @@ function App() {
 
 ## Developer tools
 
-Because the `motion` component still preloads all of its functionality, including it synchronously anywhere in your tree will break the benefits of code-splitting.
+Because the normal `motion` component still preloads all of its functionality, including it anywhere will break the benefits of using `LazyMotion`.
 
 To help prevent this, the `strict` prop can be set on `LazyMotion`. If a `motion` component is loaded anywhere within, it will throw with a reminder to render the `m` component instead.
 
