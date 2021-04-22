@@ -1,0 +1,19 @@
+html,
+body {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+html[data-scroll="false"],
+html[data-scroll="false"] body {
+    overflow-y: hidden;
+}
+
+body.is-search *:not(.search *) {
+    pointer-events: none;
+}
+
+*[id] {
+    scroll-margin-top: 58px;
+}

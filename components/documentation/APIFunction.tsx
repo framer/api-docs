@@ -1,5 +1,5 @@
 import * as React from "react"
-import { MethodModel, Kind } from "../../api"
+import { MethodModel, Kind } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIOverviewElement } from "./APIOverview"
 import { MissingModelWarning } from "./MissingModelWarning"

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { FramerAPI } from "../../api"
+import { FramerAPI } from "../../model"
 
 import json from "../framer.data"
 

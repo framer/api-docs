@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ClassModel, Kind } from "../../api"
+import { ClassModel, Kind } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIMethodElement } from "./APIMethod"
 import { APIOverviewElement } from "./APIOverview"
@@ -48,10 +48,14 @@ export const APIReactComponent: React.FunctionComponent<APIEntity<ClassModel>> =
     const { name, overrides, ...rest } = props
     const api = React.useContext(FramerAPIContext)
 
-    const model = api.resolve(name, Kind.Class)
+    const modelClass = api.resolve(name, Kind.Class)
+    const modelFunction = api.resolve(name, Kind.Function)
+
+    const model = modelClass ?? modelFunction
+
     if (!model) return <MissingModelWarning name={name} kind={Kind.Class} />
 
-    const methods = model.methods.map(method => <APIMethodElement key={method.id} {...method} />)
+    const methods = modelClass?.methods.map(method => <APIMethodElement key={method.id} {...method} />)
     return (
         <APIReactComponentElement {...model} {...overrides} {...rest}>
             {props.children}

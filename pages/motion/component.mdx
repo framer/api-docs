@@ -48,8 +48,6 @@ export const MyComponent = () => (
 )
 ```
 
-<!-- Point to animation and gesture docs -->
-
 ---
 
 ## Supported values
@@ -131,7 +129,7 @@ However, you can customize this default order using the [`transformTemplate` pro
 
 ```jsx
 function template({ rotate, x }) {
-  return `rotate(${rotate}deg) translateX(${x}px)`
+  return `rotate(${rotate}) translateX(${x})`
 }
 
 return (
@@ -228,6 +226,45 @@ These are all set as a value between `0` and `1`, where `1` is the measured leng
 
 ---
 
+## Custom components
+
+<div>
+
+Any component can be turned into a `motion` component by wrapping it with the `motion()` function.
+
+The provided component **must** forward `ref` to the DOM element you want to animate.
+
+In addition, `motion()` **must not** be called inside a React render function.
+
+</div>
+
+```jsx
+const Component = React.forwardRef((props, ref) => (
+    <div ref={ref} />
+))
+
+const MotionComponent = motion(Component)
+```
+
+It's also possible to pass strings to `motion`, which will create custom DOM elements.
+
+```jsx
+// Will render <custom-element /> into HTML
+const MotionComponent = motion('custom-element')
+```
+
+<div>
+
+By default, all `motion` props (like `animate` etc) are filtered out of the `props` forwarded to the provided component. By providing a `forwardMotionProps` config, the provided component will receive these props.
+
+</div>
+
+```jsx
+motion(Component, { forwardMotionProps: true })
+```
+
+---
+
 ### Performance
 
 Motion animates values outside the React render cycle for increased performance.
@@ -293,7 +330,7 @@ The following SVG values are not currently compatible with server-side rendering
 <APIProperty name="LayoutProps.layout" />
 <APIProperty name="LayoutProps.layoutId" />
 <APIFunction name="LayoutProps.onLayoutAnimationComplete" />
-<APIFunction name="LayoutProps.onViewportBoxUpdate()" />
+<APIFunction name="VisualElementLifecycles.onViewportBoxUpdate()" />
 
 ### Drag
 
@@ -306,14 +343,15 @@ The following SVG values are not currently compatible with server-side rendering
 
 ### Gesture animations
 
+<APIProperty name="DraggableProps.whileDrag" />
 <APIProperty name="HoverHandlers.whileHover" />
 <APIProperty name="TapHandlers.whileTap" />
 
 ### Animation events
 
-<APIFunction name="MotionCallbacks.onUpdate()" />
-<APIFunction name="MotionCallbacks.onAnimationStart()" />
-<APIFunction name="MotionCallbacks.onAnimationComplete()" />
+<APIFunction name="VisualElementLifecycles.onUpdate()" />
+<APIFunction name="VisualElementLifecycles.onAnimationStart()" />
+<APIFunction name="VisualElementLifecycles.onAnimationComplete()" />
 
 ### Hover events
 

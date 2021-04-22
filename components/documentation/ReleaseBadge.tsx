@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ReleaseTag } from "../../api"
+import { ReleaseTag } from "../../model"
 import styled from "styled-components"
 
 const AlphaBadge = styled.span`

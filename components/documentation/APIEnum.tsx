@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Kind, BaseModel, EnumModel } from "../../api"
+import { Kind, BaseModel, EnumModel } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIOverviewElement } from "./APIOverview"
 import { MissingModelWarning } from "./MissingModelWarning"

@@ -1,0 +1,52 @@
+<!-- 👋 Editing this file? Need help? → https://github.com/framer/api-docs/blob/master/CONTRIBUTING.md -->
+
+import {
+  APIClass,
+  APIVariable,
+  APIFunction,
+  APIMethod,
+  APIInterface,
+  APIProperty,
+  APIMergedInterface,
+  Template,
+  Link,
+  Ref,
+  Callout,
+  Todo,
+  Button,
+  EmbeddedExample,
+} from "../../components"
+import { AnimatePresenceExample } from "../../components/examples/motion"
+
+export default Template("MotionConfig")
+
+# MotionConfig
+
+<span className="lead">
+  Set configuration options for Framer Motion.
+</span>
+
+<div>
+
+The `MotionConfig` component can be used to set configuration options for all child `motion` components. Currently, it only accepts one prop, `transition`.
+
+</div>
+
+```jsx
+import { motion, MotionConfig } from "framer-motion"
+
+export const MyComponent = ({ isVisible }) => (
+  <MotionConfig transition={{ duration: 1 }}>
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      />
+  </MotionConfig>
+)
+```
+
+---
+
+## Props
+
+<APIProperty name="MotionConfigContext.transition" />

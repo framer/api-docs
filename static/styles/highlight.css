@@ -113,6 +113,9 @@ div[class*="framer-"] p code {
 div[class*="framer-"] p code {
     font-weight: 600;
 }
+div[class*="framer-"] a code {
+    color: inherit;
+}
 .framer-function h3 > code {
     color: #888 !important;
 }

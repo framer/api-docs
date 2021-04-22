@@ -7,7 +7,7 @@
 // and will output a processed JSON file to stdout.
 //
 // Usage:
-//   % ./api/generator.ts <input> [...<input2>]
+//   % ./model/generator.ts <input> [...<input2>]
 //
 // References:
 // https://github.com/Microsoft/web-build-tools/blob/master/apps/api-documenter/src/documenters/MarkdownDocumenter.ts

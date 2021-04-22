@@ -24,117 +24,130 @@ export default Template("Reduce bundle size")
   reduce it.
 </span>
 
-As of version 2.9, the full bundle size for Framer Motion is **27.6kb**. Thanks to code-splitting, it's likely that this **isn't** the actual weight you'll be adding to your bundle size.
+As of version 4.0, the full gzipped and minified size of Framer Motion is just under **30kb**.
 
-For example, if you are only importing `AnimatePresence` and `usePresence` to implement your own exit animations with CSS, you'd only add **1.4kb** to your bundle.
+However, modern JavaScript bundlers like [Rollup](https://rollupjs.org/) and [Webpack](https://webpack.js.org/) are capable of "tree shaking", which means that only the code you import is shipped to consumers.
+
+For example, if you're only importing `AnimatePresence` and `usePresence` to implement your own exit animations with CSS or a third-party library, you'd only add **1.4kb** to your bundle.
 
 ```jsx
 import { AnimatePresence, usePresence } from "framer-motion" // 1.4kb
 ```
 
-However, the main import is the `motion` component and, by default, when you use it you add around **23kb** to your bundle.
+<Callout>
+  <strong>Note:</strong> All sizes quoted in this guide are
+  from Rollup -generated bundles. Webpack is less effective
+  at tree-shaking and should generate slightly larger
+  bundles.
+</Callout>
+
+The main import from Framer Motion is the `motion` component and, by default, this can add around **25kb** to your bundle.
 
 ```jsx
-import { motion } from "framer-motion" // 23kb
+import { motion } from "framer-motion" // ~25kb
 ```
 
-Framer Motion's simple, props-driven API is the reason for this extra size. Unused features aren't code-split, as it isn't currently possible to detect which features you're using at build time.
+Framer Motion's simple, props-driven API is the reason for this extra size. Unused features aren't tree-shaken, as it isn't currently possible to detect which features you're going to use at build time.
 
-However, Motion offers APIs that allow you to create loading strategies so that you only ever import what you need. In 2.9, employing these strategies makes it possible to reduce the `motion` import size down to **12.5kb**, and future versions will be able to reduce this even further.
+However, by using the `m` and `LazyMotion` components, we can bring this down significantly, to just under **5kb** for the initial render.
 
 ## How to reduce bundle size
 
-Instead of importing `motion`, import the slim `m` component. You can do this without changing your code by importing it as `motion`.
+Instead of importing `motion`, import the slimmer `m` component.
 
 ```jsx
-import { m as motion } from "framer-motion"
+import { m } from "framer-motion"
 ```
 
-By default, `m` has no knowledge of features like exit animations or drag. They can be loaded manually via the `MotionConfig` component. This lets you define **only the features you use**, and provide them to `m` components via React context, ensuring unused motion features are not bundled into your code.
+`m` is used in the exact same way as `motion`, but unlike `motion`, the `m` component doesn't come preloaded with features like exit animations or drag.
+
+Instead, we load these in manually via the `LazyMotion` component. This lets you choose which features you load in, and whether you load them synchronously or asynchronously.
 
 ```jsx
-import {
-  MotionConfig,
-  DragFeature,
-  ExitFeature,
-} from "framer-motion"
+import { LazyMotion, domAnimation } from "framer-motion"
 
-export function App({ children }) {
+// Load only the domAnimation package
+function App({ children }) {
   return (
-    <MotionConfig features={[DragFeature, ExitFeature]}>
+    <LazyMotion features={domAnimation}>
       {children}
-    </MotionConfig>
+    </LazyMotion>
   )
 }
 ```
 
 ## Available features
 
-The features you can import from `framer-motion` are:
+There are currently two **feature packages** you can load:
 
-- `AnimationFeature`: For `animate` prop support. This includes variants and animation controls.
-- `ExitFeature`: For `exit` prop support.
-- `DragFeature`: For `drag` prop support.
-- `GesturesFeature`: For all gesture callbacks including `whileHover` and `whileTap`.
-- `AnimateLayoutFeature`: For `layout` and `layoutId` prop support.
+- `domAnimation`: This provides support for animations, variants, exit animations, and tap/hover/focus gestures. (~13kb)
+- `domMax`: This provides support for all of the above, plus pan/drag gestures and layout animations. (~18kb)
 
-## Dynamic feature loading (experimental)
+In the future it might be possible to offer more granular feature packages, but for now these were chosen to reduce the amount of duplication between features, which could result in much more data being downloaded ultimately.
 
-By using `m` and `MotionConfig` you can reduce bundle size by only importing the features you need. But these features are being added to your initial bundle size, even if you don't need their functionality straight away.
+## Synchronous loading
 
-Motion supports the progressive enhancement of `m` components by adding new items to the `features` prop even after it's mounted.
-
-When and how you add new features is up to you.
-
-One way you can implement this is with the dynamic `import` function and a bundler that supports it (like Webpack).
-
-Make a file with an array of features as its default export.
+By passing one of these feature packages to `LazyMotion`, they'll be bundled into your main JavaScript bundle.
 
 ```jsx
-// motion-features.js
-import { AnimationFeature } from "framer-motion"
+import { LazyMotion, domAnimation } from "framer-motion"
 
-export default [AnimationFeature]
+function App({ children }) {
+  return (
+    <LazyMotion features={domAnimation}>
+      {children}
+    </LazyMotion>
+  )
+}
 ```
 
-Then, in your component, you can use `import()`, `useState` and `useEffect` to import this file after the component has made an initial render.
+## Async loading
+
+If you're using a bundler like Webpack or Rollup, we can pass a dynamic import function to `features` that will fetch features only after we've performed our initial render.
+
+First, create a file that exports only the features you want to load.
+
+```javascript
+// features.js
+import { domMax } from "framer-motion"
+export default domMax
+```
+
+Then, pass `features` a function that will dynamically load that file.
 
 ```jsx
-// index.js
+import { LazyMotion, m } from "framer-motion"
+
+// Make sure to return the specific export containing the feature bundle.
+const loadFeatures = () =>
+  import("./features.js").then(res => res.default)
+
+// This animation will run when loadFeatures resolves.
 function App() {
-  const [features, setFeatures] = useState([])
-
-  useEffect(() => {
-    import("./motion-features").then(res => {
-      setFeatures(res.default)
-    })
-  }, [])
-
   return (
-    <MotionConfig features={features}>
-      <Component />
-    </MotionConfig>
+    <LazyMotion features={loadFeatures}>
+      <m.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      />
+    </LazyMotion>
   )
 }
 ```
 
-In this example, we're only importing the `AnimationFeature`. Any `m` components that should perform an animation when they mount will do so when `AnimationFeature` loads.
+## Developer tools
+
+Because the normal `motion` component still preloads all of its functionality, including it anywhere will break the benefits of using `LazyMotion`.
+
+To help prevent this, the `strict` prop can be set on `LazyMotion`. If a `motion` component is loaded anywhere within, it will throw with a reminder to render the `m` component instead.
 
 ```jsx
-import { m as motion } from "framer-motion"
-
-export function Component() {
+function App() {
+  // This will throw!
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    />
+    <LazyMotion strict>
+      <motion.div />
+    </LazyMotion>
   )
 }
-```
-
-You can even mix static and dynamic imports to load some features with a higher priority than others.
-
-```jsx
-<MotionConfig features={[AnimationFeature, ...features]}>
 ```

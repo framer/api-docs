@@ -7,16 +7,47 @@ import { version as libraryVersion } from "framer/package.json"
 import { version as motionVersion } from "framer-motion/package.json"
 import { isMotion } from "../utils/env"
 import { DynamicMobileToggle } from "./dynamic/MobileToggle"
+import { Logo } from "./Logo"
 
 const libraryUrl = "/api/"
 const motionUrl = "/api/motion/"
 
-const Header = styled.div`
-    display: flex;
+const HeaderWrapper = styled.div`
+    position: relative;
     height: 58px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+        transition: opacity 0.2s ease;
+
+        .is-search & {
+            opacity: 0.4;
+        }
+    }
+`
+
+const Header = styled.div`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
     place-items: center;
     padding: 15px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 `
 
 const Home = styled.a`
@@ -36,9 +67,40 @@ const Home = styled.a`
     }
 `
 
-const APISwitch = styled.div`
-    display: flex;
+const APISwitchWrapper = styled.div`
+    position: relative;
     height: 46px;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+        transition: opacity 0.2s ease;
+
+        .is-search & {
+            opacity: 0.4;
+        }
+    }
+`
+
+const APISwitch = styled.div`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 `
 
 const APISwitchItem = styled.a.attrs<{ isMotion?: boolean }>(({ isMotion }) => ({
@@ -77,7 +139,6 @@ const Icon = styled.div`
 const SideBarHeader = styled.div`
     display: flex;
     flex-flow: column nowrap;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
 
     @media (max-width: ${tablet}) {
@@ -110,7 +171,7 @@ const SideBarWrapper = styled.aside`
         width: 100%;
         border-right: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        z-index: 2000;
+        z-index: 3000;
         user-select: none;
         height: 58px;
         overflow: hidden;
@@ -153,35 +214,29 @@ function formatVersion(str: string): string {
     return version + " " + formatPrerelease(prerelease.join("-"))
 }
 
-// export const APISwitch: React.FunctionComponent = () => <div>Hello</div>
-
 export const Sidebar: React.FunctionComponent = () => (
     <SideBarWrapper className="side-bar-wrapper">
         <SideBarHeader>
-            <Header>
-                <Home href={isMotion() ? motionUrl : libraryUrl}>
-                    <Icon>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${isMotion() ? 13 : 10} 15`} height={15}>
-                            <path
-                                d={
-                                    isMotion()
-                                        ? "M0 14V1l6.5 6.5L13 1v13l-3.25-3.25L6.5 14l-3.25-3.25z"
-                                        : "M10 0v5H5L0 0zM0 5h5l5 5H5v5l-5-5z"
-                                }
-                            />
-                        </svg>
-                    </Icon>
-                    <span>API</span>
-                </Home>
-                <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
-                <DynamicMobileToggle />
-            </Header>
-            <APISwitch>
-                <APISwitchItem isActive={!isMotion()}>Library</APISwitchItem>
-                <APISwitchItem isMotion isActive={isMotion()}>
-                    Motion
-                </APISwitchItem>
-            </APISwitch>
+            <HeaderWrapper>
+                <Header>
+                    <Home href={isMotion() ? motionUrl : libraryUrl}>
+                        <Icon>
+                            <Logo />
+                        </Icon>
+                        <span>API</span>
+                    </Home>
+                    <VersionBadge version={formatVersion(isMotion() ? motionVersion : libraryVersion)} />
+                    <DynamicMobileToggle />
+                </Header>
+            </HeaderWrapper>
+            <APISwitchWrapper>
+                <APISwitch>
+                    <APISwitchItem isActive={!isMotion()}>Library</APISwitchItem>
+                    <APISwitchItem isMotion isActive={isMotion()}>
+                        Motion
+                    </APISwitchItem>
+                </APISwitch>
+            </APISwitchWrapper>
         </SideBarHeader>
         <Navigation />
     </SideBarWrapper>

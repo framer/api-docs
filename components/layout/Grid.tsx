@@ -14,6 +14,11 @@ const GridDiv = styled.div`
     column-gap: 100px;
     padding-right: 80px;
     grid-template-columns: 1fr 1fr;
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 
     /* Hack to exclude this element from the flow of the document */
     .grid--exclude {

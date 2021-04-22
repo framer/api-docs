@@ -1,5 +1,5 @@
 import className from "classnames"
-import { AnyModel, BaseModel } from "../../api"
+import { AnyModel, BaseModel } from "../../model"
 
 /* Returns true if the model has no content */
 export function isHeaderEmpty(model: AnyModel, children: any[] = []): boolean {

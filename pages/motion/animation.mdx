@@ -455,7 +455,11 @@ SVG components aren't currently supported with layout animations. This will be f
 
 #### Rotation and skew transforms aren't taking effect
 
-`rotate` and `skew` transforms are not currently compatible with layout animations.
+For `rotate` support, the layout animation group must be wrapped in `AnimateSharedLayout`. `skew` transforms are not currently compatible with layout animations.
+
+#### The content stretches undesirably
+
+This is a natural side-effect of animating width and height with scale. Some elements, like those containing changing lengths of text, might be better animated with `layout="position"`, which only animates the position of the element.
 
 ## Shared layout animations
 
