@@ -2,6 +2,7 @@ import * as React from "react"
 import styled from "styled-components"
 import { urlFor, usePath, Development, StyledSheet, useContext } from "monobase"
 import { FramerAPIDefaultProvider } from "./contexts/FramerAPIContext"
+import { Search } from "./layout/dynamic/Search"
 import { Sidebar } from "./layout/Sidebar"
 import { Codebar } from "./layout/Codebar"
 import { tablet, mobile } from "./layout/Breakpoints"
@@ -10,15 +11,15 @@ import { GoogleTag } from "./GoogleTag"
 import { isMotion } from "./utils/env"
 
 const Body = styled.body`
-    --library: #05f;
-    --motion: #60f;
+    --library: #09f;
+    --motion: #85f;
 
     --accent: ${() => (isMotion() ? "var(--motion)" : "var(--library)")};
-    --accent-selection: ${() => (isMotion() ? "rgba(119, 0, 255, 0.9)" : "rgba(0, 85, 255, 0.9)")};
-    --accent-backdrop: ${() => (isMotion() ? "rgba(119, 0, 255, 0.1)" : "rgba(0, 85, 255, 0.1)")};
+    --accent-selection: ${() => (isMotion() ? "rgba(136, 85, 255, 0.9)" : "rgba(0, 153, 255, 0.9)")};
+    --accent-backdrop: ${() => (isMotion() ? "rgba(136, 85, 255, 0.1)" : "rgba(0, 153, 255, 0.1)")};
 
-    --animation-left: ${() => (isMotion() ? "#b5f" : "#09f")};
-    --animation-middle: ${() => (isMotion() ? "#fbd" : "#adf")};
+    --animation-left: ${() => (isMotion() ? "#85f" : "#09f")};
+    --animation-middle: ${() => (isMotion() ? "#caf" : "#adf")};
     --animation-right: #fff;
 
     font-family: Colfax, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
@@ -78,17 +79,17 @@ const Body = styled.body`
 const Main = styled.main`
     max-width: 100%;
     padding-left: 310px;
-    padding-top: 50px;
+    padding-top: 108px;
     padding-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
 
     @media (max-width: ${tablet}) {
-        padding: 100px 40px;
+        padding: 156px 40px 40px;
         overflow-x: hidden;
     }
     @media (max-width: ${mobile}) {
-        padding: 100px 20px;
+        padding: 136px 20px 20px;
     }
 `
 
@@ -100,6 +101,7 @@ const EditButton = styled.a`
     right: 10px;
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     border-radius: 6px;
     padding: 8px 12px 6px;
     transition: background 0.2s ease;
@@ -157,6 +159,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
         <Body>
             <Main className="wrapper">
                 <Sidebar />
+                <Search />
 
                 {showEdit ? (
                     <EditButton target="_blank" rel="noopener" href={path}>
@@ -181,6 +184,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
                     <link rel="stylesheet" href={urlFor("/static/styles/fonts.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/highlight.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/reset.css")} />
+                    <link rel="stylesheet" href={urlFor("/static/styles/global.css")} />
                     <link rel="shortcut icon" href="https://static.framer.com/api/favicon.ico" />
 
                     <meta content="width=device-width, initial-scale=1" name="viewport" />

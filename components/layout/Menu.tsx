@@ -7,6 +7,11 @@ import { DynamicSubNavigation } from "./dynamic/SubNavigation"
 
 const ListWrapper = styled.ul`
     padding-left: 20px;
+    transition: opacity 0.2s ease;
+
+    .is-search & {
+        opacity: 0.2;
+    }
 
     @media (max-width: 800px) {
         padding-left: 0;

@@ -25,6 +25,8 @@ const MotionMenu = () => {
                 title="AnimateSharedLayout"
             />
             <MenuItem className="animate-presence" href="/pages/motion/animate-presence.mdx" title="AnimatePresence" />
+            <MenuItem className="lazy-motion" href="/pages/motion/lazy-motion.mdx" title="LazyMotion" />
+            <MenuItem className="motion-config" href="/pages/motion/motion-config.mdx" title="MotionConfig" />
 
             <SubTitle name="Guides" />
             <MenuItem
@@ -35,19 +37,15 @@ const MotionMenu = () => {
             <MenuItem className="handoff" href="/pages/motion/handoff.mdx" title="Handoff from Framer" />
 
             <MenuItem
-                className="migrate-from-pose"
-                href="/pages/motion/migrate-from-pose.mdx"
-                title="Migrate from Pose"
-            />
-            <MenuItem
                 className="guide-reduce-bundle-size"
                 href="/pages/motion/guide-reduce-bundle-size.mdx"
                 title="Reduce bundle size"
             />
+            <MenuItem className="guide-upgrade" href="/pages/motion/guide-upgrade.mdx" title="Upgrade guides" />
             <MenuItem
-                className="guide-upgrade-to-framer-motion-2"
-                href="/pages/motion/guide-upgrade-to-framer-motion-2.mdx"
-                title="Upgrade to Motion 2"
+                className="migrate-from-pose"
+                href="/pages/motion/migrate-from-pose.mdx"
+                title="Migrate from Pose"
             />
         </Menu>
     )
@@ -81,7 +79,6 @@ const LibraryMenu = () => {
             <SubTitle name="Framer" />
             <MenuItem className="assets" href="/pages/assets.mdx" title="Assets" />
             <MenuItem className="data" href="/pages/data.mdx" title="Data &amp; Overrides" />
-            <MenuItem className="canvas-components" href="/pages/canvas-components.mdx" title="CanvasComponents" />
             <MenuItem className="property-controls" href="/pages/property-controls.mdx" title="PropertyControls" />
             <MenuItem className="navigation" href="/pages/navigation.mdx" title="Navigation" />
             <MenuItem className="render-target" href="/pages/render-target.mdx" title="RenderTarget" />

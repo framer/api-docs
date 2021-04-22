@@ -335,6 +335,11 @@ export const MarkdownStyles = styled.div`
         left: -100px;
         z-index: 0;
         margin-top: 60px;
+        transition: opacity 0.2s ease;
+
+        .is-search & {
+            opacity: 0.4;
+        }
     }
 
     /* Spacing */

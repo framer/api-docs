@@ -270,7 +270,7 @@ By adding `type="crossfade"` to `AnimateSharedLayout`, immediate children of `An
 <AnimateSharedLayout type="crossfade">
   {images.map((img) => <motion.img layoutId={img.id} />)}
   <AnimatePresence>
-    {selectedId && <motion.img layoutId={selectedId} />)}
+    {selectedId && <motion.img layoutId={selectedId} />}
   </AnimatePresence>
 </AnimateSharedLayout>
 ```

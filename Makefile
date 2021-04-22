@@ -4,6 +4,8 @@ bin := $(shell yarn bin)
 node := $(bin)/ts-node
 watch := $(bin)/chokidar
 monobase := $(bin)/monobase
+dotenv := $(bin)/dotenv
+cpy := $(bin)/cpy
 
 BUILD_DIR ?= ./build
 FRAMER_LIBRARY_DIR ?= ./node_modules/framer
@@ -20,6 +22,8 @@ usage:
 	@echo "    build [BUILD_DIR=<path>] - generates a static site in the build directory"
 	@echo "    verify-api-references [BUILD_DIR=<path>] - checks for missing API references in the HTML reports an error if found"
 	@echo "    publish - generates a build for publishing to production"
+	@echo "    publish-search - generates a build for publishing to production and indexes it"
+	@echo "    search - indexes the current build directory"
 	@echo "    upgrade - upgrades the monobase project to latest"
 	@echo "    data [FRAMER_LIBRARY_DIR=<path>] [FRAMER_MOTION_DIR=<path>] - regenerates framer.data.json file"
 	@echo "    data-update - updates framer & framer-motion to latest versions"
@@ -33,9 +37,8 @@ usage:
 	@echo "    NOTE: You can use \`make -B\` to force rebuild changes if needed"
 
 # Update node modules if package.json is newer than node_modules or yarn lockfile
-# Use a mutex file so multiple Source dirs can be built in parallel.
 node_modules/.yarn-integrity: yarn.lock package.json
-	yarn install --mutex network
+	yarn install
 	touch $@
 
 .PHONY: bootstrap
@@ -47,15 +50,15 @@ test: bootstrap
 
 .PHONY: dev
 dev: bootstrap data changelog
-	@$(monobase) serve --project=. --prefix=/api
+	@$(dotenv) -- $(monobase) serve --project=. --prefix=/api
 
 .PHONY: serve
 serve: dev
 
 .PHONY: build
 build: bootstrap data changelog
-	@$(monobase) build --project=. --path=$(BUILD_DIR)
-	@find $(BUILD_DIR) -name '*.html' | xargs $(node) ./api/linkify.ts
+	@$(dotenv) -- $(monobase) build --project=. --path=$(BUILD_DIR)
+	@find $(BUILD_DIR) -name '*.html' | xargs $(node) ./model/linkify.ts
 
 .PHONY: verify-api-references
 verify-api-references:
@@ -64,8 +67,26 @@ verify-api-references:
 .PHONY: publish
 publish: bootstrap data changelog
 	# Using /api for framer.com
-	@$(monobase) build --project=. --path=build --prefix=/api
-	@$(node) ./api/linkify.ts build/api/**/*.html
+	@$(dotenv) -- $(monobase) build --project=. --path=build --prefix=/api
+	@$(node) ./model/linkify.ts build/api/**/*.html
+	@$(cpy) '$(BUILD_DIR)/api/404.html' $(BUILD_DIR)
+
+.PHONY: publish-search
+publish-search:
+	@make publish
+	@make search
+
+.PHONY: publish-env
+publish-env:
+ifeq ($(CONTEXT),"production")
+	@make publish-search
+else
+	@make publish
+endif
+
+.PHONY: search
+search:
+	@$(dotenv) -- $(node) -O '{ "downlevelIteration": false }' ./model/searchify.ts
 
 .PHONY: clean
 clean:
@@ -73,7 +94,7 @@ clean:
 
 .PHONY: query
 query-data: data
-	@yarn ts-node ./api/query.ts '$(QUERY)'
+	@yarn ts-node ./model/query.ts '$(QUERY)'
 
 .PHONY: upgrade
 upgrade:
@@ -121,7 +142,7 @@ components/framer.data.ts: bootstrap $(wildcard api/*)
 			exit 1;\
 		fi;\
 	done
-	@cat <(printf "export default ") <($(node) ./api/generator.ts $(GENERATOR_DEPENDENCIES)) > "$@.tmp"
+	@cat <(printf "export default ") <($(node) ./model/generator.ts $(GENERATOR_DEPENDENCIES)) > "$@.tmp"
 	@mv -f "$@.tmp" "$@"
 
 pages/changelog.mdx: bootstrap node_modules/framer/CHANGELOG.md
@@ -134,6 +155,6 @@ pages/changelog.mdx: bootstrap node_modules/framer/CHANGELOG.md
 changelog: pages/changelog.mdx
 
 api/__fixtures__/example.data.ts: api/__fixtures__/example.api.json
-	@cat <(printf "export default ") <($(node) ./api/generator.ts $<) > "$@"
+	@cat <(printf "export default ") <($(node) ./model/generator.ts $<) > "$@"
 
 .DEFAULT_GOAL := usage

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ClassModel, Kind } from "../../api"
+import { ClassModel, Kind } from "../../model"
 import { FramerAPIContext } from "../contexts/FramerAPIContext"
 import { APIPropertyElement } from "./APIProperty"
 import { APIMethodElement } from "./APIMethod"
@@ -17,7 +17,7 @@ import { apiClassName, permalinkId } from "./helpers"
  * Only renders the documentation specific to the class. Methods and properties should be provided as children.
  * Any children that are not methods or properties will be included after the description.
  */
-export const APIClassElement: React.FunctionComponent<ClassModel & {skipnav?: boolean}> = props => {
+export const APIClassElement: React.FunctionComponent<ClassModel & { skipnav?: boolean }> = props => {
     const children = React.Children.toArray(props.children)
     const methods = children.filter(child => React.isValidElement(child) && child.type === APIMethodElement)
     const properties = children.filter(child => React.isValidElement(child) && child.type === APIPropertyElement)
@@ -29,7 +29,12 @@ export const APIClassElement: React.FunctionComponent<ClassModel & {skipnav?: bo
         <>
             <Grid className={"grid-section-h2 " + apiClassName("class", props, rest)}>
                 <h2>
-                    <Permalink id={permalinkId(props)} name={props.name + "()"} modelId={props.id} skipnav={props.skipnav} />
+                    <Permalink
+                        id={permalinkId(props)}
+                        name={props.name + "()"}
+                        modelId={props.id}
+                        skipnav={props.skipnav}
+                    />
                     {props.fullname || "Unknown Name"} <ReleaseBadge {...props} />
                 </h2>
                 <DeprecatedNotice {...props} />
@@ -50,7 +55,11 @@ export const APIClassElement: React.FunctionComponent<ClassModel & {skipnav?: bo
  * @param props.overrides - Any members of the ClassModel to override
  * @param props.skipnav - If true hides the entry from the navigation
  */
-export const APIClass: React.FunctionComponent<{ name: string; overrides?: Partial<ClassModel>; skipnav?: boolean }> = props => {
+export const APIClass: React.FunctionComponent<{
+    name: string
+    overrides?: Partial<ClassModel>
+    skipnav?: boolean
+}> = props => {
     const { name, overrides } = props
     const api = React.useContext(FramerAPIContext)
     const model = api.resolve(name, Kind.Class)

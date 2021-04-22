@@ -3,3 +3,6 @@ build
 components/framer.data.ts
 node_modules
 pages/changelog.mdx
+.babel-cache
+.env.local
+.env

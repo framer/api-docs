@@ -6,7 +6,7 @@
 // arguments to start a repl.
 //
 // Usage:
-// yarn ts-node ./api/query.ts '(animate:function)'
+// yarn ts-node ./model/query.ts '(animate:function)'
 import * as readline from "readline"
 import { FramerAPI } from "./FramerAPI"
 import json from "../components/framer.data"

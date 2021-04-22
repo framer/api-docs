@@ -1,0 +1,19 @@
+{
+    "routes": [
+        { "handle": "filesystem" },
+        {
+            "src": "/(.*)",
+            "headers": {
+                "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+                "X-Frame-Options": "deny",
+                "X-Content-Type-Options": "nosniff",
+                "X-XSS-Protection": "1; mode=block",
+                "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            "continue": true
+        },
+        { "src": "/", "status": 308, "headers": { "Location": "/api/" } },
+        { "src": "/(.*)", "status": 404, "dest": "/api/404.html" },
+        { "src": "/motion/(.*)", "status": 404, "dest": "/api/motion/404.html" }
+    ]
+}

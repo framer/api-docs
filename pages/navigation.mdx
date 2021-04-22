@@ -3,6 +3,7 @@
 import {
   APIEnum,
   APIEnumField,
+  APIReactComponent,
   Template,
   Callout,
   Button
@@ -19,17 +20,9 @@ export default Template("Navigation Controls")
 </span>
 
 Expressing flows is an important part of the prototyping process, and easy to set up in Framer. Continue reading to learn how to set up your own flows, or create something new for your project.
-<div>
-<Button
-  name="Open example file"
-  link="https://framer.com/projects/new?duplicate=r5n441GCUggw1iJYT883"
-/>
-</div>
 
 <Callout>
-  <strong>Note:</strong> The recommended way to navigate from code is to instead add <a href="https://www.framer.com/api/property-controls/#event-handler">an EventHandler property control</a> to a code component. <br/><br/>
-  
-  The following Navigation API is currently in Beta. Please reach out to <a href="https://framer.com/support">support@framer.com</a> with any issues.
+  <strong>Note:</strong> The recommended way to navigate from code is to instead add <a href="https://www.framer.com/api/property-controls/#event-handler">an EventHandler property control</a> to a code component.
 </Callout>
 
 
@@ -37,14 +30,13 @@ Expressing flows is an important part of the prototyping process, and easy to se
 
 <!-- ## useNavigation -->
 
-<h2>useNavigation <ReleaseBadge releaseTag="beta" /></h2>
+<h2>useNavigation</h2>
 
 Navigating your prototype can be handled through code. The `useNavigation()` hook can be called from a component or a code override.
 
 ```jsx highlight=2,5,9
 import * as React from "react"
 import { useNavigation } from "framer"
-
 export function Button() {
   const navigation = useNavigation()
   return (
@@ -63,18 +55,27 @@ export function Button() {
 
 <!-- ## Transitions -->
 
-<h2>Transitions <ReleaseBadge releaseTag="beta" /></h2>
+<h2>Transitions</h2>
+
 
 All of the transitions in the Framer UI are also available from code. All transitions require a `ComponentInstance` as the first argument other than the `goBack()` transition.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 import { ComponentInstance } from "./canvas"
 ```
 
-To reference a Component Instance in code, you’ll need to first [create a Design Component](https://www.framer.com/support/using-framer/design-components/), and import it into your Code Component or Override file.
-
 Certain transitions can also accept more arguments to customize it’s behavior. Continue reading to learn more about the properties that can be customized.
 
+<Callout>
+  <strong>Note:</strong> The transitions below (with the exception of goBack) require a Component Instance in order to function properly. 
+  <br />
+  <br />
+  <strong>Importing components into code is not supported on Framer Web, and only works with (now deprecated) Design Components.</strong>
+  <br />
+  <br />
+  We will be brining this functionality to Framer Web and Smart Components in the near future.
+</Callout>
 
 ---
 
@@ -93,6 +94,7 @@ navigation.goBack()
 `instant()` shows the next screen instantly.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.instant(<Component />)
 ```
 
@@ -103,6 +105,7 @@ navigation.instant(<Component />)
 `fade()` brings the user to the next screen by fading out the current screen and fading in the next.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.fade(<Component />)
 ```
 
@@ -119,6 +122,7 @@ You can customize which way the screen pushes through the `appearsFrom` property
 </div>
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.push(<Component />)
 navigation.push(<Component />, { appearsFrom: "top" }) // optional
 ```
@@ -132,6 +136,7 @@ navigation.push(<Component />, { appearsFrom: "top" }) // optional
 You can customize the backdrop color through the `backdropColor` property. Set to `rgba(4,4,15,0.4)` by default.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.modal(<Component />)
 navigation.modal(<Component />, {
   backdropColor: "rgba(4,4,15,0.4)",
@@ -147,6 +152,7 @@ navigation.modal(<Component />, {
 You can customize which way the screen pushes through the `appearsFrom` property, and the backdrop color through the `backdropColor` property. Set to `right` and `rgba(4,4,15,0.4)` by default.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.overlay(<Component />)
 navigation.overlay(<Component />, {
   appearsFrom: "left",
@@ -163,6 +169,7 @@ navigation.overlay(<Component />, {
 You can customize which way the screen flips through the `appearsFrom` property. Set to `right` by default.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.flip(<Component />)
 navigation.flip(<Component />, { appearsFrom: "right" }) // optional
 ```
@@ -171,7 +178,7 @@ navigation.flip(<Component />, { appearsFrom: "right" }) // optional
 
 <!-- ## Custom Transitions -->
 
-<h2>Custom Transitions <ReleaseBadge releaseTag="beta" /></h2>
+<h2>Custom Transitions</h2>
 
 Not only can you use the built in default transitions, but you have the ability to create your own.
 
@@ -186,6 +193,7 @@ All built-in transitions are defined using the same API as custom transitions. T
 </div>
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(
   <Component />,
   userTransitionDefinition
@@ -199,6 +207,7 @@ navigation.customTransition(
 Defines the position and size of the incoming screen wrapper. Defaults to `top`, `right`, `bottom`, and `left` of `0`.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   position: { top: 0, right: 0, bottom: 0, left: 0 },
 })
@@ -211,6 +220,7 @@ navigation.customTransition(<Component />, {
 [Animation](/api/animation/) options that set the transition properties for the animation.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   animation: {
         type: "spring"
@@ -227,6 +237,7 @@ navigation.customTransition(<Component />, {
 Defines whether the incoming screen should render over the current context, like an overlay or modal. Defaults to `false`.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   overCurrentContext: true,
 })
@@ -239,6 +250,7 @@ navigation.customTransition(<Component />, {
 Defines the backdrop color when the incoming screen is rendered over the current context. Defaults to `rgba(4,4,15,0.4)`.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   backdropColor: "rgba(4,4,15,0.4)",
 })
@@ -251,6 +263,7 @@ navigation.customTransition(<Component />, {
 Defines whether a tap in the background should dismiss the screen presented over the current context. Defaults to `true`.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   goBackOnTapOutside: true,
 })
@@ -263,6 +276,7 @@ navigation.customTransition(<Component />, {
 Defines whether the backface of the incoming and outgoing screens should be visible, necessary for certain 3D transitions. Defaults to `true`.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   backfaceVisible: true,
 })
@@ -275,6 +289,7 @@ navigation.customTransition(<Component />, {
 Defines the beginning state of the incoming screen wrapper.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   enter: { y: "100%", scale: 0 },
 })
@@ -287,6 +302,7 @@ navigation.customTransition(<Component />, {
 Defines the end state of the outgoing screen wrapper.
 
 ```jsx
+// Only supported in (Deprecated) Framer Desktop
 navigation.customTransition(<Component />, {
   exit: { y: "100%", opacity: 0 },
 })

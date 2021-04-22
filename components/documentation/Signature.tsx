@@ -5,7 +5,10 @@ export const Signature: React.FunctionComponent<{ signature: string | null }> = 
     const [method, ...types] = signature.split(":")
     return (
         <>
-            {method}: <span style={{ color: "grey" }}>{types.join(":")}</span>
+            {method}:{" "}
+            <span style={{ color: "grey" }} className="addition">
+                {types.join(":")}
+            </span>
         </>
     )
 }
