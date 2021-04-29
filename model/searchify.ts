@@ -1,6 +1,6 @@
 import glob from "glob"
 import { promises as fs } from "fs"
-import { chromium } from "playwright"
+import { chromium } from "playwright-chromium"
 import algoliasearch from "algoliasearch"
 import { isProduction } from "../utils/isProduction"
 
@@ -300,6 +300,10 @@ glob(
                 autoGenerateObjectIDIfNotExist: true,
                 safe: true,
             })
+
+            console.log(
+                `Updating ${isProduction() ? "production" : "development"} Algolia index → ${data.length} results`
+            )
         } catch (error) {
             console.error(error)
         }
