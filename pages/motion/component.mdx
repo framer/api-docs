@@ -183,16 +183,23 @@ HTML `motion` components can animate to and from CSS variables, as long as that 
 
 By defining and animating CSS variables, we can use a parent `motion` component to declaratively animate multiple DOM children.
 
-When animating CSS variables in TypeScript, the prop will need to be cast as `any` to prevent type errors (as there's an infinite number of variable names).
+When animating CSS variables in TypeScript, you will need to declare that your variables are valid CSS property names, since they won't be in the default type definitions. You can achieve this with [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#module-augmentation), by augmenting the `csstype` module.
 
 CSS variables are also of an arbitary type, so Motion can't infer their default type. You're able to animate `rotate` as a number because Motion understands that it should be set as `deg`, whereas `'--rotate'` needs to be explicitly set with the unit type, e.g. `'360deg'`.
 
 </div>
 
-```jsx
+```tsx
+// TypeScript:
+declare module "csstype" {
+  interface Properties {
+    "--rotate"?: string;
+  }
+}
+
 <motion.ul
-  initial={{ '--rotate': '0deg' } as any}
-  animate={{ '--rotate': '360deg' } as any}
+  initial={{ '--rotate': '0deg' }}
+  animate={{ '--rotate': '360deg' }}
   transition={{ duration: 2, repeat: Infinity }}
 >
   <li style={{ transform: 'rotate(var(--rotate))' }} />
