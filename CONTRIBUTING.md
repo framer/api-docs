@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://static.framer.com/repos/api-logo.png" width="40"/>
+    <img src="https://misc.framerstatic.com/repos/api-logo.png" width="40"/>
     <br>
     Contributing
 </h1>
@@ -16,7 +16,7 @@ The pages use the [mdx][#mdx] format which is a combination of
 API documentation. Though having a basic understanding of markdown should be
 enough to make a simple edit.
 
-![The GitHub Editor](https://static.framer.com/repos/contributing/github-editor.png)
+![The GitHub Editor](https://misc.framerstatic.com/repos/contributing/github-editor.png)
 
 Once you've made your edit scroll down to the bottom of the editor. To find
 the submission form (titled "Commit Changes"). You'll see a different form
@@ -24,12 +24,12 @@ depending on whether your a member of the Framer team or not. In either case
 fill in a short summary of the changes made and click the "Propose file
 change" button.
 
-![The Commit Form](https://static.framer.com/repos/contributing/guest-commit-ui.png)
+![The Commit Form](https://misc.framerstatic.com/repos/contributing/guest-commit-ui.png)
 
 If you're a member of the Framer team, you'll need to select the second
 option, "Create a new branch...", to open a ticket for review.
 
-![The Team Form](https://static.framer.com/repos/contributing/team-commit-ui.png)
+![The Team Form](https://misc.framerstatic.com/repos/contributing/team-commit-ui.png)
 
 This will then open a ticket for the project maintainers to review before
 publishing the changes.
@@ -43,7 +43,7 @@ publishing the changes.
 New pages can be added to the documentation by navigating to the **/pages/api** directory
 in the GitHub repository and clicking the "Create new file" button.
 
-![Create New File](https://static.framer.com/repos/contributing/new-file-ui.png)
+![Create New File](https://misc.framerstatic.com/repos/contributing/new-file-ui.png)
 
 Give your file a name with the `.mdx` file extension, for example (color.mdx).
 You'll then need to include the generic boilerplate for a page.

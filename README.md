@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img src="https://static.framer.com/repos/logo-dark.png" width="40"/>
+    <img src="https://misc.framerstatic.com/repos/logo-dark.png" width="40"/>
     <br>
     API Docs
 </h1>
@@ -15,7 +15,7 @@ website at [framer.com/api/][#website]
 [#monobase]: https://github.com/koenbok/monobase/
 [#website]: https://framer.com/api/
 
-<img src="https://static.framer.com/repos/api.png" />
+<img src="https://misc.framerstatic.com/repos/api.png" />
 
 ## Contributing
 

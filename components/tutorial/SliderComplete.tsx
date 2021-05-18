@@ -47,7 +47,7 @@ export const SliderComplete = Dynamic(function SliderComplete() {
                     center
                     size={imageSize}
                     // background={maskBg}
-                    image="https://static.framer.com/api/bg.jpg"
+                    image="https://misc.framerstatic.com/api/bg.jpg"
                     drag
                     dragElastic={0}
                     dragMomentum={false}

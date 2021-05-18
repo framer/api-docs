@@ -45,7 +45,7 @@ export const SliderData = Dynamic(function SliderData() {
                 center
                 size={imageSize}
                 // background={maskBg}
-                image="https://static.framer.com/api/bg.jpg"
+                image="https://misc.framerstatic.com/api/bg.jpg"
                 style={{ ...noMarginAdded, backgroundColor: maskBg }}
             />
 

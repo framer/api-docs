@@ -140,7 +140,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
         : "A JavaScript library for rapid interactive prototyping for web and mobile."
     const socialImage = isMotion()
         ? "https://framer.com/static/images/social/motion.png"
-        : "https://static.framer.com/api/social.png"
+        : "https://misc.framerstatic.com/api/social.png"
 
     // Use path gives the page name
     if (showEdit === undefined) {
@@ -185,7 +185,7 @@ export const Page: React.FunctionComponent<{ title?: string; showEdit?: boolean 
                     <link rel="stylesheet" href={urlFor("/static/styles/highlight.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/reset.css")} />
                     <link rel="stylesheet" href={urlFor("/static/styles/global.css")} />
-                    <link rel="shortcut icon" href="https://static.framer.com/api/favicon.ico" />
+                    <link rel="shortcut icon" href="https://misc.framerstatic.com/api/favicon.ico" />
 
                     <meta content="width=device-width, initial-scale=1" name="viewport" />
                     <StyledSheet app={body} />

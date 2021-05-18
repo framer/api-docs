@@ -8,7 +8,7 @@ export const SliderStarter = Dynamic(function SliderStarter() {
     const noMarginAdded = { margin: 0 }
     return hasFramer ? (
         <Frame width="300px" height="300px" background="" style={noMarginAdded}>
-            <Frame center image="https://static.framer.com/api/logo.jpg" radius={4} borderRadius={4} />
+            <Frame center image="https://misc.framerstatic.com/api/logo.jpg" radius={4} borderRadius={4} />
         </Frame>
     ) : null
 })
