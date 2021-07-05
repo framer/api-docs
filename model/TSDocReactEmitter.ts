@@ -257,7 +257,7 @@ function render<T>(docNode: DocNode | undefined, { createElement, Fragment }: Li
 
         // A chunk of text seperated by two newlines.
         case DocNodeKind.Paragraph:
-            const listDelimiter = /[*-]\s*/
+            const listDelimiter = /(?:\*|-(?!\w))\s*/
             const trimmedParagraph: DocParagraph = DocNodeTransforms.trimSpacesInParagraph(docNode as DocParagraph)
             if (trimmedParagraph.nodes.length === 0) return null
 
